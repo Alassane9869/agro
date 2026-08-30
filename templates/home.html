@@ -1,0 +1,66 @@
+{% load static %}
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Accueil - Agrosedam</title>
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <h1 class="brand">Agrosedam</h1>
+      <nav>
+        <a class="btn" href="{% url 'cultures' %}">Cultures</a>
+        <a class="btn" href="{% url 'elevage' %}">Élevage</a>
+        <a class="btn btn-secondary" href="{% url 'connexion' %}">Connexion</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="hero-inner container">
+        <div class="hero-copy">
+          <span class="eyebrow">Bienvenue sur Agrosedam</span>
+          <h2>Gestion de vos cultures et élevage.</h2>
+          <p>Une page d'accueil moderne et apaisante pour accompagner vos décisions d'agropastoralisme avec simplicité.</p>
+          <div class="cta-group">
+            <a class="btn btn-primary" href="{% url 'cultures' %}">Explorer les cultures</a>
+            <a class="btn btn-secondary" href="{% url 'elevage' %}">Voir l'élevage</a>
+          </div>
+        </div>
+
+        <div class="hero-visual">
+          <div class="visual-glow"></div>
+          <img src="{% static 'acceuil image.png' %}" alt="Accueil Agrosedam" class="hero-image">
+        </div>
+      </div>
+    </section>
+
+    <section id="welcome-features" class="container features-section">
+      <div class="section-intro">
+        <h3>À propos d'Agrosedam</h3>
+        <p>Plateforme dédiée à la gestion agropastorale, qui simplifie la surveillance des cultures, le suivi de l'élevage et la prise de décisions.</p>
+      </div>
+      <div class="feature-grid">
+        <article class="feature-card">
+          <h4>Culture intelligente</h4>
+          <p>Suivez l'état de vos cultures, planifiez les semis et anticipez les besoins grâce à une interface claire.</p>
+        </article>
+        <article class="feature-card">
+          <h4>Élevage connecté</h4>
+          <p>Accédez rapidement aux informations de vos animaux et gérez facilement les tâches liées à l'élevage.</p>
+        </article>
+        <article class="feature-card">
+          <h4>Tableau de bord simple</h4>
+          <p>Une page d'accueil fluide avec un accès immédiat aux sections clés pour une expérience plus agréable.</p>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <script src="{% static 'js/main.js' %}"></script>
+</body>
+</html>

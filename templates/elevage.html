@@ -1,0 +1,276 @@
+﻿{% load static %}
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Élevage - Agrosedam</title>
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+
+<body>
+
+<header class="site-header">
+
+  <div class="container header-inner">
+
+    <h1 class="brand">Agrosedam</h1>
+
+    <nav>
+      <a class="btn btn-secondary" href="{% url 'home' %}">
+        Accueil
+      </a>
+
+      <a class="btn" href="{% url 'cultures' %}">
+        Cultures
+      </a>
+
+      <a class="btn" href="{% url 'connexion' %}">
+        Connexion
+      </a>
+    </nav>
+
+  </div>
+
+</header>
+
+
+
+<main class="container page-content">
+
+
+<!-- PRESENTATION -->
+
+<section class="page-hero elevage-banner">
+
+<span class="eyebrow">
+Élevage
+</span>
+
+
+<h2>
+Un aperçu clair et moderne de votre élevage.
+</h2>
+
+
+<p class="page-description">
+
+Suivez vos troupeaux, gérez les soins et améliorez la productivité de votre exploitation grâce à AgroSedam.
+
+</p>
+
+
+<a href="#" class="btn">
+Ajouter un animal
+</a>
+
+
+</section>
+
+
+
+
+<!-- STATISTIQUES -->
+
+<section class="stats-container">
+
+
+<div class="stat-box">
+
+<h3>120</h3>
+
+<p>
+Animaux enregistrés
+</p>
+
+</div>
+
+
+
+<div class="stat-box">
+
+<h3>15</h3>
+
+<p>
+Animaux suivis
+</p>
+
+</div>
+
+
+
+<div class="stat-box">
+
+<h3>8</h3>
+
+<p>
+Soins programmés
+</p>
+
+</div>
+
+
+</section>
+
+
+
+
+
+<!-- FONCTIONNALITES -->
+
+<section class="section-grid">
+
+
+<article class="feature-card">
+
+<h4>
+🐄 Suivi des animaux
+</h4>
+
+<p>
+Consultez rapidement les informations essentielles sur vos animaux : espèce, race, âge et état sanitaire.
+</p>
+
+</article>
+
+
+
+
+<article class="feature-card">
+
+<h4>
+💉 Gestion des soins
+</h4>
+
+<p>
+Planifiez les vaccinations, traitements et contrôles sanitaires afin de maintenir vos animaux en bonne santé.
+</p>
+
+</article>
+
+
+
+
+<article class="feature-card">
+
+<h4>
+📊 Analyse de l'élevage
+</h4>
+
+<p>
+Visualisez les performances de votre cheptel pour prendre de meilleures décisions.
+</p>
+
+</article>
+
+
+</section>
+
+
+
+
+
+<!-- CHEPTEL -->
+
+<section class="animal-section">
+
+
+<h3>
+Mon cheptel
+</h3>
+
+
+<div class="animal-grid">
+
+
+
+<div class="animal-card">
+
+<h4>
+Bovin N°001
+</h4>
+
+<p>
+Espèce : Bœuf
+</p>
+
+<p>
+Age : 3 ans
+</p>
+
+<p>
+Etat : Bonne santé
+</p>
+
+
+</div>
+
+
+
+
+<div class="animal-card">
+
+<h4>
+Caprin N°002
+</h4>
+
+<p>
+Espèce : Chèvre
+</p>
+
+<p>
+Age : 2 ans
+</p>
+
+<p>
+Etat : Surveillance
+</p>
+
+
+</div>
+
+
+
+
+
+<div class="animal-card">
+
+<h4>
+Volaille N°003
+</h4>
+
+<p>
+Espèce : Poule
+</p>
+
+<p>
+Age : 6 mois
+</p>
+
+<p>
+Etat : Bonne santé
+</p>
+
+
+</div>
+
+
+
+</div>
+
+
+</section>
+
+
+
+
+</main>
+
+
+
+
+<script src="{% static 'js/main.js' %}"></script>
+
+
+</body>
+</html>

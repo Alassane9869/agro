@@ -1,0 +1,390 @@
+﻿﻿﻿﻿{% load static %}
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Cultures - Agrosedam</title>
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" referrerpolicy="no-referrer" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <h1 class="brand">Agrosedam</h1>
+      <nav>
+        <a class="btn btn-secondary" href="{% url 'home' %}">Accueil</a>
+        <a class="btn" href="{% url 'elevage' %}">Élevage</a>
+        <a class="btn" href="{% url 'connexion' %}">Connexion</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container page-content">
+    <!-- Hero -->
+    <section class="page-hero cultures-hero">
+      <div class="page-hero-bg" aria-hidden="true"></div>
+      <span class="eyebrow"><i class="fa-solid fa-seedling me-2"></i>Cultures</span>
+      <h2>Votre tableau de bord agricole, clair & intelligent.</h2>
+      <p class="page-description">Suivez la croissance, planifiez les interventions, gérez la santé, les dépenses et anticipez les récoltes — avec un design premium et des alertes utiles.</p>
+
+      <div class="cta-group">
+        <a class="btn btn-primary" href="#" id="btn-add-culture">
+          <i class="fa-solid fa-circle-plus me-2"></i>Ajouter une culture
+        </a>
+        <a class="btn btn-secondary" href="#cultures-cards">
+          <i class="fa-solid fa-list-ul me-2"></i>Voir toutes les cultures
+        </a>
+
+        <span class="visually-hidden" id="culture-actions-hint">Actions culture via modales</span>
+      </div>
+    </section>
+
+    <!-- Stats -->
+    <section class="dashboard-section" aria-label="Statistiques">
+      <div class="dashboard-header">
+        <h3 class="dashboard-title"><i class="fa-solid fa-chart-pie"></i>Statistiques</h3>
+        <span class="dashboard-subtitle">Un aperçu global de votre production et de vos opérations.</span>
+      </div>
+
+      <div class="stats-grid">
+        <div class="stat-card" role="group" aria-label="Nombre total de cultures">
+          <div class="stat-icon stat-icon-1"><i class="fa-solid fa-leaf"></i></div>
+          <div class="stat-body">
+            <div class="stat-value" data-stat="total_cultures">0</div>
+            <div class="stat-label">Total des cultures</div>
+          </div>
+        </div>
+
+        <div class="stat-card" role="group" aria-label="Cultures en croissance">
+          <div class="stat-icon stat-icon-2"><i class="fa-solid fa-spinner"></i></div>
+          <div class="stat-body">
+            <div class="stat-value" data-stat="growing_cultures">0</div>
+            <div class="stat-label">Cultures en croissance</div>
+          </div>
+        </div>
+
+        <div class="stat-card" role="group" aria-label="Cultures prêtes à récolter">
+          <div class="stat-icon stat-icon-3"><i class="fa-solid fa-basket-shopping"></i></div>
+          <div class="stat-body">
+            <div class="stat-value" data-stat="ready_cultures">0</div>
+            <div class="stat-label">Prêtes à récolter</div>
+          </div>
+        </div>
+
+        <div class="stat-card" role="group" aria-label="Nombre de parcelles">
+          <div class="stat-icon stat-icon-4"><i class="fa-solid fa-map-location-dot"></i></div>
+          <div class="stat-body">
+            <div class="stat-value" data-stat="total_parcels">0</div>
+            <div class="stat-label">Parcelles</div>
+          </div>
+        </div>
+
+        <div class="stat-card" role="group" aria-label="Récoltes réalisées">
+          <div class="stat-icon stat-icon-5"><i class="fa-solid fa-truck-fast"></i></div>
+          <div class="stat-body">
+            <div class="stat-value" data-stat="harvests_done">0</div>
+            <div class="stat-label">Récoltes réalisées</div>
+          </div>
+        </div>
+
+        <div class="stat-card" role="group" aria-label="Revenus générés">
+          <div class="stat-icon stat-icon-6"><i class="fa-solid fa-coins"></i></div>
+          <div class="stat-body">
+            <div class="stat-value" data-stat="revenues">0</div>
+            <div class="stat-label">Revenus générés</div>
+          </div>
+        </div>
+
+        <div class="stat-card stat-card-alert" role="group" aria-label="Alertes importantes">
+          <div class="stat-icon stat-icon-7"><i class="fa-solid fa-triangle-exclamation"></i></div>
+          <div class="stat-body">
+            <div class="stat-value" data-stat="important_alerts">0</div>
+            <div class="stat-label">Alertes importantes</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Recherche & Filtres -->
+    <section class="dashboard-section" aria-label="Recherche et filtres">
+      <div class="dashboard-header">
+        <h3 class="dashboard-title"><i class="fa-solid fa-sliders"></i>Recherche & Filtres</h3>
+        <span class="dashboard-subtitle">Affinez vos cultures en quelques secondes.</span>
+      </div>
+
+      <div class="filters-bar">
+        <div class="search-box">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <input id="culture-search" type="text" placeholder="Rechercher une culture par son nom..." aria-label="Recherche culture" />
+        </div>
+
+        <div class="filter-row">
+          <label class="filter">
+            <span>Catégorie</span>
+            <select id="filter-category">
+              <option value="">Toutes</option>
+              <option value="Céréales">Céréales</option>
+              <option value="Légumineuses">Légumineuses</option>
+              <option value="Légumes">Légumes</option>
+              <option value="Fourrages">Fourrages</option>
+            </select>
+          </label>
+
+          <label class="filter">
+            <span>Saison</span>
+            <select id="filter-season">
+              <option value="">Toutes</option>
+              <option value="Pluvieuse">Pluvieuse</option>
+              <option value="Sèche">Sèche</option>
+            </select>
+          </label>
+
+          <label class="filter">
+            <span>Parcelle</span>
+            <select id="filter-parcel">
+              <option value="">Toutes</option>
+              <option value="Parcelle A">Parcelle A</option>
+              <option value="Parcelle B">Parcelle B</option>
+              <option value="Parcelle C">Parcelle C</option>
+            </select>
+          </label>
+
+          <label class="filter">
+            <span>État</span>
+            <select id="filter-status">
+              <option value="">Tous</option>
+              <option value="En croissance">En croissance</option>
+              <option value="Prêt à récolter">Prêt à récolter</option>
+              <option value="À risque">À risque</option>
+            </select>
+          </label>
+
+          <label class="filter">
+            <span>Date de semis</span>
+            <input id="filter-seed-date" type="date" aria-label="Date de semis" />
+          </label>
+        </div>
+
+        <div class="filter-actions">
+          <button class="btn btn-secondary" id="btn-reset-filters" type="button">
+            <i class="fa-solid fa-rotate-left me-2"></i>Réinitialiser
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Alertes intelligentes -->
+    <section class="dashboard-section" aria-label="Alertes intelligentes">
+      <div class="dashboard-header">
+        <h3 class="dashboard-title"><i class="fa-solid fa-bell"></i>Alertes intelligentes</h3>
+        <span class="dashboard-subtitle">Des recommandations automatiques basées sur vos données (mockées).</span>
+      </div>
+
+      <div class="alerts-grid" id="alerts-container">
+        <!-- injecté par JS -->
+      </div>
+    </section>
+
+    <!-- Cultures cards -->
+    <section class="dashboard-section" id="cultures-cards" aria-label="Cartes des cultures">
+      <div class="dashboard-header">
+        <h3 class="dashboard-title"><i class="fa-solid fa-seedling"></i>Vos cultures</h3>
+        <span class="dashboard-subtitle">Cliquer sur Voir / Modifier / Supprimer (UI de démonstration).</span>
+      </div>
+
+      <div class="cultures-grid" id="cultures-container">
+        <!-- injected by JS -->
+      </div>
+    </section>
+
+    <!-- Suivi de la culture -->
+    <section class="dashboard-section" aria-label="Suivi de la culture">
+      <div class="dashboard-header">
+        <h3 class="dashboard-title"><i class="fa-solid fa-person-chalkboard"></i>Suivi</h3>
+        <span class="dashboard-subtitle">Stade, % de croissance et prochaines interventions.</span>
+      </div>
+
+      <div class="follow-grid" id="follow-container">
+        <!-- injected by JS -->
+      </div>
+    </section>
+
+    <!-- Calendrier agricole -->
+    <section class="dashboard-section" aria-label="Calendrier agricole">
+      <div class="dashboard-header">
+        <h3 class="dashboard-title"><i class="fa-solid fa-calendar-days"></i>Calendrier agricole</h3>
+        <span class="dashboard-subtitle">Semis, arrosage, fertilisation, désherbage, traitements et récolte (mock).</span>
+      </div>
+
+      <div class="timeline" id="timeline-container">
+        <!-- injected by JS -->
+      </div>
+    </section>
+
+    <!-- Gestion sanitaire -->
+    <section class="dashboard-section" aria-label="Gestion sanitaire">
+      <div class="dashboard-header">
+        <h3 class="dashboard-title"><i class="fa-solid fa-shield-virus"></i>Gestion sanitaire</h3>
+        <span class="dashboard-subtitle">Maladies, ravageurs, symptômes, traitements et résultats.</span>
+      </div>
+
+      <div class="sanitary-grid" id="sanitary-container">
+        <!-- injected by JS -->
+      </div>
+    </section>
+
+    <!-- Dépenses -->
+    <section class="dashboard-section" aria-label="Gestion des dépenses">
+      <div class="dashboard-header">
+        <h3 class="dashboard-title"><i class="fa-solid fa-receipt"></i>Dépenses</h3>
+        <span class="dashboard-subtitle">Suivi détaillé de vos coûts (mock).</span>
+      </div>
+
+      <div class="expenses-layout">
+        <div class="expenses-grid" id="expenses-container"></div>
+        <div class="total-card" role="status" aria-live="polite">
+          <div class="total-label">Total des dépenses</div>
+          <div class="total-value" id="expenses-total">0</div>
+          <div class="total-hint"><i class="fa-solid fa-circle-info"></i> Estimation basée sur les catégories mockées.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Récoltes -->
+    <section class="dashboard-section" aria-label="Gestion des récoltes">
+      <div class="dashboard-header">
+        <h3 class="dashboard-title"><i class="fa-solid fa-basket-badge"></i>Récoltes</h3>
+        <span class="dashboard-subtitle">Quantité, date, qualité et destination.</span>
+      </div>
+
+      <div class="harvest-grid" id="harvest-container"></div>
+    </section>
+
+    <!-- Graphiques -->
+    <section class="dashboard-section" aria-label="Graphiques et statistiques">
+      <div class="dashboard-header">
+        <h3 class="dashboard-title"><i class="fa-solid fa-chart-line"></i>Graphiques</h3>
+        <span class="dashboard-subtitle">Chart.js si disponible. Sinon, affichage “mock” (grilles).</span>
+      </div>
+
+      <div class="charts-grid">
+        <div class="canvas-card">
+          <div class="canvas-title">Production par culture</div>
+          <canvas id="chart-production" height="140"></canvas>
+        </div>
+        <div class="canvas-card">
+          <div class="canvas-title">Répartition des cultures</div>
+          <canvas id="chart-distribution" height="140"></canvas>
+        </div>
+        <div class="canvas-card">
+          <div class="canvas-title">Rendement annuel</div>
+          <canvas id="chart-yield" height="140"></canvas>
+        </div>
+        <div class="canvas-card">
+          <div class="canvas-title">Évolution des récoltes</div>
+          <canvas id="chart-harvest-evolution" height="140"></canvas>
+        </div>
+      </div>
+    </section>
+
+    <footer class="dashboard-footer">
+      <div class="footer-inner">
+        <span class="footer-dot" aria-hidden="true"></span>
+        <span>AgroSedam — Page Cultures (UI premium, prête à intégrer avec vos données Django).</span>
+      </div>
+    </footer>
+  </main>
+
+
+
+          "date_estimee_recolte": "2026-07-25",
+          "rendement_attendu": "1.6 t/ha",
+          "etat_sante": "À surveiller",
+          "stade": "Floraison",
+          "pourcentage_croissance": 78,
+          "derniere_intervention": "2026-06-26",
+          "prochaine_intervention": "2026-07-03",
+          "etat": "Prêt à récolter"
+        },
+{
+          "id": 3,
+          "photo": "",
+          "photo_alt": "Illustration Tomate Roma",
+          "nom": "Tomate Roma",
+          "categorie": "Légumes",
+          "parcelle": "Parcelle C",
+          "superficie": "1.1 ha",
+          "date_semis": "2026-03-18",
+          "date_estimee_recolte": "2026-07-10",
+          "rendement_attendu": "5.2 t/ha",
+          "etat_sante": "À risque",
+          "stade": "Formation des fruits",
+          "pourcentage_croissance": 88,
+          "derniere_intervention": "2026-06-15",
+          "prochaine_intervention": "2026-06-29",
+          "etat": "À risque"
+        }
+      ],
+      "parcelles": ["Parcelle A", "Parcelle B", "Parcelle C"],
+      "recoltes": [
+        {"id": 1, "culture": "Riz", "quantite": "420 kg", "date": "2026-06-05", "qualite": "Bonne", "destination": "Vente"},
+        {"id": 2, "culture": "Mil", "quantite": "300 kg", "date": "2026-06-18", "qualite": "Moyenne", "destination": "Stock"}
+      ],
+      "sanitaire": [
+        {
+          "id": 1,
+          "culture": "Tomate Roma",
+          "maladie": "Oïdium",
+          "ravageurs": "Pucerons",
+          "symptomes": "Feuilles blanchâtres, croissance ralentie",
+          "traitements": [
+            {"nom": "Soufre mouillable", "date": "2026-06-15"},
+            {"nom": "Savon noir + eau", "date": "2026-06-22"}
+          ],
+          "resultats": "Amélioration légère après 7 jours"
+        },
+        {
+          "id": 2,
+          "culture": "Haricot Local",
+          "maladie": "Flétrissement",
+          "ravageurs": "Acarien",
+          "symptomes": "Bords des feuilles secs",
+          "traitements": [
+            {"nom": "Arrosage régulier + paillage", "date": "2026-06-26"}
+          ],
+          "resultats": "Stabilisation de l’état"
+        }
+      ],
+      "depenses": [
+        {"categorie": "Semences", "montant": 85000, "devise": "FCFA"},
+        {"categorie": "Engrais", "montant": 132000, "devise": "FCFA"},
+        {"categorie": "Produits phytosanitaires", "montant": 74000, "devise": "FCFA"},
+        {"categorie": "Main-d'œuvre", "montant": 61000, "devise": "FCFA"},
+        {"categorie": "Irrigation", "montant": 28000, "devise": "FCFA"},
+        {"categorie": "Carburant", "montant": 39000, "devise": "FCFA"}
+      ],
+      "calendrier": [
+        {"date": "2026-06-29", "culture": "Tomate Roma", "action": "Traitements phytosanitaires"},
+        {"date": "2026-07-03", "culture": "Haricot Local", "action": "Fertilisation"},
+        {"date": "2026-07-05", "culture": "Maïs Jaune", "action": "Arrosage"},
+        {"date": "2026-07-10", "culture": "Tomate Roma", "action": "Récolte"},
+        {"date": "2026-07-25", "culture": "Haricot Local", "action": "Récolte"},
+        {"date": "2026-08-20", "culture": "Maïs Jaune", "action": "Récolte"}
+      ],
+"charts": {
+        "production": {"labels": ["Maïs Jaune", "Haricot Local", "Tomate Roma", "Sorgho Blanc", "Niébé"], "values": [5.6, 1.3, 6.0, 2.5, 1.2]},
+        "distribution": {"labels": ["Céréales", "Légumineuses", "Légumes"], "values": [2, 2, 1]},
+        "yield": {"labels": ["2024", "2025", "2026"], "values": [2.1, 2.8, 3.4]},
+        "harvest_evolution": {"labels": ["Mai", "Juin", "Juillet", "Août"], "values": [320, 540, 610, 720]}
+      }
+    }
+  </script>
+
+  <!-- Chart.js (optionnel) -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js" crossorigin="anonymous"></script>
+
+  <script src="{% static 'js/main.js' %}"></script>
+</body>
+</html>
+
