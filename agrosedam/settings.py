@@ -29,18 +29,24 @@ ALLOWED_HOSTS_RAW = os.getenv(
 )
 ALLOWED_HOSTS = ['*'] if DEBUG or ALLOWED_HOSTS_RAW == '*' else [h.strip() for h in ALLOWED_HOSTS_RAW.split(',') if h.strip()]
 
-# Origines de confiance CSRF (Indispensable pour formulaires en HTTPS)
-CSRF_TRUSTED_ORIGINS_RAW = os.getenv(
-    'CSRF_TRUSTED_ORIGINS', 
-    'https://agrosedam.tdjel.com,https://www.agrosedam.tdjel.com,https://tdjel.com,https://www.tdjel.com'
-)
-if CSRF_TRUSTED_ORIGINS_RAW:
-    CSRF_TRUSTED_ORIGINS = [url.strip() for url in CSRF_TRUSTED_ORIGINS_RAW.split(',') if url.strip()]
-else:
-    CSRF_TRUSTED_ORIGINS = []
+# Origines de confiance CSRF (Support HTTP et HTTPS pour éviter l'erreur CSRF 403)
+CSRF_TRUSTED_ORIGINS = [
+    'https://agrosedam.tdjel.com',
+    'http://agrosedam.tdjel.com',
+    'https://www.agrosedam.tdjel.com',
+    'http://www.agrosedam.tdjel.com',
+    'https://tdjel.com',
+    'http://tdjel.com',
+    'https://*.tdjel.com',
+    'http://*.tdjel.com',
+    'http://127.0.0.1',
+    'http://localhost',
+]
 
-# En-tête SSL pour serveurs derrière proxy inverse (LiteSpeed / Passenger)
+# Support pour les proxies et certificats SSL o2switch / LiteSpeed
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+CSRF_COOKIE_SECURE = False
+SESSION_COOKIE_SECURE = False
 
 INSTALLED_APPS = [
     'django.contrib.admin',
