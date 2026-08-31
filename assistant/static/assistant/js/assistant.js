@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const typingIndicator = document.createElement('div');
   typingIndicator.className = 'assistant-bubble assistant assistant-typing';
-  typingIndicator.innerHTML = '<i class="fas fa-spinner fa-spin me-2 text-emerald"></i>AgroSedam AI réfléchit...';
+  typingIndicator.innerHTML = '<i class="fas fa-sparkles fa-spin me-2 text-emerald"></i><strong>AgroSedam AI</strong> réfléchit...';
 
   const state = {
     history: [],
@@ -22,6 +22,20 @@ document.addEventListener('DOMContentLoaded', () => {
     recognition: null,
     speakingUtterance: null
   };
+
+  function formatMarkdown(text) {
+    if (!text) return '';
+    return text
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+      .replace(/\*(.*?)\*/g, '<em>$1</em>')
+      .replace(/^• (.*$)/gim, '<div class="assistant-bullet d-flex align-items-start gap-2 my-1"><i class="fas fa-check text-emerald mt-1"></i><span>$1</span></div>')
+      .replace(/^- (.*$)/gim, '<div class="assistant-bullet d-flex align-items-start gap-2 my-1"><i class="fas fa-check text-emerald mt-1"></i><span>$1</span></div>')
+      .replace(/\n\n/g, '<br>')
+      .replace(/\n/g, '<br>');
+  }
 
   // Initialisation de la Reconnaissance Vocale (Web Speech API)
   const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -82,13 +96,14 @@ document.addEventListener('DOMContentLoaded', () => {
       voiceBtn.innerHTML = '<i class="fas fa-microphone"></i>';
       voiceBtn.setAttribute('title', 'Parler à l’assistant');
     }
-    if (input) input.setAttribute('placeholder', 'Posez une question...');
+    if (input) input.setAttribute('placeholder', 'Posez une question ou dictez...');
   }
 
-  function speakText(text) {
+  function speakText(rawText) {
     if (!('speechSynthesis' in window)) return;
-    window.speechSynthesis.cancel(); // Stoppe toute lecture en cours
-    const utterance = new SpeechSynthesisUtterance(text);
+    window.speechSynthesis.cancel();
+    const cleanText = rawText.replace(/[*•#]/g, '');
+    const utterance = new SpeechSynthesisUtterance(cleanText);
     utterance.lang = 'fr-FR';
     utterance.rate = 1.0;
     utterance.pitch = 1.0;
@@ -101,10 +116,11 @@ document.addEventListener('DOMContentLoaded', () => {
     
     let speakButtonHtml = '';
     if (role === 'assistant' && 'speechSynthesis' in window) {
-      speakButtonHtml = `<button type="button" class="assistant-speak-btn mt-2" title="Écouter à voix haute"><i class="fas fa-volume-high me-1"></i> Écouter</button>`;
+      speakButtonHtml = `<button type="button" class="assistant-speak-btn mt-2" title="Écouter la réponse"><i class="fas fa-volume-high me-1"></i> Écouter</button>`;
     }
 
-    bubble.innerHTML = `<div>${text}</div>${speakButtonHtml}<div class="assistant-meta">${timestamp}</div>`;
+    const formattedHtml = role === 'assistant' ? formatMarkdown(text) : text;
+    bubble.innerHTML = `<div>${formattedHtml}</div>${speakButtonHtml}<div class="assistant-meta">${timestamp}</div>`;
     
     if (role === 'assistant') {
       const speakBtn = bubble.querySelector('.assistant-speak-btn');

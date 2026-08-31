@@ -23,10 +23,10 @@ def _get_user_farm_context(user):
         volailles = Volaille.objects.filter(user=user)
         couveuses = Couveuse.objects.filter(user=user)
 
-        crops_summary = ", ".join([f"{c.name} ({c.crop_type}, {c.area} ha)" for c in cultures[:5]]) or "Aucune culture"
-        animals_summary = ", ".join([f"{a.name} ({a.species}, {a.health_status})" for a in animaux[:5]]) or "Aucun animal"
-        plots_summary = ", ".join([f"{p.name} ({p.area} ha, {p.location})" for p in parcelles[:5]]) or "Aucune parcelle"
-        incubators_summary = ", ".join([f"{i.eggs_count} œufs (statut: {i.status})" for i in couveuses[:3]]) or "Aucune incubation"
+        crops_summary = ", ".join([f"{c.name} ({c.crop_type}, {c.area} ha)" for c in cultures[:5]]) or "Aucune culture enregistrée"
+        animals_summary = ", ".join([f"{a.name} ({a.species}, statut: {a.health_status})" for a in animaux[:5]]) or "Aucun animal enregistré"
+        plots_summary = ", ".join([f"{p.name} ({p.area} ha, lieu: {p.location})" for p in parcelles[:5]]) or "Aucune parcelle enregistrée"
+        incubators_summary = ", ".join([f"{i.eggs_count} œufs (statut: {i.status})" for i in couveuses[:3]]) or "Aucune couveuse active"
 
         return f"""
 [CONTEXTE RÉEL DE L'EXPLOITATION DE L'UTILISATEUR ({user.username})] :
@@ -36,49 +36,46 @@ def _get_user_farm_context(user):
 - Effectifs Volailles ({volailles.count()} lots enregistrés)
 - Couveuses en cours ({couveuses.count()}) : {incubators_summary}
 """
-    except Exception as e:
-        return f"Exploitant : {user.username}."
+    except Exception:
+        return f"Exploitant connecté : {user.username}."
 
 
 def _build_system_instruction(user_context):
-    return f"""Tu es AgroSedam AI, l'assistant agronome, vétérinaire et conseiller d'exploitation d'élite de la plateforme AgroSedam au Mali et dans toute la zone sahélienne (Afrique de l'Ouest).
+    return f"""Tu es AgroSedam AI, l'assistant agronome, vétérinaire et conseiller d'exploitation d'élite développé pour la plateforme AgroSedam au Mali et dans toute la zone sahélienne (Afrique de l'Ouest).
 
 {user_context}
 
 Tes compétences et rôles clés :
 1. Agriculture Sahélienne & Maraîchage :
-   - Hivernage (juin à octobre) & contre-saison (octobre à mars).
-   - Cultures majeures : Riz (Office du Niger / submersion / bas-fonds), Maïs, Mil, Sorgho, Oignon de Bandiagara, Tomate, Gombo, Manguiers (Kent, Amélie).
-   - Gestion de l'eau : Forages solaires, château d'eau, goutte-à-goutte, paillage et économie d'eau.
+   - Saisons : Hivernage (juin à octobre) & contre-saison (octobre à mars).
+   - Cultures majeures : Riz (Office du Niger / bas-fonds), Maïs, Mil, Sorgho, Oignon de Bandiagara, Tomate, Gombo, Manguiers (Kent, Amélie).
+   - Forages solaires, goutte-à-goutte et conservation de l'eau.
 
 2. Élevage & Santé Animale :
-   - Races locales : Zébu Peul, Goudali, Azawak, Mouton Balibali, Touabir, Chèvre du Sahel.
-   - Rationnement : Paille traitée à l'urée, fane d'arachide, tourteau de coton, compléments minéraux (pierre à lécher).
-   - Prophylaxie & Vaccins : Péripneumonie bovine (PPCB), Pasteurellose, Charbon symptomatique, Peste des Petits Ruminants (PPR).
+   - Races : Zébu Peul, Goudali, Azawak, Mouton Balibali, Touabir, Chèvre du Sahel.
+   - Calendrier vaccinal : PPCB (Péripneumonie bovine), Pasteurellose, Charbon, Peste des Petits Ruminants (PPR).
+   - Alimentation de saison sèche : Tourteau de coton, fane d'arachide, paille traitée à l'urée, pierre à lécher.
 
 3. Aviculture & Couveuses Automatiques :
-   - Pondeuses et Poulets de chair (Cobb 500), Pintades locales.
-   - Calendrier de couvaison : J1 à J18 à 37.8°C / 55% humidité (retournement 2h), mirage à J7/J14, éclosoir J19-J21 à 37.2°C / 75% humidité.
-   - Vaccins aviaires : Newcastle (HB1 / La Sota), Gumboro, Variole aviaire.
+   - Pondeuses, Poulets de chair (Cobb 500), Pintades locales.
+   - Incubation précise : J1-J18 à 37.8°C / 55% humidité (retournement 2h), mirage à J7/J14, éclosoir J19-J21 à 37.2°C / 75% humidité.
+   - Prophylaxie aviaire : Newcastle, Gumboro, Variole.
 
-4. Accompagnement sur AgroSedam :
-   - Si l'utilisateur demande des infos sur sa ferme, sers-toi du [CONTEXTE RÉEL DE L'EXPLOITATION] ci-dessus pour lui répondre avec précision !
-   - Aide-le à naviguer : ajouter une récolte, enregistrer un animal, modifier une parcelle.
+4. Exploitation de l'utilisateur :
+   - Utilise le [CONTEXTE RÉEL DE L'EXPLOITATION] ci-dessus pour répondre de façon personnalisée dès que l'utilisateur te pose une question sur ses données ou ses animaux.
 
-Règles de style :
-- Réponds toujours en français professionnel, chaleureux, bien structuré avec des listes à puces et des émojis pertinents.
-- Reste concis et pragmatique (2 à 4 paragraphes max) pour être facilement lisible sur smartphone au champ.
+Règles d'identité et de style :
+- Tu t'appelles exclusivement **AgroSedam AI**. Ne mentionne jamais de nom d'autre entreprise technologique ou modèle sous-jacent.
+- Réponds en français clair, structuré avec des listes à puces et des émojis pertinents.
+- Sois direct, encourageant et pragmatique (2 à 4 paragraphes max).
 """
 
 
 def _call_gemini_api(api_key, user_message, history, user_context):
-    """Appel direct à l'API Google Gemini avec system instruction et contexte de ferme."""
-    model = os.getenv('GEMINI_MODEL', 'gemini-1.5-flash').strip()
-    url = f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent?key={api_key}"
-    
+    """Moteur IA AgroSedam direct."""
+    models_to_try = ['gemini-3.1-flash-lite', 'gemini-flash-latest', 'gemini-3.1-pro-preview']
     system_prompt = _build_system_instruction(user_context)
 
-    # Conversion de l'historique au format Gemini
     contents = []
     for h in history:
         role = "user" if h.get("role") == "user" else "model"
@@ -86,7 +83,6 @@ def _call_gemini_api(api_key, user_message, history, user_context):
         if content:
             contents.append({"role": role, "parts": [{"text": content}]})
             
-    # Message courant
     contents.append({"role": "user", "parts": [{"text": user_message}]})
 
     payload = {
@@ -101,34 +97,32 @@ def _call_gemini_api(api_key, user_message, history, user_context):
         }
     }
 
-    req = urllib.request.Request(
-        url,
-        data=json.dumps(payload).encode("utf-8"),
-        headers={"Content-Type": "application/json"},
-        method="POST"
-    )
+    req_data = json.dumps(payload).encode("utf-8")
 
-    try:
-        with urllib.request.urlopen(req, timeout=15) as response:
-            res_data = json.loads(response.read().decode("utf-8"))
-            candidates = res_data.get("candidates", [])
-            if candidates:
-                parts = candidates[0].get("content", {}).get("parts", [])
-                if parts:
-                    return parts[0].get("text", "").strip()
-    except urllib.error.HTTPError as e:
-        error_msg = e.read().decode("utf-8")
-        print(f"[AgroSedam Gemini API Error {e.code}] : {error_msg}")
-        return None
-    except Exception as e:
-        print(f"[AgroSedam Gemini Exception] : {e}")
-        return None
+    for model in models_to_try:
+        url = f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent?key={api_key}"
+        req = urllib.request.Request(
+            url,
+            data=req_data,
+            headers={"Content-Type": "application/json", "x-goog-api-key": api_key},
+            method="POST"
+        )
+        try:
+            with urllib.request.urlopen(req, timeout=18) as response:
+                res_data = json.loads(response.read().decode("utf-8"))
+                candidates = res_data.get("candidates", [])
+                if candidates:
+                    parts = candidates[0].get("content", {}).get("parts", [])
+                    if parts:
+                        return parts[0].get("text", "").strip()
+        except Exception:
+            continue
 
     return None
 
 
 def _get_local_expert_reply(cleaned, user_context):
-    """Moteur agronomique de secours en cas d'absence de clé API."""
+    """Moteur de secours local si connexion coupée."""
     if any(w in cleaned for w in ['combien', 'mes culture', 'mes animaux', 'mes parcelle', 'ma ferme', 'mon exploitation']):
         return (
             "📊 **Voici l'état actuel de votre exploitation** :\n\n"
@@ -207,21 +201,16 @@ def assistant_api(request):
     else:
         history = []
 
-    # 1. Extraction du contexte réel de la ferme de l'utilisateur
+    # 1. Extraction du contexte de ferme
     user_context = _get_user_farm_context(request.user)
 
-    # 2. Clé API Gemini
-    gemini_key = os.getenv('GEMINI_API_KEY', '').strip() or os.getenv('AGROSSEDAM_AI_API_KEY', '').strip()
+    # 2. Clé API lue depuis l'environnement
+    api_key = os.getenv('GEMINI_API_KEY', '').strip() or os.getenv('AGROSSEDAM_AI_API_KEY', '').strip()
 
     reply = None
-    provider_name = 'AgroSedam Sahel Expert (Local)'
+    if api_key:
+        reply = _call_gemini_api(api_key, message, history, user_context)
 
-    if gemini_key:
-        reply = _call_gemini_api(gemini_key, message, history, user_context)
-        if reply:
-            provider_name = f"Google Gemini ({os.getenv('GEMINI_MODEL', 'gemini-1.5-flash')})"
-
-    # Fallback si pas de clé ou erreur réseau
     if not reply:
         reply = _get_local_expert_reply(message.lower(), user_context)
 
@@ -229,7 +218,7 @@ def assistant_api(request):
     return JsonResponse({
         'reply': reply,
         'timestamp': current_time,
-        'provider': provider_name,
+        'provider': 'AgroSedam AI Engine',
     })
 
 
