@@ -2,55 +2,67 @@
 {% load static %}
 {% block title %}Accueil | AgroSedam{% endblock %}
 {% block content %}
+
+<!-- Hero Section -->
 <section class="hero-section">
-    <div class="container py-5 hero-content">
-        <div class="row align-items-center g-4">
+    <div class="container hero-content py-4">
+        <div class="row align-items-center g-5">
             <div class="col-lg-7">
-                <span class="hero-pill fade-in-up"><i class="fas fa-sparkles me-2"></i>Gestion agropastorale intelligente</span>
-                <h1 class="display-4 fw-bold mb-3 fade-in-up delay-1">Pilotez votre exploitation avec une expérience premium.</h1>
-                <p class="lead text-white-50 mb-4 fade-in-up delay-2">Centralisez cultures, élevage, aviculture et couveuses dans une plateforme moderne et fiable.</p>
+                <span class="hero-pill fade-in-up">
+                    <i class="fas fa-sparkles text-emerald me-2"></i>Gestion Agropastorale Intelligente
+                </span>
+                <h1 class="hero-title my-3 fade-in-up delay-1">
+                    Pilotez votre exploitation avec une expérience <span class="text-emerald">premium</span>.
+                </h1>
+                <p class="hero-lead fade-in-up delay-2">
+                    Centralisez cultures, élevage, aviculture et couveuses dans une plateforme moderne, intuitive et ultra-rapide.
+                </p>
                 <div class="d-flex gap-3 flex-wrap mt-4 fade-in-up delay-3">
-                    <a class="btn btn-success btn-lg btn-animated" href="{% url 'signup' %}">Créer un compte</a>
-                    <a class="btn btn-outline-light btn-lg" href="{% url 'dashboard' %}">Voir le tableau de bord</a>
+                    <a class="btn btn-emerald btn-lg px-4 shadow-lg" href="{% url 'signup' %}">
+                        <i class="fas fa-user-plus me-1"></i> Créer un compte
+                    </a>
+                    <a class="btn btn-outline-light btn-lg px-4" href="{% url 'dashboard' %}">
+                        <i class="fas fa-chart-line me-1"></i> Voir le tableau de bord
+                    </a>
                 </div>
-                <div class="hero-badges mt-4 fade-in-up delay-4">
+                <div class="hero-badges fade-in-up delay-4">
                     <span><i class="fas fa-check-circle"></i> Suivi en temps réel</span>
                     <span><i class="fas fa-check-circle"></i> Notifications intelligentes</span>
-                    <span><i class="fas fa-check-circle"></i> Interface responsive</span>
+                    <span><i class="fas fa-check-circle"></i> 100% Responsive</span>
                 </div>
             </div>
             <div class="col-lg-5">
-                <div class="hero-panel glass-card fade-in-up delay-2">
-                    <div class="d-flex align-items-center justify-content-between mb-3">
+                <div class="hero-panel glass-card p-4 fade-in-up delay-2">
+                    <div class="d-flex align-items-center justify-content-between mb-4">
                         <div>
-                            <p class="text-muted mb-1">Pourquoi nous choisir</p>
-                            <h4 class="fw-semibold mb-0">Fonctionnalités clés</h4>
+                            <span class="text-muted small text-uppercase tracking-wider">Pourquoi nous choisir</span>
+                            <h4 class="fw-bold mb-0 text-white">Fonctionnalités clés</h4>
                         </div>
-                        <span class="badge bg-success">+4 modules</span>
+                        <span class="badge bg-emerald-subtle text-emerald px-3 py-2 rounded-pill font-monospace">+4 modules</span>
                     </div>
-                    <div class="row g-2">
+                    <div class="row g-3">
                         <div class="col-6">
-                            <div class="d-flex align-items-center gap-2 p-2 rounded-3 feature-card">
-                                <div class="icon-circle small"><i class="fas fa-seedling"></i></div>
-                                <span class="small fw-semibold">Cultures</span>
+                            <div class="feature-card p-3 rounded-3 d-flex align-items-center gap-3">
+                                <div class="icon-circle small"><i class="fas fa-seedling text-emerald"></i></div>
+                                <span class="fw-semibold text-white">Cultures</span>
                             </div>
                         </div>
                         <div class="col-6">
-                            <div class="d-flex align-items-center gap-2 p-2 rounded-3 feature-card">
-                                <div class="icon-circle small"><i class="fas fa-cow"></i></div>
-                                <span class="small fw-semibold">Élevage</span>
+                            <div class="feature-card p-3 rounded-3 d-flex align-items-center gap-3">
+                                <div class="icon-circle small"><i class="fas fa-cow text-emerald"></i></div>
+                                <span class="fw-semibold text-white">Élevage</span>
                             </div>
                         </div>
                         <div class="col-6">
-                            <div class="d-flex align-items-center gap-2 p-2 rounded-3 feature-card">
-                                <div class="icon-circle small"><i class="fas fa-dove"></i></div>
-                                <span class="small fw-semibold">Aviculture</span>
+                            <div class="feature-card p-3 rounded-3 d-flex align-items-center gap-3">
+                                <div class="icon-circle small"><i class="fas fa-feather text-emerald"></i></div>
+                                <span class="fw-semibold text-white">Aviculture</span>
                             </div>
                         </div>
-                        <div class="col-12">
-                            <div class="d-flex align-items-center gap-2 p-2 rounded-3 feature-card">
-                                <div class="icon-circle small"><i class="fas fa-egg"></i></div>
-                                <span class="small fw-semibold">Production d'œufs et couvaison</span>
+                        <div class="col-6">
+                            <div class="feature-card p-3 rounded-3 d-flex align-items-center gap-3">
+                                <div class="icon-circle small"><i class="fas fa-egg text-emerald"></i></div>
+                                <span class="fw-semibold text-white">Couveuses</span>
                             </div>
                         </div>
                     </div>
@@ -60,7 +72,8 @@
     </div>
 </section>
 
-<section class="container py-5">
+<!-- Compteurs Statistiques -->
+<section class="container py-4">
     <div class="row g-3 fade-in-up">
         <div class="col-xl-3 col-md-6">
             <div class="mini-stat">
@@ -68,7 +81,7 @@
                     <div class="mini-label">Cultures</div>
                     <div class="mini-value">{{ crops }}</div>
                 </div>
-                <div class="icon-circle"><i class="fas fa-seedling"></i></div>
+                <div class="icon-circle"><i class="fas fa-wheat-awn"></i></div>
             </div>
         </div>
         <div class="col-xl-3 col-md-6">
@@ -101,67 +114,84 @@
     </div>
 </section>
 
+<!-- Modules de Gestion -->
 <section class="container py-5">
-    <div class="section-header d-flex justify-content-between align-items-center flex-wrap gap-3 fade-in-up">
+    <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-4 fade-in-up">
         <div>
-            <h2 class="mb-1"><i class="fas fa-cubes me-2"></i>Nos modules</h2>
-            <p>Une plateforme complète pour tous vos besoins agropastoraux</p>
+            <h2 class="fw-bold text-white mb-1"><i class="fas fa-cubes text-emerald me-2"></i>Nos modules complets</h2>
+            <p class="text-muted mb-0">Une plateforme tout-en-un pour tous vos besoins agropastoraux</p>
         </div>
     </div>
     <div class="row g-4">
-        <div class="col-md-4 fade-in-up delay-1">
-            <div class="data-card h-100">
-                <div class="card-body p-4">
-                    <div class="card-icon green"><i class="fas fa-seedling"></i></div>
-                    <h5 class="fw-bold mb-2">Agriculture</h5>
-                    <p class="text-muted mb-0">Planifiez les saisons, gérez les cultures et suivez les récoltes avec une interface claire et moderne.</p>
+        <div class="col-lg-4 col-md-6 fade-in-up delay-1">
+            <div class="data-card glass-card h-100 p-4">
+                <div class="card-icon-wrapper mb-3">
+                    <i class="fas fa-seedling text-emerald fs-4"></i>
                 </div>
+                <h4 class="fw-bold text-white mb-2">Agriculture</h4>
+                <p class="text-muted mb-0">Planifiez les saisons, gérez les parcelles, suivez les cultures et calculez les rendements de récoltes avec clarté.</p>
             </div>
         </div>
-        <div class="col-md-4 fade-in-up delay-2">
-            <div class="data-card h-100">
-                <div class="card-body p-4">
-                    <div class="card-icon teal"><i class="fas fa-cow"></i></div>
-                    <h5 class="fw-bold mb-2">Élevage</h5>
-                    <p class="text-muted mb-0">Supervisez vos troupeaux, leur santé et leurs vaccins dans un espace premium.</p>
+        <div class="col-lg-4 col-md-6 fade-in-up delay-2">
+            <div class="data-card glass-card h-100 p-4">
+                <div class="card-icon-wrapper mb-3">
+                    <i class="fas fa-cow text-teal fs-4"></i>
                 </div>
+                <h4 class="fw-bold text-white mb-2">Élevage & Cheptel</h4>
+                <p class="text-muted mb-0">Supervisez vos troupeaux, les fiches médicales, vaccinations et poids des bêtes dans un espace structuré.</p>
             </div>
         </div>
-        <div class="col-md-4 fade-in-up delay-3">
-            <div class="data-card h-100">
-                <div class="card-body p-4">
-                    <div class="card-icon blue"><i class="fas fa-dove"></i></div>
-                    <h5 class="fw-bold mb-2">Aviculture</h5>
-                    <p class="text-muted mb-0">Gérez vos volailles, leur alimentation et leur production d'œufs en toute simplicité.</p>
+        <div class="col-lg-4 col-md-6 fade-in-up delay-3">
+            <div class="data-card glass-card h-100 p-4">
+                <div class="card-icon-wrapper mb-3">
+                    <i class="fas fa-feather text-info fs-4"></i>
                 </div>
+                <h4 class="fw-bold text-white mb-2">Aviculture</h4>
+                <p class="text-muted mb-0">Gérez vos lots de volailles, la consommation d'aliments et suivez la production d'œufs au quotidien.</p>
             </div>
         </div>
-        <div class="col-md-4 fade-in-up delay-1">
-            <div class="data-card h-100">
-                <div class="card-body p-4">
-                    <div class="card-icon purple"><i class="fas fa-egg"></i></div>
-                    <h5 class="fw-bold mb-2">Couveuses</h5>
-                    <p class="text-muted mb-0">Suivez vos incubations, les éclosions et la production d'œufs en temps réel.</p>
+        <div class="col-lg-4 col-md-6 fade-in-up delay-1">
+            <div class="data-card glass-card h-100 p-4">
+                <div class="card-icon-wrapper mb-3">
+                    <i class="fas fa-egg text-warning fs-4"></i>
                 </div>
+                <h4 class="fw-bold text-white mb-2">Couveuses & Éclosions</h4>
+                <p class="text-muted mb-0">Suivez vos incubations en temps réel, dates d'éclosion prévues et alertes de contrôle de température.</p>
             </div>
         </div>
-        <div class="col-md-4 fade-in-up delay-2">
-            <div class="data-card h-100">
-                <div class="card-body p-4">
-                    <div class="card-icon orange"><i class="fas fa-map"></i></div>
-                    <h5 class="fw-bold mb-2">Parcelles</h5>
-                    <p class="text-muted mb-0">Organisez vos espaces agricoles et attribuez-les aux cultures pour un suivi optimal.</p>
+        <div class="col-lg-4 col-md-6 fade-in-up delay-2">
+            <div class="data-card glass-card h-100 p-4">
+                <div class="card-icon-wrapper mb-3">
+                    <i class="fas fa-map-location-dot text-danger fs-4"></i>
                 </div>
+                <h4 class="fw-bold text-white mb-2">Parcelles & Terrains</h4>
+                <p class="text-muted mb-0">Organisez vos espaces agricoles, cartographiez les types de sols et attribuez-les aux cultures pour un suivi optimal.</p>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-6 fade-in-up delay-3">
+            <div class="data-card glass-card h-100 p-4">
+                <div class="card-icon-wrapper mb-3">
+                    <i class="fas fa-robot text-emerald fs-4"></i>
+                </div>
+                <h4 class="fw-bold text-white mb-2">Assistant IA Intelligent</h4>
+                <p class="text-muted mb-0">Bénéficiez d'un assistant virtuel interactif disponible 24h/24 pour vous guider et répondre à vos questions agricoles.</p>
             </div>
         </div>
     </div>
 </section>
 
+<!-- Call to Action Banner (Design Sombre & Émeraude Haute Définition) -->
 <section class="container py-5">
-    <div class="card border-0 shadow-strong rounded-4 bg-gradient-green text-white text-center py-5 px-4 fade-in-up">
-        <h2 class="fw-bold mb-3">Prêt à moderniser votre exploitation ?</h2>
-        <p class="lead mb-4" style="opacity: 0.9;">Rejoignez AgroSedam et profitez d'une gestion simplifiée et intelligente.</p>
-        <a class="btn btn-light btn-lg" href="{% url 'signup' %}">Commencer gratuitement</a>
+    <div class="cta-banner p-5 text-center text-white rounded-4 fade-in-up position-relative overflow-hidden">
+        <div class="cta-content position-relative z-2">
+            <h2 class="display-6 fw-bold mb-3">Prêt à moderniser votre exploitation ?</h2>
+            <p class="lead text-emerald-light mb-4 mx-auto" style="max-width: 650px;">
+                Rejoignez AgroSedam aujourd'hui et profitez d'une gestion agropastorale simplifiée, moderne et intelligente.
+            </p>
+            <a class="btn btn-light btn-lg px-5 py-3 text-dark fw-bold shadow-lg rounded-pill" href="{% url 'signup' %}">
+                <i class="fas fa-arrow-right me-2 text-emerald"></i> Commencer gratuitement
+            </a>
+        </div>
     </div>
 </section>
 {% endblock %}
