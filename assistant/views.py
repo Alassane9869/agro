@@ -40,33 +40,25 @@ def _get_user_farm_context(user):
 
 
 def _build_system_instruction(user_context):
-    return f"""Tu es AgroSedam AI, l'assistant agronome, vétérinaire et conseiller d'exploitation d'élite développé pour la plateforme AgroSedam au Mali et dans toute la zone sahélienne (Afrique de l'Ouest).
+    return f"""Tu es AgroSedam AI, le conseiller agropastoral personnel, calme et bienveillant de l'exploitant sur la plateforme AgroSedam (Mali & zone sahélienne).
 
 {user_context}
 
-Tes compétences et rôles clés :
-1. Agriculture Sahélienne & Maraîchage :
-   - Saisons : Hivernage (juin à octobre) & contre-saison (octobre à mars).
-   - Cultures majeures : Riz (Office du Niger / bas-fonds), Maïs, Mil, Sorgho, Oignon de Bandiagara, Tomate, Gombo, Manguiers (Kent, Amélie).
-   - Forages solaires, goutte-à-goutte et conservation de l'eau.
+Directives de conversation & Style (TRÈS IMPORTANT) :
+1. PARLE COMME UN VRAI CONSEILLER DE TERRAIN :
+   - Adopte un ton posé, chaleureux, fluide et naturel, comme lors d'un échange direct avec un agriculteur ou un éleveur.
+   - Évite absolument les pavés de texte lourds, les longues listes théoriques ou les réponses robotiques.
 
-2. Élevage & Santé Animale :
-   - Races : Zébu Peul, Goudali, Azawak, Mouton Balibali, Touabir, Chèvre du Sahel.
-   - Calendrier vaccinal : PPCB (Péripneumonie bovine), Pasteurellose, Charbon, Peste des Petits Ruminants (PPR).
-   - Alimentation de saison sèche : Tourteau de coton, fane d'arachide, paille traitée à l'urée, pierre à lécher.
+2. CONCISION ET FLUIDITÉ :
+   - Reste toujours concis : 1 à 2 courts paragraphes clairs (ou 2-3 conseils pratiques ciblés).
+   - Réponds directement et simplement à ce que demande l'utilisateur.
+   - Pour un simple "Bonjour" ou "Ça va", réponds avec courtoisie en 2 petites phrases chaleureuses.
 
-3. Aviculture & Couveuses Automatiques :
-   - Pondeuses, Poulets de chair (Cobb 500), Pintades locales.
-   - Incubation précise : J1-J18 à 37.8°C / 55% humidité (retournement 2h), mirage à J7/J14, éclosoir J19-J21 à 37.2°C / 75% humidité.
-   - Prophylaxie aviaire : Newcastle, Gumboro, Variole.
+3. DIALOGUE NATUREL :
+   - Termine naturellement par une question de relance simple et conviviale pour guider l'utilisateur pas à pas (ex: "Souhaitez-vous qu'on regarde les doses recommandées ?", "Sur quelle parcelle travaillez-vous en ce moment ?").
 
-4. Exploitation de l'utilisateur :
-   - Utilise le [CONTEXTE RÉEL DE L'EXPLOITATION] ci-dessus pour répondre de façon personnalisée dès que l'utilisateur te pose une question sur ses données ou ses animaux.
-
-Règles d'identité et de style :
-- Tu t'appelles exclusivement **AgroSedam AI**. Ne mentionne jamais de nom de fournisseur technique ou modèle sous-jacent.
-- Réponds en français clair, structuré avec des listes à puces et des émojis pertinents.
-- Sois direct, encourageant et pragmatique (2 à 4 paragraphes max).
+4. IDENTITÉ STRICTE :
+   - Tu es exclusivement **AgroSedam AI**. Ne mentionne jamais de tiers ou de nom de modèle technique.
 """
 
 
@@ -121,52 +113,44 @@ def _call_gemini_api(api_key, user_message, history, user_context):
 
 
 def _get_local_expert_reply(cleaned, user_context):
-    """Moteur de secours local si connexion coupée."""
-    if any(w in cleaned for w in ['combien', 'mes culture', 'mes cultures', 'mes animaux', 'mes parcelle', 'mes parcelles', 'ma ferme', 'mon exploitation']):
+    """Moteur de secours local posé et concis."""
+    if any(w in cleaned for w in ['bonjour', 'salut', 'bonsoir', 'kene', 'ani', 'hello', 'hi', 'cv', 'ca va', 'ça va']):
         return (
-            "📊 **Voici l'état actuel de votre exploitation** :\n\n"
-            + user_context.replace("[CONTEXTE RÉEL DE L'EXPLOITATION", "**Données enregistrées")
-            + "\n\n💡 Vous pouvez ajouter ou modifier ces données directement depuis le tableau de bord !"
+            "👋 Bonjour ! Tout va très bien, merci.\n\n"
+            "Je suis **AgroSedam AI**, votre conseiller à vos côtés. Sur quoi travaillez-vous aujourd'hui sur votre exploitation ?"
         )
 
     if any(w in cleaned for w in ['culture', 'riz', 'mais', 'maïs', 'tomate', 'oignon', 'gombo', 'semis', 'engrais', 'recolte', 'récolte']):
         return (
-            "🌾 **Conseils Cultures & Maraîchage au Sahel** :\n\n"
-            "• **Campagne d'hivernage** : Préparez le labour dès les premières pluies de juin/juillet. Veillez au sarclage précoce (15-21 jours après semis).\n"
-            "• **Maraîchage de contre-saison (octobre à mars)** : Idéal pour l'oignon et la tomate sous irrigation goutte-à-goutte solaire.\n"
-            "• Pour enregistrer un nouveau cycle, rendez-vous dans le menu **Cultures** puis **Ajouter une culture**."
+            "🌾 Pour vos cultures, voici l'essentiel du moment :\n\n"
+            "En hivernage, misez sur un sarclage précoce (15-20 jours après semis) et un bon apport organique. En contre-saison, préférez l'arrosage goutte-à-goutte aux heures fraîches pour l'oignon et la tomate.\n\n"
+            "Souhaitez-vous un conseil spécifique sur une variété ou sur vos parcelles ?"
         )
 
-    if any(w in cleaned for w in ['animal', 'animaux', 'zebu', 'zébu', 'mouton', 'chevre', 'chèvre', 'vaccin', 'maladie', 'elevage', 'élevage']):
+    if any(w in cleaned for w in ['animal', 'animaux', 'vache', 'zebu', 'zébu', 'mouton', 'chevre', 'chèvre', 'vaccin', 'maladie', 'elevage', 'élevage', 'bellarine']):
         return (
-            "🐄 **Conseils Élevage & Santé Animale** :\n\n"
-            "• **Calendrier vaccinal** : Prévoyez les vaccins contre la Péripneumonie contagieuse bovine (PPCB) et la Pasteurellose avant la transhumance.\n"
-            "• **Alimentation de saison sèche** : Distribuez des blocs à lécher (pierre à sel) et des tourteaux de coton pour maintenir la masse corporelle.\n"
-            "• Suivez chaque bête individuellement avec son matricule dans la rubrique **Élevage**."
+            "🐄 Pour la santé de votre cheptel :\n\n"
+            "Veillez à maintenir l'eau propre à volonté et complétez avec des tourteaux de coton et une pierre à sel minérale. Assurez-vous également que les vaccins de base (PPCB et charbon) sont à jour.\n\n"
+            "Un de vos animaux présente-t-il un symptôme particulier ?"
         )
 
     if any(w in cleaned for w in ['couveuse', 'couveuses', 'incubation', 'eclosion', 'éclosion', 'oeuf', 'œuf', 'mirage']):
         return (
-            "🥚 **Paramètres de Couvaison Automatique (Poules & Pintades)** :\n\n"
-            "• **Jours 1 à 18** : Température stable à **37.8°C** et humidité à **50-55%**, avec retournement régulier.\n"
-            "• **Jour 7 et Jour 14** : Effectuez le **mirage** à la lampe pour retirer les œufs clairs ou avortés.\n"
-            "• **Jours 19 à 21 (Éclosoir)** : Arrêtez le retournement, température à **37.2°C** et montez l'humidité à **70-75%**.\n"
-            "• Vous pouvez suivre vos lots en cours dans le menu **Couveuses**."
+            "🥚 Pour réussir votre couvaison :\n\n"
+            "Maintenez une température stable à **37.8°C** et 55% d'humidité jusqu'au 18e jour avec retournement régulier. Pour l'éclosoir (J19 à J21), passez à **37.2°C** et 75% d'humidité sans retournement.\n\n"
+            "De quelle espèce d'œufs s'agit-il (poules, pintades ou dindes) ?"
         )
 
-    if any(w in cleaned for w in ['bonjour', 'salut', 'bonsoir', 'kene', 'ani', 'hello', 'hi', 'cv', 'ca va', 'ça va']):
+    if any(w in cleaned for w in ['combien', 'mes culture', 'mes cultures', 'mes animaux', 'mes parcelle', 'mes parcelles', 'ma ferme', 'mon exploitation']):
         return (
-            "👋 **I ni sogoma / Bonjour ! Tout va très bien, merci !**\n\n"
-            "Je suis **AgroSedam AI**, votre conseiller agronomique et d'élevage 24h/24. Comment puis-je vous aider sur vos cultures, animaux ou couveuses aujourd'hui ?"
+            "📊 **Aperçu rapide de votre ferme** :\n"
+            + user_context.replace("[CONTEXTE RÉEL DE L'EXPLOITATION", "**Données enregistrées")
+            + "\n\nQue souhaitez-vous mettre à jour ou analyser ?"
         )
 
     return (
-        "🌱 **Je suis à votre service !**\n\n"
-        "Posez-moi vos questions sur :\n"
-        "1. 🌾 Les traitements et périodes de semis (Riz, Maïs, Oignon, Tomate...)\n"
-        "2. 🐄 Les maladies, vaccins et rationnement du bétail sahélien\n"
-        "3. 🥚 Les réglages de vos couveuses et le suivi avicole\n"
-        "4. 📊 Les statistiques et données de votre propre exploitation."
+        "🌱 Je suis à votre écoute pour vous conseiller simplement sur vos **cultures**, le **suivi de vos bêtes** ou vos **couveuses**.\n\n"
+        "Quelle est votre question du moment ?"
     )
 
 

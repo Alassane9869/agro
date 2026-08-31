@@ -37,31 +37,31 @@ document.addEventListener('DOMContentLoaded', () => {
       .replace(/\n/g, '<br>');
   }
 
-  // Moteur Expert Agro local autonome (Fallback intelligent garanti 100% sans coupure)
+  // Moteur Expert Agro local autonome (Fallback calme, fluide et concis)
   function getLocalExpertReply(userMsg) {
     const msg = userMsg.toLowerCase().trim();
     
     if (msg.includes('bonjour') || msg.includes('salut') || msg.includes('kene') || msg.includes('ani') || msg.includes('hello') || msg.includes('cv') || msg.includes('ca va') || msg.includes('ça va')) {
-      return "👋 **I ni sogoma / Bonjour ! Tout va très bien, merci !**\n\nJe suis **AgroSedam AI**, votre conseiller agronomique et d'élevage 24h/24. Comment puis-je vous aider sur vos cultures, vos animaux ou vos couveuses aujourd'hui ?";
+      return "👋 Bonjour ! Tout va très bien, merci.\n\nJe suis **AgroSedam AI**, votre conseiller à vos côtés. Sur quoi travaillez-vous aujourd'hui sur votre exploitation ?";
     }
     
     if (msg.includes('culture') || msg.includes('riz') || msg.includes('mais') || msg.includes('maïs') || msg.includes('tomate') || msg.includes('oignon') || msg.includes('gombo') || msg.includes('semis') || msg.includes('engrais') || msg.includes('recolte') || msg.includes('récolte')) {
-      return "🌾 **Conseils Maraîchage & Grandes Cultures (Mali & Sahel)** :\n\n• **Campagne d'hivernage (Juin - Octobre)** : Privilégiez le riz (variétés NERICA / Gambiaka), le maïs et le mil. Effectuez le premier sarclage 15 à 21 jours après le semis.\n• **Contre-saison froide (Octobre - Mars)** : Période optimale pour les oignons de Bandiagara, tomates et piments sous irrigation goutte-à-goutte.\n• Consultez la rubrique **Cultures** pour ajouter ou suivre vos parcelles en temps réel.";
+      return "🌾 Pour vos cultures, voici l'essentiel du moment :\n\nEn hivernage, misez sur un sarclage précoce (15-20 jours après semis) et un bon apport organique. En contre-saison, préférez l'arrosage goutte-à-goutte aux heures fraîches pour l'oignon et la tomate.\n\nSouhaitez-vous un conseil spécifique sur une variété ou sur vos parcelles ?";
     }
     
     if (msg.includes('animal') || msg.includes('animaux') || msg.includes('vache') || msg.includes('bov') || msg.includes('zebu') || msg.includes('zébu') || msg.includes('mouton') || msg.includes('chevre') || msg.includes('chèvre') || msg.includes('vaccin') || msg.includes('maladie') || msg.includes('elevage') || msg.includes('élevage') || msg.includes('bellarine')) {
-      return "🐄 **Conseils Élevage & Santé Animale au Sahel** :\n\n• **Prévention vaccinale** : Veillez aux rappels contre la Péripneumonie contagieuse bovine (PPCB), la Pasteurellose et le Charbon.\n• **Complémentation de saison sèche** : Distribuez des tourteaux de coton, des fanes d'arachide et disposez une pierre à lécher riche en minéraux.\n• Retrouvez vos bêtes enregistrées dans l'onglet **Élevage** pour suivre leur poids et matricule.";
+      return "🐄 Pour la santé de votre cheptel :\n\nVeillez à maintenir l'eau propre à volonté et complétez avec des tourteaux de coton et une pierre à sel minérale. Assurez-vous également que les vaccins de base (PPCB et charbon) sont à jour.\n\nUn de vos animaux présente-t-il un symptôme particulier ?";
     }
     
     if (msg.includes('couveuse') || msg.includes('incubation') || msg.includes('eclosion') || msg.includes('éclosion') || msg.includes('oeuf') || msg.includes('œuf') || msg.includes('mirage') || msg.includes('volaille') || msg.includes('poule') || msg.includes('poussin')) {
-      return "🥚 **Paramètres d'Incubation & Couveuses Automatiques** :\n\n• **Jours 1 à 18** : Température constante à **37.8°C**, humidité à **50-55%** et retournement automatique toutes les 2 heures.\n• **Mirage (J7 et J14)** : Mire les œufs à la lampe pour retirer les œufs clairs ou non embryonnés.\n• **Jours 19 à 21 (Éclosoir)** : Arrêtez le retournement, baissez à **37.2°C** et augmentez l'humidité à **70-75%**.";
+      return "🥚 Pour réussir votre couvaison :\n\nMaintenez une température stable à **37.8°C** et 55% d'humidité jusqu'au 18e jour avec retournement régulier. Pour l'éclosoir (J19 à J21), passez à **37.2°C** et 75% d'humidité sans retournement.\n\nDe quelle espèce d'œufs s'agit-il (poules, pintades ou dindes) ?";
     }
 
     if (msg.includes('combien') || msg.includes('ferme') || msg.includes('exploitation') || msg.includes('parcelle') || msg.includes('donnée')) {
-      return "📊 **Suivi de votre Exploitation AgroSedam** :\n\nVotre exploitation est synchronisée en temps réel sur votre tableau de bord. Vous pouvez suivre l'évolution de vos parcelles, troupeaux, pontes et récoltes depuis les modules dédiés !";
+      return "📊 Votre exploitation est synchronisée en direct sur votre tableau de bord. Que souhaitez-vous analyser ou mettre à jour ?";
     }
 
-    return "🌱 **AgroSedam AI à votre service !**\n\nPosez-moi vos questions précises sur :\n1. 🌾 **Cultures & Maraîchage** (Semis, arrosage, engrais, récolte)\n2. 🐄 **Santé Animale & Rations** (Vaccins, tourteau de coton, compléments)\n3. 🥚 **Couveuses & Aviculture** (Température, mirage, éclosion)\n\nQue souhaitez-vous savoir ?";
+    return "🌱 Je suis à votre écoute pour vous conseiller simplement sur vos **cultures**, le **suivi de vos bêtes** ou vos **couveuses**.\n\nQuelle est votre question du moment ?";
   }
 
   // Initialisation de la Reconnaissance Vocale (Web Speech API)
