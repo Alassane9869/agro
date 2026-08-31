@@ -7,37 +7,35 @@ from django.http import JsonResponse
 from django.shortcuts import render
 from django.views.decorators.http import require_GET, require_POST
 
-from gestion.models import Culture, Animal, Parcelle, Volaille, Couveuse, Recolte
+from gestion.models import Crop, Animal, Plot, Poultry, Incubator, Harvest, Season
 
 SESSION_HISTORY_LIMIT = 12
 
 def _get_user_farm_context(user):
-    """Extrait en direct les données réelles de l'exploitation de l'utilisateur pour contextualiser l'IA."""
-    if not user.is_authenticated:
-        return "Utilisateur anonyme."
-
+    """Extrait en direct les données réelles de l'exploitation pour contextualiser l'IA."""
     try:
-        cultures = Culture.objects.filter(user=user)
-        animaux = Animal.objects.filter(user=user)
-        parcelles = Parcelle.objects.filter(user=user)
-        volailles = Volaille.objects.filter(user=user)
-        couveuses = Couveuse.objects.filter(user=user)
+        crops = Crop.objects.all()
+        animals = Animal.objects.all()
+        plots = Plot.objects.all()
+        poultries = Poultry.objects.all()
+        incubators = Incubator.objects.all()
 
-        crops_summary = ", ".join([f"{c.name} ({c.crop_type}, {c.area} ha)" for c in cultures[:5]]) or "Aucune culture enregistrée"
-        animals_summary = ", ".join([f"{a.name} ({a.species}, statut: {a.health_status})" for a in animaux[:5]]) or "Aucun animal enregistré"
-        plots_summary = ", ".join([f"{p.name} ({p.area} ha, lieu: {p.location})" for p in parcelles[:5]]) or "Aucune parcelle enregistrée"
-        incubators_summary = ", ".join([f"{i.eggs_count} œufs (statut: {i.status})" for i in couveuses[:3]]) or "Aucune couveuse active"
+        crops_summary = ", ".join([f"{c.name} ({c.crop_type}, {c.area} ha)" for c in crops[:5]]) or "Aucune culture enregistrée"
+        animals_summary = ", ".join([f"{a.name} ({a.species}, {a.health_status})" for a in animals[:5]]) or "Aucun animal enregistré"
+        plots_summary = ", ".join([f"{p.name} ({p.area} ha, lieu: {p.location})" for p in plots[:5]]) or "Aucune parcelle enregistrée"
+        incubators_summary = ", ".join([f"{i.eggs_count} œufs (statut: {i.status})" for i in incubators[:3]]) or "Aucune couveuse active"
 
+        username = getattr(user, 'username', 'Exploitant')
         return f"""
-[CONTEXTE RÉEL DE L'EXPLOITATION DE L'UTILISATEUR ({user.username})] :
-- Cultures actives ({cultures.count()}) : {crops_summary}
-- Cheptel & Bétail ({animaux.count()} têtes) : {animals_summary}
-- Parcelles enregistrées ({parcelles.count()}) : {plots_summary}
-- Effectifs Volailles ({volailles.count()} lots enregistrés)
-- Couveuses en cours ({couveuses.count()}) : {incubators_summary}
+[CONTEXTE RÉEL DE L'EXPLOITATION ({username})] :
+- Cultures actives ({crops.count()}) : {crops_summary}
+- Cheptel & Bétail ({animals.count()} têtes) : {animals_summary}
+- Parcelles enregistrées ({plots.count()}) : {plots_summary}
+- Lots de volailles suivis ({poultries.count()})
+- Couveuses en cours ({incubators.count()}) : {incubators_summary}
 """
     except Exception:
-        return f"Exploitant connecté : {user.username}."
+        return "Exploitant connecté sur la plateforme AgroSedam."
 
 
 def _build_system_instruction(user_context):
@@ -65,7 +63,7 @@ Tes compétences et rôles clés :
    - Utilise le [CONTEXTE RÉEL DE L'EXPLOITATION] ci-dessus pour répondre de façon personnalisée dès que l'utilisateur te pose une question sur ses données ou ses animaux.
 
 Règles d'identité et de style :
-- Tu t'appelles exclusivement **AgroSedam AI**. Ne mentionne jamais de nom d'autre entreprise technologique ou modèle sous-jacent.
+- Tu t'appelles exclusivement **AgroSedam AI**. Ne mentionne jamais de nom de fournisseur technique ou modèle sous-jacent.
 - Réponds en français clair, structuré avec des listes à puces et des émojis pertinents.
 - Sois direct, encourageant et pragmatique (2 à 4 paragraphes max).
 """
@@ -123,10 +121,10 @@ def _call_gemini_api(api_key, user_message, history, user_context):
 
 def _get_local_expert_reply(cleaned, user_context):
     """Moteur de secours local si connexion coupée."""
-    if any(w in cleaned for w in ['combien', 'mes culture', 'mes animaux', 'mes parcelle', 'ma ferme', 'mon exploitation']):
+    if any(w in cleaned for w in ['combien', 'mes culture', 'mes cultures', 'mes animaux', 'mes parcelle', 'mes parcelles', 'ma ferme', 'mon exploitation']):
         return (
             "📊 **Voici l'état actuel de votre exploitation** :\n\n"
-            + user_context.replace("[CONTEXTE RÉEL DE L'EXPLOITATION DE L'UTILISATEUR", "**Détails de votre compte")
+            + user_context.replace("[CONTEXTE RÉEL DE L'EXPLOITATION", "**Données enregistrées")
             + "\n\n💡 Vous pouvez ajouter ou modifier ces données directement depuis le tableau de bord !"
         )
 
