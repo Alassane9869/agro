@@ -1,39 +1,77 @@
 {% extends 'base.html' %}
 {% load static %}
-{% block title %}Utilisateurs | AgroSedam{% endblock %}
+{% block title %}Gestion de l'Équipe & Utilisateurs | AgroSedam{% endblock %}
 {% block content %}
 <div class="container py-5 page-transition">
-    <div class="section-header d-flex justify-content-between align-items-center flex-wrap gap-3 fade-in-up purple">
+    <!-- En-tête de section -->
+    <div class="section-header d-flex justify-content-between align-items-center flex-wrap gap-3 fade-in-up">
         <div>
-            <h2 class="mb-1"><i class="fas fa-users me-2"></i>Gestion des utilisateurs</h2>
-            <p>Administrez les comptes et les rôles de la plateforme.</p>
+            <h2 class="mb-1"><i class="fas fa-users-gear text-emerald me-2"></i>Équipe & Utilisateurs</h2>
+            <p>Supervisez les membres de votre exploitation, leurs rôles et accès.</p>
+        </div>
+        <div class="d-flex align-items-center gap-2">
+            <span class="badge bg-emerald-subtle text-emerald px-3 py-2 rounded-pill font-monospace">
+                <i class="fas fa-user-check me-1"></i> {{ users|length }} Membres enregistrés
+            </span>
         </div>
     </div>
 
+    <!-- Grille des Cartes Utilisateurs -->
     <div class="row g-4 fade-in-up delay-1">
-        {% for user in users %}
-        <div class="col-md-6 col-lg-3">
-            <div class="data-card h-100">
-                <div class="card-body p-4 text-center">
-                    <div class="card-icon purple mx-auto mb-3" style="width:56px;height:56px;font-size:1.5rem;">
-                        <i class="fas fa-user"></i>
+        {% for u in users %}
+        <div class="col-md-6 col-lg-4 col-xl-3">
+            <div class="data-card glass-card h-100 p-4 text-center d-flex flex-column align-items-center justify-content-between">
+                <div class="w-100">
+                    <!-- Avatar avec initiale -->
+                    <div class="user-avatar-lg mx-auto mb-3 position-relative">
+                        <span>{{ u.username|slice:":1"|upper }}</span>
+                        {% if u.is_superuser %}
+                        <span class="position-absolute bottom-0 end-0 badge rounded-circle bg-warning text-dark p-1" title="Super Admin">
+                            <i class="fas fa-crown" style="font-size: 0.65rem;"></i>
+                        </span>
+                        {% endif %}
                     </div>
-                    <h5 class="fw-bold mb-1">{{ user.username }}</h5>
-                    <p class="text-muted small mb-2">{{ user.email }}</p>
-                    <span class="status-badge {% if user.profile.is_active %}success{% else %}danger{% endif %} mb-3">
-                        <i class="fas fa-{% if user.profile.is_active %}check{% else %}ban{% endif %} me-1"></i>
-                        {% if user.profile.is_active %}Actif{% else %}Bloqué{% endif %}
-                    </span>
-                    <p class="text-muted small mb-0"><strong>Rôle :</strong> {{ user.profile.role }}</p>
+
+                    <h5 class="fw-bold text-current mb-1">{{ u.username }}</h5>
+                    <p class="text-muted small mb-2 text-truncate" title="{{ u.email }}">{{ u.email|default:"Aucun email" }}</p>
+                    
+                    <div class="d-flex justify-content-center gap-2 flex-wrap my-3">
+                        <!-- Badge de Rôle -->
+                        <span class="badge bg-emerald-subtle text-emerald px-2 py-1 rounded-pill small">
+                            <i class="fas fa-id-badge me-1"></i>
+                            {% if u.is_superuser %}Superviseur Général{% elif u.profile.role %}{{ u.profile.role|capfirst }}{% else %}Collaborateur{% endif %}
+                        </span>
+                        
+                        <!-- Badge Statut -->
+                        <span class="status-badge {% if u.is_active %}success{% else %}danger{% endif %}">
+                            <i class="fas fa-{% if u.is_active %}circle-check{% else %}circle-xmark{% endif %} me-1"></i>
+                            {% if u.is_active %}Actif{% else %}Inactif{% endif %}
+                        </span>
+                    </div>
+
+                    {% if u.profile.phone %}
+                    <div class="small text-muted mb-2">
+                        <i class="fas fa-phone me-1 text-emerald"></i> {{ u.profile.phone }}
+                    </div>
+                    {% endif %}
+                </div>
+
+                <div class="w-100 pt-3 border-top border-secondary border-opacity-10 mt-3 d-flex justify-content-between align-items-center">
+                    <span class="extra-small text-dim">Inscrit le {{ u.date_joined|date:"d/m/Y" }}</span>
+                    {% if user.is_superuser %}
+                    <a href="/admin/auth/user/{{ u.id }}/change/" target="_blank" class="btn btn-sm btn-outline-emerald py-1 px-2" title="Gérer dans Django Admin">
+                        <i class="fas fa-pen-to-square"></i>
+                    </a>
+                    {% endif %}
                 </div>
             </div>
         </div>
         {% empty %}
         <div class="col-12">
             <div class="empty-state fade-in-up">
-                <i class="fas fa-users text-purple"></i>
-                <h4>Aucun utilisateur</h4>
-                <p>Invitez des utilisateurs à rejoindre la plateforme.</p>
+                <i class="fas fa-users text-emerald"></i>
+                <h4>Aucun utilisateur trouvé</h4>
+                <p>Les membres de votre équipe apparaîtront ici dès leur inscription.</p>
             </div>
         </div>
         {% endfor %}

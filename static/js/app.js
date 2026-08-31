@@ -1,4 +1,68 @@
 document.addEventListener('DOMContentLoaded', () => {
+  // === GESTION DU THÈME JOUR / NUIT (LIGHT / DARK MODE) ===
+  const themeToggleBtns = document.querySelectorAll('.btn-theme-toggle');
+  const themeMetaColor = document.getElementById('theme-meta-color');
+  
+  const getPreferredTheme = () => {
+    const saved = localStorage.getItem('agrosedam_theme');
+    if (saved) return saved;
+    return window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+  };
+
+  const updateThemeUI = (theme) => {
+    document.documentElement.setAttribute('data-theme', theme);
+    localStorage.setItem('agrosedam_theme', theme);
+    
+    // Mettre à jour la méta-couleur du navigateur (iOS Safari / Android Chrome)
+    if (themeMetaColor) {
+      themeMetaColor.setAttribute('content', theme === 'light' ? '#f8fafc' : '#090e17');
+    }
+
+    // Mettre à jour les icônes (Soleil en mode sombre, Lune en mode clair)
+    themeToggleBtns.forEach(btn => {
+      const icon = btn.querySelector('.theme-icon');
+      if (icon) {
+        if (theme === 'light') {
+          icon.classList.remove('fa-sun');
+          icon.classList.add('fa-moon');
+          btn.setAttribute('title', 'Passer en mode Nuit');
+        } else {
+          icon.classList.remove('fa-moon');
+          icon.classList.add('fa-sun');
+          btn.setAttribute('title', 'Passer en mode Jour');
+        }
+      }
+    });
+
+    // Mettre à jour les couleurs du graphique Chart.js s'il existe
+    if (window.agrosedamActivityChart) {
+      const isLight = theme === 'light';
+      const textColor = isLight ? '#475569' : '#94a3b8';
+      const gridColor = isLight ? 'rgba(0, 0, 0, 0.06)' : 'rgba(255, 255, 255, 0.05)';
+      
+      window.agrosedamActivityChart.options.scales.x.ticks.color = textColor;
+      window.agrosedamActivityChart.options.scales.x.grid.color = gridColor;
+      window.agrosedamActivityChart.options.scales.y.ticks.color = textColor;
+      window.agrosedamActivityChart.options.scales.y.grid.color = gridColor;
+      window.agrosedamActivityChart.update();
+    }
+  };
+
+  // Initialisation du thème
+  const currentTheme = getPreferredTheme();
+  updateThemeUI(currentTheme);
+
+  // Événement clic sur le bouton de bascule
+  themeToggleBtns.forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      const activeTheme = document.documentElement.getAttribute('data-theme') || 'dark';
+      const newTheme = activeTheme === 'dark' ? 'light' : 'dark';
+      updateThemeUI(newTheme);
+    });
+  });
+
+  // === NAVBAR & ANIMATIONS ===
   const navbar = document.querySelector('.navbar-glass');
   const revealItems = document.querySelectorAll('.reveal');
   const counters = document.querySelectorAll('.counter-value');
@@ -18,6 +82,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   };
 
+  // Compteurs animés
   counters.forEach((counter) => {
     const target = Number(counter.dataset.target || 0);
     let current = 0;
@@ -36,6 +101,7 @@ document.addEventListener('DOMContentLoaded', () => {
   handleScroll();
   window.addEventListener('scroll', handleScroll, { passive: true });
 
+  // === GRAPHIQUE DASHBOARD CHART.JS ===
   const chartCanvas = document.getElementById('activity-chart') || document.getElementById('operationsChart');
   if (chartCanvas && typeof Chart !== 'undefined') {
     const ctx = chartCanvas.getContext('2d');
@@ -49,7 +115,11 @@ document.addEventListener('DOMContentLoaded', () => {
       readData('harvests'),
     ];
     
-    new Chart(ctx, {
+    const isLight = document.documentElement.getAttribute('data-theme') === 'light';
+    const textColor = isLight ? '#475569' : '#94a3b8';
+    const gridColor = isLight ? 'rgba(0, 0, 0, 0.06)' : 'rgba(255, 255, 255, 0.05)';
+
+    window.agrosedamActivityChart = new Chart(ctx, {
       type: 'bar',
       data: {
         labels: ['Cultures', 'Animaux', 'Parcelles', 'Volailles', 'Incubations', 'Récoltes'],
@@ -93,13 +163,13 @@ document.addEventListener('DOMContentLoaded', () => {
         },
         scales: { 
           x: {
-            grid: { color: 'rgba(255, 255, 255, 0.05)' },
-            ticks: { color: '#94a3b8', font: { family: 'Plus Jakarta Sans', weight: '600' } }
+            grid: { color: gridColor },
+            ticks: { color: textColor, font: { family: 'Plus Jakarta Sans', weight: '600' } }
           },
           y: { 
             beginAtZero: true,
-            grid: { color: 'rgba(255, 255, 255, 0.05)' },
-            ticks: { color: '#94a3b8', font: { family: 'Plus Jakarta Sans' }, precision: 0 }
+            grid: { color: gridColor },
+            ticks: { color: textColor, font: { family: 'Plus Jakarta Sans' }, precision: 0 }
           } 
         }
       }
