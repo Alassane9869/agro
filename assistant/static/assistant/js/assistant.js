@@ -37,31 +37,39 @@ document.addEventListener('DOMContentLoaded', () => {
       .replace(/\n/g, '<br>');
   }
 
-  // Moteur Expert Agro local autonome (Fallback calme, fluide et concis)
+  // Moteur Expert Agro local autonome (Humain, naturel et concis)
   function getLocalExpertReply(userMsg) {
     const msg = userMsg.toLowerCase().trim();
     
-    if (msg.includes('bonjour') || msg.includes('salut') || msg.includes('kene') || msg.includes('ani') || msg.includes('hello') || msg.includes('cv') || msg.includes('ca va') || msg.includes('ça va')) {
-      return "👋 Bonjour ! Tout va très bien, merci.\n\nJe suis **AgroSedam AI**, votre conseiller à vos côtés. Sur quoi travaillez-vous aujourd'hui sur votre exploitation ?";
+    if (msg === 'cv' || msg.includes('ca va') || msg.includes('ça va') || msg.includes('comment vas-tu') || msg.includes('comment tu vas')) {
+      return "Ça va super bien et toi ? Comment se passe ta journée ?";
+    }
+    
+    if (msg.includes('bonjour') || msg.includes('salut') || msg.includes('kene') || msg.includes('ani') || msg.includes('hello') || msg.includes('yo')) {
+      return "Bonjour ! Comment vas-tu aujourd'hui ? 😊";
+    }
+
+    if (msg.includes('merci') || msg.includes('super') || msg.includes('daccord') || msg === 'ok') {
+      return "Avec plaisir ! N'hésite pas si tu as besoin de quoi que ce soit.";
     }
     
     if (msg.includes('culture') || msg.includes('riz') || msg.includes('mais') || msg.includes('maïs') || msg.includes('tomate') || msg.includes('oignon') || msg.includes('gombo') || msg.includes('semis') || msg.includes('engrais') || msg.includes('recolte') || msg.includes('récolte')) {
-      return "🌾 Pour vos cultures, voici l'essentiel du moment :\n\nEn hivernage, misez sur un sarclage précoce (15-20 jours après semis) et un bon apport organique. En contre-saison, préférez l'arrosage goutte-à-goutte aux heures fraîches pour l'oignon et la tomate.\n\nSouhaitez-vous un conseil spécifique sur une variété ou sur vos parcelles ?";
+      return "🌾 Pour tes cultures, veille surtout à un désherbage précoce et à arroser aux heures fraîches. Tu as une question sur une variété ou une parcelle en particulier ?";
     }
     
     if (msg.includes('animal') || msg.includes('animaux') || msg.includes('vache') || msg.includes('bov') || msg.includes('zebu') || msg.includes('zébu') || msg.includes('mouton') || msg.includes('chevre') || msg.includes('chèvre') || msg.includes('vaccin') || msg.includes('maladie') || msg.includes('elevage') || msg.includes('élevage') || msg.includes('bellarine')) {
-      return "🐄 Pour la santé de votre cheptel :\n\nVeillez à maintenir l'eau propre à volonté et complétez avec des tourteaux de coton et une pierre à sel minérale. Assurez-vous également que les vaccins de base (PPCB et charbon) sont à jour.\n\nUn de vos animaux présente-t-il un symptôme particulier ?";
+      return "🐄 Pour tes bêtes, assure-toi qu'elles ont de l'eau fraîche à volonté et un complément minéral. Une de tes bêtes a un souci particulier ?";
     }
     
     if (msg.includes('couveuse') || msg.includes('incubation') || msg.includes('eclosion') || msg.includes('éclosion') || msg.includes('oeuf') || msg.includes('œuf') || msg.includes('mirage') || msg.includes('volaille') || msg.includes('poule') || msg.includes('poussin')) {
-      return "🥚 Pour réussir votre couvaison :\n\nMaintenez une température stable à **37.8°C** et 55% d'humidité jusqu'au 18e jour avec retournement régulier. Pour l'éclosoir (J19 à J21), passez à **37.2°C** et 75% d'humidité sans retournement.\n\nDe quelle espèce d'œufs s'agit-il (poules, pintades ou dindes) ?";
+      return "🥚 Pour la couvaison, garde 37.8°C et 55% d'humidité jusqu'à J18, puis 37.2°C et 75% pour l'éclosoir sans retournement. Tu as des œufs en cours ?";
     }
 
     if (msg.includes('combien') || msg.includes('ferme') || msg.includes('exploitation') || msg.includes('parcelle') || msg.includes('donnée')) {
-      return "📊 Votre exploitation est synchronisée en direct sur votre tableau de bord. Que souhaitez-vous analyser ou mettre à jour ?";
+      return "📊 Les données de ta ferme sont synchronisées sur ton tableau de bord. Tu veux regarder ou modifier un point précis ?";
     }
 
-    return "🌱 Je suis à votre écoute pour vous conseiller simplement sur vos **cultures**, le **suivi de vos bêtes** ou vos **couveuses**.\n\nQuelle est votre question du moment ?";
+    return "🌱 Je suis là si tu as besoin d'un conseil sur tes cultures, ton élevage ou tes couveuses. Dis-moi, que souhaites-tu savoir ?";
   }
 
   // Initialisation de la Reconnaissance Vocale (Web Speech API)

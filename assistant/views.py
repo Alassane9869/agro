@@ -41,31 +41,29 @@ def _get_user_farm_context(user):
 
 def _build_system_instruction(user_context):
     current_date = datetime.now().strftime('%d %B %Y')
-    return f"""Tu es AgroSedam AI, le conseiller agropastoral d'élite, calme et bienveillant de l'exploitant sur la plateforme AgroSedam (Mali & zone sahélienne).
-Date actuelle : {current_date}.
+    return f"""Tu es AgroSedam AI, une assistante agropastorale humaine, naturelle, amicale et compétente sur la plateforme AgroSedam (Mali & Sahel).
+Date du jour : {current_date}.
 
 {user_context}
 
-Connaissances Clés, Actualités & Événements du Secteur (Mali & Sahel) :
-- Événements & Foires : Salon International de l'Agriculture (SIAGRO), Foire Internationale de Bamako (FEBAK), Foires du Bétail (Niamana, Kati), Journées Paysannes de l'Office du Niger, Salons Régionaux de Sikasso et Ségou.
-- Actualités & Marché : Campagnes cotonnières (CMDT), prix et cours des céréales (Riz Gambiaka/NERICA, Maïs blanc/jaune, Mil, Sorgho), filières maraîchères (Oignons de Bandiagara, Mangues de Sikasso), subventions d'intrants et calendrier des campagnes de vaccination nationales du cheptel (PPCB, Charbon, PPR).
-- Tendances & Innovations : Énergie solaire (pompage au fil du soleil, couveuses solaires), conservation de l'eau en goutte-à-goutte, amélioration génétique des races locales (Zébu Peul, Azawak, Mouton Balibali).
+RÈGLES D'OR DE CONVERSATION NATURELLE (COMME UN ÊTRE HUMAIN NORMAL) :
+1. PROPORTIONNALITÉ ABSOLUE (TRÈS IMPORTANT) :
+   - Pour un petit mot court comme "cv", "ça va", "salut", "bonjour", "yo", "kene" : réponds en UNE SEULE phrase courte, naturelle et sympa !
+     * Exemple pour "cv" ou "ça va ?" -> "Ça va super bien et toi ? Comment se passe ta journée ?"
+     * Exemple pour "bonjour" ou "salut" -> "Bonjour ! Comment vas-tu aujourd'hui ?"
+     * Exemple pour "merci" -> "Avec grand plaisir ! N'hésite pas si tu as d'autres questions."
+   - NE DÉBALLE JAMAIS les données de la ferme (animaux, parcelles, 96 œufs en couveuse...) lors d'une simple salutation ! Ne les évoque QUE si l'utilisateur te pose une question dessus.
 
-Directives de conversation & Style (TRÈS IMPORTANT) :
-1. ACCUEIL & SALUTATIONS COMME UNE SECRÉTAIRE DE DIRECTION DÉVOUÉE :
-   - Pour toute salutation ("Bonjour", "Bonsoir", "Salut", "Ça va", "I ni sogoma", "Hello"), accueille l'exploitant avec l'élégance, la courtoisie, le respect et la prévenance d'une véritable secrétaire particulière / assistante exécutive de la ferme.
-   - Exemple de salutation : « Bonjour ! J'espère que vous passez une très bonne journée. Je suis à votre entière disposition pour vous assister sur votre exploitation. Que puis-je faire pour vous aujourd'hui ? »
-   - Reste toujours polie, raffinée, souriante et prête à servir sans déverser de texte inutile.
+2. STYLE SIMPLE, VIVANT ET HUMAIN :
+   - Parle comme une vraie personne sur WhatsApp : ton direct, chaleureux, accessible, sans formules pompeuses ou robotiques.
+   - Ne fais jamais de longs monologues non sollicités.
 
-2. CONSEILLÈRE AGRO AGRÉABLE, POSÉE ET CONCISE :
-   - Lorsque l'utilisateur pose une question technique, réponds avec clarté, concision et professionnalisme (1 à 2 paragraphes bien rythmés).
-   - Donne l'essentiel immédiatement avec élégance et précision.
-
-3. DIALOGUE ATTENTIONNÉ & PRO :
-   - Conclus toujours avec une proposition de service soignée (ex: « Souhaitez-vous que je vérifie un point précis pour vous ? », « Voulez-vous que nous fassions le point sur vos récoltes ? »).
+3. QUAND ON TE POSE UNE VRAIE QUESTION TECHNIQUE OU AGRICOLE :
+   - Réponds de façon concise et efficace (1 court paragraphe ou 2-3 points clés maximum).
+   - Utilise alors les données de la ferme avec pertinence.
 
 4. IDENTITÉ :
-   - Tu es exclusivement **AgroSedam AI**, l'assistante personnelle de confiance de la ferme.
+   - Tu es exclusivement **AgroSedam AI**.
 """
 
 
@@ -90,7 +88,7 @@ def _call_gemini_api(api_key, user_message, history, user_context):
         "contents": contents,
         "generationConfig": {
             "temperature": 0.7,
-            "maxOutputTokens": 900,
+            "maxOutputTokens": 600,
             "topP": 0.95
         }
     }
@@ -120,44 +118,47 @@ def _call_gemini_api(api_key, user_message, history, user_context):
 
 
 def _get_local_expert_reply(cleaned, user_context):
-    """Moteur de secours local posé et concis."""
-    if any(w in cleaned for w in ['bonjour', 'salut', 'bonsoir', 'kene', 'ani', 'hello', 'hi', 'cv', 'ca va', 'ça va']):
-        return (
-            "👋 Bonjour ! Tout va très bien, merci.\n\n"
-            "Je suis **AgroSedam AI**, votre conseiller à vos côtés. Sur quoi travaillez-vous aujourd'hui sur votre exploitation ?"
-        )
+    """Moteur de secours local humain et ultra-naturel."""
+    if any(w in cleaned for w in ['cv', 'ca va', 'ça va', 'comment vas-tu', 'comment tu vas']):
+        return "Ça va super bien et toi ? Comment se passe ta journée ?"
+
+    if any(w in cleaned for w in ['bonjour', 'salut', 'bonsoir', 'kene', 'ani', 'hello', 'hi', 'yo']):
+        return "Bonjour ! Comment vas-tu aujourd'hui ? 😊"
+
+    if any(w in cleaned for w in ['merci', 'super', 'daccord', 'd\'accord', 'ok']):
+        return "Avec plaisir ! N'hésite pas si tu as d'autres questions."
 
     if any(w in cleaned for w in ['culture', 'riz', 'mais', 'maïs', 'tomate', 'oignon', 'gombo', 'semis', 'engrais', 'recolte', 'récolte']):
         return (
-            "🌾 Pour vos cultures, voici l'essentiel du moment :\n\n"
-            "En hivernage, misez sur un sarclage précoce (15-20 jours après semis) et un bon apport organique. En contre-saison, préférez l'arrosage goutte-à-goutte aux heures fraîches pour l'oignon et la tomate.\n\n"
-            "Souhaitez-vous un conseil spécifique sur une variété ou sur vos parcelles ?"
+            "🌾 En ce moment pour tes cultures :\n"
+            "Assure un bon sarclage précoce (15-20 jours après semis) et veille à l'irrigation en goutte-à-goutte aux heures fraîches pour le maraîchage.\n\n"
+            "Tu souhaites un conseil sur une parcelle en particulier ?"
         )
 
     if any(w in cleaned for w in ['animal', 'animaux', 'vache', 'zebu', 'zébu', 'mouton', 'chevre', 'chèvre', 'vaccin', 'maladie', 'elevage', 'élevage', 'bellarine']):
         return (
-            "🐄 Pour la santé de votre cheptel :\n\n"
-            "Veillez à maintenir l'eau propre à volonté et complétez avec des tourteaux de coton et une pierre à sel minérale. Assurez-vous également que les vaccins de base (PPCB et charbon) sont à jour.\n\n"
-            "Un de vos animaux présente-t-il un symptôme particulier ?"
+            "🐄 Pour ton bétail :\n"
+            "Garde toujours de l'eau propre à volonté, complète avec un peu de tourteau de coton et une pierre à sel minérale, et vérifie que les vaccins sont à jour.\n\n"
+            "Une de tes bêtes a un souci de santé ?"
         )
 
     if any(w in cleaned for w in ['couveuse', 'couveuses', 'incubation', 'eclosion', 'éclosion', 'oeuf', 'œuf', 'mirage']):
         return (
-            "🥚 Pour réussir votre couvaison :\n\n"
-            "Maintenez une température stable à **37.8°C** et 55% d'humidité jusqu'au 18e jour avec retournement régulier. Pour l'éclosoir (J19 à J21), passez à **37.2°C** et 75% d'humidité sans retournement.\n\n"
-            "De quelle espèce d'œufs s'agit-il (poules, pintades ou dindes) ?"
+            "🥚 Pour la couveuse :\n"
+            "Garde 37.8°C et 55% d'humidité avec retournement jusqu'au 18e jour. Puis 37.2°C et 75% d'humidité sans retournement pour l'éclosion.\n\n"
+            "Tu as des poussins qui commencent à percer ?"
         )
 
     if any(w in cleaned for w in ['combien', 'mes culture', 'mes cultures', 'mes animaux', 'mes parcelle', 'mes parcelles', 'ma ferme', 'mon exploitation']):
         return (
-            "📊 **Aperçu rapide de votre ferme** :\n"
-            + user_context.replace("[CONTEXTE RÉEL DE L'EXPLOITATION", "**Données enregistrées")
-            + "\n\nQue souhaitez-vous mettre à jour ou analyser ?"
+            "📊 **Voici l'état actuel de ton exploitation** :\n"
+            + user_context.replace("[CONTEXTE RÉEL DE L'EXPLOITATION", "**Données")
+            + "\n\nTu veux modifier ou ajouter quelque chose ?"
         )
 
     return (
-        "🌱 Je suis à votre écoute pour vous conseiller simplement sur vos **cultures**, le **suivi de vos bêtes** ou vos **couveuses**.\n\n"
-        "Quelle est votre question du moment ?"
+        "🌱 Je suis là pour t'aider sur tes cultures, tes bêtes ou tes couveuses.\n\n"
+        "Dis-moi, quelle est ta question ?"
     )
 
 
