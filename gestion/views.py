@@ -272,6 +272,25 @@ def incubator_create(request):
 
 
 @login_required
+def incubator_update(request, pk):
+    incubator = Incubator.objects.get(pk=pk)
+    form = IncubatorForm(request.POST or None, instance=incubator)
+    if request.method == 'POST' and form.is_valid():
+        form.save()
+        messages.success(request, 'Incubation mise à jour.')
+        return redirect('incubators')
+    return render(request, 'gestion/couveuse_form.html', {'form': form, 'title': 'Modifier l’incubation'})
+
+
+@login_required
+def incubator_delete(request, pk):
+    incubator = Incubator.objects.get(pk=pk)
+    incubator.delete()
+    messages.success(request, 'Incubation supprimée.')
+    return redirect('incubators')
+
+
+@login_required
 def users_list(request):
     users = User.objects.select_related('profile').all()
     return render(request, 'gestion/users.html', {'users': users})

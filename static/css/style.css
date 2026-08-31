@@ -573,13 +573,30 @@ body {
     font-size: 1.15rem;
 }
 
-/* Data Cards */
+/* Data Cards & Info Boxes */
 .data-card {
     border-radius: 20px;
     border: 1px solid var(--border-color);
     background: var(--bg-card);
     transition: all 0.25s ease;
     box-shadow: var(--shadow-card);
+}
+
+.data-info-box,
+[data-theme="dark"] .bg-body-tertiary,
+.bg-body-tertiary {
+    background: rgba(255, 255, 255, 0.04) !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    border-radius: 14px;
+    padding: 0.85rem 1rem;
+    color: var(--text-current) !important;
+}
+
+[data-theme="light"] .data-info-box,
+[data-theme="light"] .bg-body-tertiary {
+    background: #f8fafc !important;
+    border: 1px solid #e2e8f0 !important;
+    color: #0f172a !important;
 }
 
 .data-card:hover {
