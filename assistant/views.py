@@ -6,6 +6,7 @@ from datetime import datetime
 from django.http import JsonResponse
 from django.shortcuts import render
 from django.views.decorators.http import require_GET, require_POST
+from django.views.decorators.csrf import csrf_exempt
 
 from gestion.models import Crop, Animal, Plot, Poultry, Incubator, Harvest, Season
 
@@ -25,7 +26,7 @@ def _get_user_farm_context(user):
         plots_summary = ", ".join([f"{p.name} ({p.area} ha, lieu: {p.location})" for p in plots[:5]]) or "Aucune parcelle enregistrée"
         incubators_summary = ", ".join([f"{i.eggs_count} œufs (statut: {i.status})" for i in incubators[:3]]) or "Aucune couveuse active"
 
-        username = getattr(user, 'username', 'Exploitant')
+        username = getattr(user, 'username', 'Visiteur / Exploitant')
         return f"""
 [CONTEXTE RÉEL DE L'EXPLOITATION ({username})] :
 - Cultures actives ({crops.count()}) : {crops_summary}
@@ -153,10 +154,10 @@ def _get_local_expert_reply(cleaned, user_context):
             "• Vous pouvez suivre vos lots en cours dans le menu **Couveuses**."
         )
 
-    if any(w in cleaned for w in ['bonjour', 'salut', 'bonsoir', 'kene', 'ani', 'hello', 'hi']):
+    if any(w in cleaned for w in ['bonjour', 'salut', 'bonsoir', 'kene', 'ani', 'hello', 'hi', 'cv', 'ca va', 'ça va']):
         return (
-            "👋 **I ni sogoma / Bonjour !**\n\n"
-            "Je suis **AgroSedam AI**, votre conseiller agronomique et vétérinaire. Comment puis-je vous aider sur vos parcelles, troupeaux ou couveuses aujourd'hui ?"
+            "👋 **I ni sogoma / Bonjour ! Tout va très bien, merci !**\n\n"
+            "Je suis **AgroSedam AI**, votre conseiller agronomique et d'élevage 24h/24. Comment puis-je vous aider sur vos cultures, animaux ou couveuses aujourd'hui ?"
         )
 
     return (
@@ -179,11 +180,9 @@ def assistant_chat(request):
     return render(request, 'assistant/chat.html')
 
 
+@csrf_exempt
 @require_POST
 def assistant_api(request):
-    if not request.user.is_authenticated:
-        return JsonResponse({'error': 'Authentification requise pour discuter avec l’assistant.'}, status=401)
-
     try:
         payload = json.loads(request.body.decode('utf-8') or '{}')
     except Exception:
@@ -200,7 +199,7 @@ def assistant_api(request):
         history = []
 
     # 1. Extraction du contexte de ferme
-    user_context = _get_user_farm_context(request.user)
+    user_context = _get_user_farm_context(getattr(request, 'user', None))
 
     # 2. Clé API lue depuis l'environnement
     api_key = os.getenv('GEMINI_API_KEY', '').strip() or os.getenv('AGROSSEDAM_AI_API_KEY', '').strip()
@@ -222,6 +221,4 @@ def assistant_api(request):
 
 @require_GET
 def assistant_history(request):
-    if not request.user.is_authenticated:
-        return JsonResponse({'error': 'Authentification requise.'}, status=401)
     return JsonResponse({'history': []})

@@ -267,31 +267,31 @@
 }
 
 /* ==========================================
-   VERSION MOBILE STYLE APPLE BOTTOM SHEET (< 992px)
+   VERSION MOBILE STYLE APPLE COMPACT CARD (< 992px)
    ========================================== */
 @media (max-width: 991.98px) {
     .assistant-widget {
-        bottom: calc(75px + env(safe-area-inset-bottom, 12px));
+        bottom: calc(72px + env(safe-area-inset-bottom, 12px));
         right: 14px;
     }
 
     .assistant-panel {
         position: fixed;
         top: auto;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        width: 100vw;
-        max-width: 100vw;
-        height: 82vh;
-        max-height: 85vh;
-        border-radius: 28px 28px 0 0;
-        border-left: none;
-        border-right: none;
-        border-bottom: none;
-        box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.6);
+        bottom: calc(68px + env(safe-area-inset-bottom, 10px));
+        left: 10px;
+        right: 10px;
+        margin: 0 auto;
+        width: calc(100vw - 20px);
+        max-width: 420px;
+        height: 60vh;
+        max-height: 490px;
+        min-height: 380px;
+        border-radius: 24px;
+        border: 1px solid var(--border-highlight, rgba(16, 185, 129, 0.35));
+        box-shadow: 0 16px 45px rgba(0, 0, 0, 0.45);
         z-index: 1090;
-        animation: mobileSheetSlideUp 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+        animation: mobilePanelSlideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     .assistant-sheet-handle {
@@ -303,8 +303,31 @@
         cursor: grab;
     }
 
-    @keyframes mobileSheetSlideUp {
-        from { transform: translateY(100%); }
-        to { transform: translateY(0); }
+    .assistant-messages {
+        padding: 0.85rem;
+    }
+
+    .assistant-header {
+        padding: 0.65rem 0.95rem;
+    }
+
+    .assistant-suggestions {
+        padding: 0.4rem 0.75rem;
+        gap: 0.35rem;
+    }
+
+    .assistant-suggestions button {
+        font-size: 0.76rem !important;
+        padding: 0.22rem 0.65rem !important;
+    }
+
+    .assistant-input-row {
+        padding: 0.5rem 0.75rem;
+        gap: 0.45rem;
+    }
+
+    @keyframes mobilePanelSlideUp {
+        from { transform: translateY(30px) scale(0.96); opacity: 0; }
+        to { transform: translateY(0) scale(1); opacity: 1; }
     }
 }
