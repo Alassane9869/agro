@@ -1,86 +1,101 @@
 {% extends 'base.html' %}
 {% load static %}
-{% block title %}Couveuses | AgroSedam{% endblock %}
+{% block title %}Couveuses & Incubations | AgroSedam{% endblock %}
 {% block content %}
-<div class="container py-5 page-transition">
-    <div class="section-header d-flex justify-content-between align-items-center flex-wrap gap-3 fade-in-up teal">
+<div class="container py-4 page-transition">
+    <!-- En-tête de section -->
+    <div class="section-header d-flex justify-content-between align-items-center flex-wrap gap-3 fade-in-up">
         <div>
-            <h2 class="mb-1"><i class="fas fa-egg me-2"></i>Gestion des incubations</h2>
-            <p>Suivi du nombre d'œufs incubés et des éclosions</p>
+            <h2 class="mb-1"><i class="fas fa-egg text-emerald me-2"></i>Gestion des incubations</h2>
+            <p>Suivi du nombre d'œufs incubés, mirage et alertes d'éclosion.</p>
         </div>
-        <a class="btn btn-light" href="{% url 'incubator_create' %}"><i class="fas fa-plus me-2"></i>Nouvelle incubation</a>
+        <a class="btn btn-emerald" href="{% url 'incubator_create' %}">
+            <i class="fas fa-plus me-1"></i> Nouvelle incubation
+        </a>
     </div>
 
+    <!-- Mini statistiques -->
     <div class="row g-3 mb-4 fade-in-up delay-1">
-        <div class="col-md-4">
+        <div class="col-12 col-md-4">
             <div class="mini-stat">
                 <div>
-                    <div class="mini-label">Total incubations</div>
-                    <div class="mini-value">{{ incubators|length }}</div>
+                    <div class="mini-label">Lots en incubation</div>
+                    <div class="mini-value text-emerald">{{ incubators|length }}</div>
                 </div>
-                <div class="icon-circle teal"><i class="fas fa-egg"></i></div>
+                <div class="icon-circle"><i class="fas fa-egg"></i></div>
             </div>
         </div>
-        <div class="col-md-4">
+        <div class="col-12 col-md-4">
             <div class="mini-stat">
                 <div>
-                    <div class="mini-label">Œufs incubés</div>
-                    <div class="mini-value">
-                        {% with total=0 %}
-                        {% for inc in incubators %}{% if forloop.first %}{{ inc.eggs_count|add:0 }}{% endif %}{% endfor %}
-                        {% endwith %}
-                    </div>
+                    <div class="mini-label">Suivi actif</div>
+                    <div class="mini-value text-warning" style="font-size:1.4rem;">En cours</div>
                 </div>
-                <div class="icon-circle green"><i class="fas fa-drumstick-bite"></i></div>
+                <div class="icon-circle"><i class="fas fa-temperature-arrow-up"></i></div>
             </div>
         </div>
-        <div class="col-md-4">
+        <div class="col-12 col-md-4">
             <div class="mini-stat">
                 <div>
-                    <div class="mini-label">Statut</div>
-                    <div class="mini-value" style="font-size:1.1rem;">Suivi actif</div>
+                    <div class="mini-label">Assistant IA Éclosion</div>
+                    <div class="mini-value text-teal" style="font-size:1.4rem;">Disponible</div>
                 </div>
-                <div class="icon-circle blue"><i class="fas fa-chart-line"></i></div>
+                <div class="icon-circle"><i class="fas fa-robot"></i></div>
             </div>
         </div>
     </div>
 
-    <div class="row g-4 fade-in-up delay-2">
+    <!-- Grille des Incubations -->
+    <div class="row g-3 g-md-4 fade-in-up delay-2">
         {% for incubator in incubators %}
-        <div class="col-md-6 col-lg-4">
-            <div class="data-card h-100">
-                <div class="card-body p-4">
+        <div class="col-12 col-md-6 col-lg-4">
+            <div class="data-card glass-card h-100 p-4 d-flex flex-column justify-content-between">
+                <div>
                     <div class="d-flex justify-content-between align-items-start mb-3">
-                        <div class="card-icon teal"><i class="fas fa-egg"></i></div>
-                        <span class="status-badge info"><i class="fas fa-clock me-1"></i>{{ incubator.status }}</span>
-                    </div>
-                    <h4 class="fw-bold mb-1">{{ incubator.eggs_count }} <span class="fs-6 text-muted">œufs incubés</span></h4>
-                    <p class="text-muted small mb-3">Incubation du {{ incubator.incubation_date }}</p>
-                    <div class="d-flex flex-column gap-2 mb-3">
-                        <div class="d-flex align-items-center gap-2">
-                            <i class="fas fa-calendar-check text-teal"></i>
-                            <span class="small"><strong>Éclosion :</strong> {{ incubator.hatch_date|default:"Non définie" }}</span>
+                        <div class="card-icon-wrapper">
+                            <i class="fas fa-egg text-warning fs-5"></i>
                         </div>
-                        {% if incubator.notes %}
-                        <div class="d-flex align-items-center gap-2">
-                            <i class="fas fa-sticky-note text-warning"></i>
-                            <span class="small"><strong>Remarques :</strong> {{ incubator.notes }}</span>
-                        </div>
-                        {% endif %}
+                        <span class="status-badge info">
+                            <i class="fas fa-clock me-1"></i>{{ incubator.status }}
+                        </span>
                     </div>
-                    <div class="pt-3 border-top">
-                        <small class="text-muted"><i class="fas fa-clock me-1"></i>{{ incubator.created_at|timesince }}</small>
+                    <h4 class="fw-bold text-current mb-1">{{ incubator.eggs_count }} <span class="fs-6 text-muted">œufs</span></h4>
+                    <p class="text-muted small mb-3">Lancé le {{ incubator.incubation_date }}</p>
+                    
+                    <div class="d-flex flex-column gap-2 mb-3 bg-body-tertiary p-3 rounded-3 small">
+                        <div class="d-flex align-items-center justify-content-between">
+                            <span class="text-muted"><i class="fas fa-calendar-check text-emerald me-1"></i> Éclosion prévue :</span>
+                            <span class="fw-bold text-current">{{ incubator.hatch_date|default:"Non définie" }}</span>
+                        </div>
+                        <div class="d-flex align-items-center justify-content-between">
+                            <span class="text-muted"><i class="fas fa-kiwi-bird text-warning me-1"></i> Taux d'éclosion :</span>
+                            <span class="fw-bold text-current">{{ incubator.hatched_count|default:"0" }} poussins</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="pt-3 border-top border-secondary border-opacity-10 d-flex justify-content-between align-items-center">
+                    <span class="badge bg-emerald-subtle text-emerald px-2 py-1 rounded-pill small">{{ incubator.status }}</span>
+                    <div class="d-flex gap-1">
+                        <a class="btn btn-sm btn-outline-emerald py-1 px-3" href="{% url 'incubator_update' incubator.pk %}" title="Modifier">
+                            <i class="fas fa-edit me-1"></i> Modifier
+                        </a>
+                        <a class="btn btn-sm btn-outline-danger py-1 px-2" href="{% url 'incubator_delete' incubator.pk %}" title="Supprimer">
+                            <i class="fas fa-trash"></i>
+                        </a>
                     </div>
                 </div>
             </div>
         </div>
         {% empty %}
         <div class="col-12">
-            <div class="empty-state fade-in-up">
-                <i class="fas fa-egg text-success"></i>
-                <h4>Aucune incubation enregistrée</h4>
-                <p>Commencez par créer votre première incubation pour suivre vos œufs.</p>
-                <a class="btn btn-success btn-lg" href="{% url 'incubator_create' %}"><i class="fas fa-plus me-2"></i>Commencer une incubation</a>
+            <div class="empty-state fade-in-up p-5 text-center">
+                <i class="fas fa-egg text-warning fs-1 mb-3"></i>
+                <h4 class="fw-bold text-current mb-2">Aucune incubation en cours</h4>
+                <p class="text-muted mb-4">Ajoutez un premier lot d'œufs pour suivre le calendrier d'incubation.</p>
+                <a class="btn btn-emerald" href="{% url 'incubator_create' %}">
+                    <i class="fas fa-plus me-2"></i> Lancer une incubation
+                </a>
             </div>
         </div>
         {% endfor %}
