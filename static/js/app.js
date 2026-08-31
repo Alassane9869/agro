@@ -37,7 +37,7 @@ document.addEventListener('DOMContentLoaded', () => {
   window.addEventListener('scroll', handleScroll, { passive: true });
 
   const chartCanvas = document.getElementById('activity-chart') || document.getElementById('operationsChart');
-  if (chartCanvas) {
+  if (chartCanvas && typeof Chart !== 'undefined') {
     const ctx = chartCanvas.getContext('2d');
     const readData = (attr) => Number(chartCanvas.dataset[attr] || 0);
     const chartData = [
@@ -48,22 +48,60 @@ document.addEventListener('DOMContentLoaded', () => {
       readData('incubators'),
       readData('harvests'),
     ];
+    
     new Chart(ctx, {
       type: 'bar',
       data: {
         labels: ['Cultures', 'Animaux', 'Parcelles', 'Volailles', 'Incubations', 'Récoltes'],
         datasets: [{
-          label: 'Activités',
+          label: 'Activités enregistrées',
           data: chartData,
-          backgroundColor: ['#2E7D32', '#4CAF50', '#A5D6A7', '#F9A825', '#14B8A6', '#F59E0B'],
-          borderRadius: 12
+          backgroundColor: [
+            'rgba(16, 185, 129, 0.85)',
+            'rgba(13, 148, 136, 0.85)',
+            'rgba(59, 130, 246, 0.85)',
+            'rgba(245, 158, 11, 0.85)',
+            'rgba(139, 92, 246, 0.85)',
+            'rgba(236, 72, 153, 0.85)'
+          ],
+          borderColor: [
+            '#10b981',
+            '#0d9488',
+            '#3b82f6',
+            '#f59e0b',
+            '#8b5cf6',
+            '#ec4899'
+          ],
+          borderWidth: 1,
+          borderRadius: 8
         }]
       },
       options: {
         responsive: true,
         maintainAspectRatio: false,
-        plugins: { legend: { display: false } },
-        scales: { y: { beginAtZero: true } }
+        plugins: { 
+          legend: { display: false },
+          tooltip: {
+            backgroundColor: 'rgba(15, 23, 42, 0.95)',
+            titleColor: '#fff',
+            bodyColor: '#cbd5e1',
+            borderColor: 'rgba(16, 185, 129, 0.3)',
+            borderWidth: 1,
+            padding: 12,
+            cornerRadius: 10
+          }
+        },
+        scales: { 
+          x: {
+            grid: { color: 'rgba(255, 255, 255, 0.05)' },
+            ticks: { color: '#94a3b8', font: { family: 'Plus Jakarta Sans', weight: '600' } }
+          },
+          y: { 
+            beginAtZero: true,
+            grid: { color: 'rgba(255, 255, 255, 0.05)' },
+            ticks: { color: '#94a3b8', font: { family: 'Plus Jakarta Sans' }, precision: 0 }
+          } 
+        }
       }
     });
   }

@@ -1,5 +1,5 @@
 /* ==============================================================================
-   AGROSEDAM - FEUILLE DE STYLE MODERNE, ULTRA-RESPONSIVE & PREMIUM (v3.5)
+   AGROSEDAM - FEUILLE DE STYLE MODERNE, ULTRA-RESPONSIVE & PREMIUM (v3.6)
    ============================================================================== */
 
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
@@ -85,6 +85,7 @@ body {
 .text-teal { color: var(--teal) !important; }
 .bg-emerald { background-color: var(--emerald) !important; color: #fff !important; }
 .bg-emerald-subtle { background-color: var(--primary-light) !important; border: 1px solid var(--border-highlight); }
+.bg-success-subtle { background-color: rgba(16, 185, 129, 0.15) !important; color: var(--emerald-light) !important; border: 1px solid rgba(16, 185, 129, 0.3); }
 
 /* Glassmorphism Universel */
 .glass-card {
@@ -121,6 +122,29 @@ body {
     color: var(--text-muted);
     margin-bottom: 0;
     font-size: 0.95rem;
+}
+
+/* Activity Feed (Dashboard) */
+.activity-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 0.85rem 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.activity-item:last-child {
+    border-bottom: none;
+}
+
+.activity-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--emerald);
+    box-shadow: 0 0 10px var(--emerald);
+    margin-top: 6px;
+    flex-shrink: 0;
 }
 
 /* Status Badges */
@@ -477,6 +501,38 @@ body {
     background: var(--emerald);
     color: #fff !important;
     transform: translateY(-2px);
+}
+
+.btn-light {
+    background: rgba(255, 255, 255, 0.9);
+    color: #0f172a !important;
+    border: none;
+}
+
+.btn-light:hover {
+    background: #fff;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(255, 255, 255, 0.3);
+}
+
+.btn-outline-success {
+    border-color: var(--emerald);
+    color: var(--emerald-light) !important;
+}
+
+.btn-outline-success:hover {
+    background: var(--emerald);
+    color: #fff !important;
+}
+
+.btn-outline-danger {
+    border-color: rgba(239, 68, 68, 0.5);
+    color: #f87171 !important;
+}
+
+.btn-outline-danger:hover {
+    background: #ef4444;
+    color: #fff !important;
 }
 
 /* Contenu Principal */
