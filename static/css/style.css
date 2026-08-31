@@ -1,5 +1,5 @@
 /* ==============================================================================
-   AGROSEDAM - FEUILLE DE STYLE MODERNE, ULTRA-RESPONSIVE, MULTI-THÈME & PWA (v4.2)
+   AGROSEDAM - FEUILLE DE STYLE MODERNE, ULTRA-RESPONSIVE, MULTI-THÈME & PWA (v5.0)
    ============================================================================== */
 
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
@@ -12,9 +12,9 @@
     --bg-surface: #0f172a;
     --bg-card: rgba(15, 23, 42, 0.85);
     --bg-card-hover: rgba(22, 33, 56, 0.95);
-    --bg-input: rgba(15, 23, 42, 0.85);
-    --bg-input-focus: rgba(15, 23, 42, 0.98);
-    --bg-nav: rgba(9, 14, 23, 0.9);
+    --bg-input: rgba(15, 23, 42, 0.9);
+    --bg-input-focus: rgba(15, 23, 42, 1);
+    --bg-nav: rgba(9, 14, 23, 0.92);
     
     --primary: #10b981;
     --primary-hover: #059669;
@@ -29,6 +29,7 @@
     
     --text-main: #f8fafc;
     --text-current: #ffffff;
+    --text-heading: #ffffff;
     --text-muted: #cbd5e1;
     --text-dim: #94a3b8;
     
@@ -46,21 +47,21 @@
 }
 
 /* ==========================================
-   2. THÈME CLAIR (LIGHT MODE - DESIGN ÉPURÉ)
+   2. THÈME CLAIR (LIGHT MODE - ULTRA LISIBLE & ÉPURÉ)
    ========================================== */
 [data-theme="light"] {
-    --bg-main: #f8fafc;
+    --bg-main: #f1f5f9;
     --bg-surface: #ffffff;
     --bg-card: #ffffff;
-    --bg-card-hover: #f1f5f9;
+    --bg-card-hover: #f8fafc;
     --bg-input: #ffffff;
     --bg-input-focus: #ffffff;
-    --bg-nav: rgba(255, 255, 255, 0.92);
+    --bg-nav: rgba(255, 255, 255, 0.95);
     
     --primary: #059669;
     --primary-hover: #047857;
     --primary-light: rgba(16, 185, 129, 0.12);
-    --primary-glow: rgba(16, 185, 129, 0.25);
+    --primary-glow: rgba(16, 185, 129, 0.2);
     
     --emerald: #059669;
     --emerald-light: #10b981;
@@ -70,31 +71,243 @@
     
     --text-main: #0f172a;
     --text-current: #0f172a;
+    --text-heading: #0f172a;
     --text-muted: #475569;
     --text-dim: #64748b;
     
-    --border-color: rgba(15, 23, 42, 0.08);
-    --border-highlight: rgba(16, 185, 129, 0.4);
+    --border-color: #e2e8f0;
+    --border-highlight: rgba(16, 185, 129, 0.5);
     
-    --shadow-subtle: 0 4px 15px rgba(0, 0, 0, 0.05);
-    --shadow-card: 0 10px 25px -4px rgba(15, 23, 42, 0.08);
-    --shadow-glow: 0 0 25px rgba(16, 185, 129, 0.15);
+    --shadow-subtle: 0 2px 10px rgba(0, 0, 0, 0.04);
+    --shadow-card: 0 8px 24px -4px rgba(15, 23, 42, 0.08);
+    --shadow-glow: 0 0 20px rgba(16, 185, 129, 0.15);
 
     --bg-gradient-pattern: 
-        radial-gradient(at 0% 0%, rgba(16, 185, 129, 0.08) 0px, transparent 50%),
-        radial-gradient(at 100% 100%, rgba(13, 148, 136, 0.06) 0px, transparent 50%),
-        radial-gradient(at 50% 50%, rgba(241, 245, 249, 0.7) 0px, transparent 100%);
+        radial-gradient(at 0% 0%, rgba(16, 185, 129, 0.07) 0px, transparent 50%),
+        radial-gradient(at 100% 100%, rgba(13, 148, 136, 0.05) 0px, transparent 50%),
+        radial-gradient(at 50% 50%, rgba(241, 245, 249, 0.8) 0px, transparent 100%);
 }
 
 /* ==========================================
-   3. BASE & OPTIMISATIONS APPLE iOS & PWA
+   3. SÉCURITÉ CONTRASTE UNIVERSELLE MODE JOUR
+   ========================================== */
+[data-theme="light"] h1,
+[data-theme="light"] h2:not(.cta-banner *),
+[data-theme="light"] h3:not(.cta-banner *),
+[data-theme="light"] h4:not(.cta-banner *),
+[data-theme="light"] h5:not(.cta-banner *),
+[data-theme="light"] h6:not(.cta-banner *),
+[data-theme="light"] .hero-title,
+[data-theme="light"] .text-white:not(.btn-emerald):not(.badge.bg-emerald):not(.cta-banner *):not(.assistant-header *) {
+    color: #0f172a !important;
+}
+
+[data-theme="light"] .text-muted {
+    color: #475569 !important;
+}
+
+[data-theme="light"] .hero-lead {
+    color: #334155 !important;
+}
+
+[data-theme="light"] .hero-badges span {
+    background: #ffffff !important;
+    border: 1px solid #cbd5e1 !important;
+    color: #1e293b !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+[data-theme="light"] .feature-card {
+    background: #f8fafc !important;
+    border: 1px solid #e2e8f0 !important;
+    color: #0f172a !important;
+}
+
+[data-theme="light"] .feature-card span {
+    color: #0f172a !important;
+}
+
+[data-theme="light"] .data-card,
+[data-theme="light"] .glass-card:not(.cta-banner),
+[data-theme="light"] .card:not(.cta-banner),
+[data-theme="light"] .mini-stat,
+[data-theme="light"] .section-header {
+    background: #ffffff !important;
+    border: 1px solid #e2e8f0 !important;
+    color: #0f172a !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+}
+
+[data-theme="light"] .mini-stat .mini-value {
+    color: #0f172a !important;
+}
+
+[data-theme="light"] .mini-stat .mini-label {
+    color: #64748b !important;
+}
+
+[data-theme="light"] .data-card:hover,
+[data-theme="light"] .glass-card:hover,
+[data-theme="light"] .mini-stat:hover {
+    background: #f8fafc !important;
+    border-color: var(--primary) !important;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08) !important;
+}
+
+[data-theme="light"] .table th {
+    background: #f8fafc !important;
+    color: #334155 !important;
+    border-bottom: 2px solid #e2e8f0 !important;
+    font-weight: 700 !important;
+}
+
+[data-theme="light"] .table td {
+    background: #ffffff !important;
+    color: #0f172a !important;
+    border-bottom: 1px solid #f1f5f9 !important;
+}
+
+[data-theme="light"] .table tr:hover td {
+    background: #f8fafc !important;
+}
+
+[data-theme="light"] .form-control,
+[data-theme="light"] .form-select,
+[data-theme="light"] .generic-styled-form input,
+[data-theme="light"] .generic-styled-form select,
+[data-theme="light"] .generic-styled-form textarea,
+[data-theme="light"] .form-card input,
+[data-theme="light"] .form-card select,
+[data-theme="light"] .form-card textarea {
+    background: #ffffff !important;
+    border: 1px solid #cbd5e1 !important;
+    color: #0f172a !important;
+}
+
+[data-theme="light"] .form-control:focus,
+[data-theme="light"] .form-select:focus,
+[data-theme="light"] .generic-styled-form input:focus {
+    border-color: var(--primary) !important;
+    background: #ffffff !important;
+    box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.2) !important;
+}
+
+[data-theme="light"] .form-label,
+[data-theme="light"] .generic-styled-form label,
+[data-theme="light"] .form-card label {
+    color: #1e293b !important;
+    font-weight: 600 !important;
+}
+
+[data-theme="light"] .auth-card {
+    background: #ffffff !important;
+    border: 1px solid #e2e8f0 !important;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08) !important;
+}
+
+[data-theme="light"] .demo-box {
+    background: #f8fafc !important;
+    border: 1px solid #e2e8f0 !important;
+}
+
+[data-theme="light"] .demo-box div {
+    color: #0f172a !important;
+}
+
+[data-theme="light"] .empty-state {
+    background: #ffffff !important;
+    border: 2px dashed #cbd5e1 !important;
+}
+
+[data-theme="light"] .empty-state h4 {
+    color: #0f172a !important;
+}
+
+[data-theme="light"] .empty-state p {
+    color: #475569 !important;
+}
+
+[data-theme="light"] .activity-item {
+    border-bottom: 1px solid #f1f5f9 !important;
+}
+
+[data-theme="light"] .activity-item p {
+    color: #0f172a !important;
+}
+
+[data-theme="light"] .glass-dropdown {
+    background: #ffffff !important;
+    border: 1px solid #e2e8f0 !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1) !important;
+}
+
+[data-theme="light"] .dropdown-item {
+    color: #334155 !important;
+}
+
+[data-theme="light"] .dropdown-item:hover {
+    background: #f1f5f9 !important;
+    color: #0f172a !important;
+}
+
+[data-theme="light"] .assistant-messages {
+    background: #f8fafc !important;
+}
+
+[data-theme="light"] .assistant-bubble.assistant {
+    background: #ffffff !important;
+    color: #0f172a !important;
+    border: 1px solid #e2e8f0 !important;
+}
+
+[data-theme="light"] .assistant-suggestions,
+[data-theme="light"] .assistant-input-row {
+    background: #ffffff !important;
+    border-top: 1px solid #e2e8f0 !important;
+}
+
+[data-theme="light"] .assistant-input-row input {
+    background: #f1f5f9 !important;
+    color: #0f172a !important;
+    border: 1px solid #cbd5e1 !important;
+}
+
+[data-theme="light"] .pwa-install-banner {
+    background: #ffffff !important;
+    border: 1px solid #e2e8f0 !important;
+    color: #0f172a !important;
+}
+
+[data-theme="light"] .btn-light {
+    background: #f1f5f9 !important;
+    color: #0f172a !important;
+    border: 1px solid #cbd5e1 !important;
+}
+
+[data-theme="light"] .btn-light:hover {
+    background: #e2e8f0 !important;
+    color: #0f172a !important;
+}
+
+[data-theme="light"] .btn-outline-light {
+    border-color: var(--primary) !important;
+    color: var(--primary) !important;
+    background: transparent !important;
+}
+
+[data-theme="light"] .btn-outline-light:hover {
+    background: var(--primary) !important;
+    color: #ffffff !important;
+}
+
+/* ==========================================
+   4. BASE & STYLES GLOBAUX
    ========================================== */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
     -webkit-tap-highlight-color: transparent;
-    -webkit-touch-callout: none;
 }
 
 html {
@@ -104,7 +317,7 @@ html {
 }
 
 body {
-    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     background-color: var(--bg-main);
     background-image: var(--bg-gradient-pattern);
     background-attachment: fixed;
@@ -114,10 +327,10 @@ body {
     display: flex;
     flex-direction: column;
     padding-bottom: env(safe-area-inset-bottom, 0px);
-    transition: background-color 0.3s ease, color 0.3s ease;
+    transition: background-color 0.25s ease, color 0.25s ease;
 }
 
-/* Typographie & Utilitaires */
+/* Typographie & Couleurs */
 .text-current { color: var(--text-current) !important; }
 .text-muted { color: var(--text-muted) !important; }
 .text-dim { color: var(--text-dim) !important; }
@@ -127,16 +340,7 @@ body {
 .text-teal { color: var(--teal) !important; }
 .bg-emerald { background-color: var(--emerald) !important; color: #fff !important; }
 .bg-emerald-subtle { background-color: var(--primary-light) !important; border: 1px solid var(--border-highlight); }
-.bg-success-subtle { background-color: rgba(16, 185, 129, 0.15) !important; color: var(--emerald-light) !important; border: 1px solid rgba(16, 185, 129, 0.3); }
-
-/* Surcharges Bootstrap Thématiques */
-.card {
-    background-color: var(--bg-card) !important;
-    border: 1px solid var(--border-color) !important;
-    color: var(--text-main) !important;
-    border-radius: 20px !important;
-    box-shadow: var(--shadow-card);
-}
+.bg-success-subtle { background-color: rgba(16, 185, 129, 0.15) !important; color: var(--emerald) !important; border: 1px solid rgba(16, 185, 129, 0.3); }
 
 /* Glassmorphism Universel */
 .glass-card {
@@ -154,7 +358,7 @@ body {
     box-shadow: var(--shadow-card), var(--shadow-glow);
 }
 
-/* Navbar Adaptative */
+/* Navbar */
 .navbar-glass {
     background: var(--bg-nav);
     backdrop-filter: blur(20px);
@@ -198,7 +402,7 @@ body {
     background: var(--primary-light);
 }
 
-/* Boutons Bascule Thème Jour / Nuit & PWA */
+/* Boutons Thème & PWA */
 .btn-theme-toggle, .btn-pwa-install {
     width: 40px;
     height: 40px;
@@ -233,7 +437,7 @@ body {
     text-decoration: none;
 }
 
-/* Bannière PWA Intelligente Flottante */
+/* Bannière PWA Flottante */
 .pwa-install-banner {
     position: fixed;
     bottom: max(20px, env(safe-area-inset-bottom, 20px));
@@ -253,7 +457,7 @@ body {
     to { opacity: 1; transform: translateY(0); }
 }
 
-/* Avatars Utilisateurs */
+/* Avatars */
 .user-avatar-sm {
     width: 34px;
     height: 34px;
@@ -314,7 +518,7 @@ body {
     box-shadow: 0 0 0 3px var(--primary-light);
 }
 
-/* Boutons Apple & Ergonomiques */
+/* Boutons */
 .btn {
     font-weight: 600;
     border-radius: 9999px;
@@ -349,18 +553,6 @@ body {
     background: var(--emerald);
     color: #fff !important;
     transform: translateY(-2px);
-}
-
-.btn-light {
-    background: rgba(255, 255, 255, 0.95);
-    color: #0f172a !important;
-    border: 1px solid var(--border-color);
-}
-
-.btn-light:hover {
-    background: #fff;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 
 /* En-tête de section */
@@ -438,7 +630,7 @@ body {
     border-radius: 10px;
 }
 
-/* Data Cards (Modules & Entités) */
+/* Data Cards */
 .data-card {
     border-radius: 22px;
     border: 1px solid var(--border-color);
@@ -576,7 +768,10 @@ body {
 .form-control, .form-select,
 .generic-styled-form input,
 .generic-styled-form select,
-.generic-styled-form textarea {
+.generic-styled-form textarea,
+.form-card input,
+.form-card select,
+.form-card textarea {
     background: var(--bg-input) !important;
     border: 1px solid var(--border-color) !important;
     color: var(--text-current) !important;
@@ -589,15 +784,14 @@ body {
 
 .form-control:focus, .form-select:focus,
 .generic-styled-form input:focus,
-.generic-styled-form select:focus,
-.generic-styled-form textarea:focus {
+.form-card input:focus {
     border-color: var(--primary) !important;
     box-shadow: 0 0 0 3px var(--primary-light) !important;
     background: var(--bg-input-focus) !important;
     outline: none;
 }
 
-.form-label {
+.form-label, .generic-styled-form label, .form-card label {
     font-weight: 600;
     font-size: 0.9rem;
     color: var(--text-muted);
