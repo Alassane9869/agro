@@ -1,69 +1,45 @@
 {% extends 'base.html' %}
 {% load static %}
-{% block title %}Accueil | AgroSedam{% endblock %}
+{% block title %}Accueil | AgroSedam - Gestion Agropastorale au Mali & Sahel{% endblock %}
 {% block content %}
 
-<!-- Hero Section -->
+<!-- Hero Section avec Visuel Pro Authentique -->
 <section class="hero-section">
     <div class="container hero-content py-4">
         <div class="row align-items-center g-5">
             <div class="col-lg-7">
                 <span class="hero-pill fade-in-up">
-                    <i class="fas fa-sparkles text-emerald me-2"></i>Gestion Agropastorale Intelligente
+                    <i class="fas fa-location-dot text-emerald me-2"></i>Adapté aux réalités agropastorales du Mali & du Sahel
                 </span>
                 <h1 class="hero-title my-3 fade-in-up delay-1">
-                    Pilotez votre exploitation avec une expérience <span class="text-emerald">premium</span>.
+                    Modernisez votre exploitation avec <span class="text-emerald">AgroSedam</span>.
                 </h1>
                 <p class="hero-lead fade-in-up delay-2">
-                    Centralisez cultures, élevage, aviculture et couveuses dans une plateforme moderne, intuitive et ultra-rapide.
+                    La première solution tout-en-un conçue pour les producteurs agricoles, éleveurs et aviculteurs sahéliens. Gérez vos cultures, cheptels, couveuses et récoltes en toute simplicité.
                 </p>
                 <div class="d-flex gap-3 flex-wrap mt-4 fade-in-up delay-3">
                     <a class="btn btn-emerald btn-lg px-4 shadow-lg" href="{% url 'signup' %}">
                         <i class="fas fa-user-plus me-1"></i> Créer un compte
                     </a>
                     <a class="btn btn-outline-light btn-lg px-4" href="{% url 'dashboard' %}">
-                        <i class="fas fa-chart-line me-1"></i> Voir le tableau de bord
+                        <i class="fas fa-chart-line me-1"></i> Accéder au tableau de bord
                     </a>
                 </div>
                 <div class="hero-badges fade-in-up delay-4">
-                    <span><i class="fas fa-check-circle"></i> Suivi en temps réel</span>
-                    <span><i class="fas fa-check-circle"></i> Notifications intelligentes</span>
-                    <span><i class="fas fa-check-circle"></i> 100% Responsive</span>
+                    <span><i class="fas fa-check-circle"></i> Suivi des campagnes & hivernage</span>
+                    <span><i class="fas fa-check-circle"></i> Santé animale & vaccins</span>
+                    <span><i class="fas fa-check-circle"></i> Couvaison & ponte en temps réel</span>
                 </div>
             </div>
+            
             <div class="col-lg-5">
-                <div class="hero-panel glass-card p-4 fade-in-up delay-2">
-                    <div class="d-flex align-items-center justify-content-between mb-4">
+                <div class="hero-visual-card glass-card p-2 fade-in-up delay-2 position-relative overflow-hidden">
+                    <img src="{% static 'images/hero_mali.jpg' %}" alt="Exploitation agricole moderne au Mali" class="img-fluid rounded-4 shadow-lg w-100" style="object-fit: cover; max-height: 380px;">
+                    <div class="hero-floating-badge glass-card px-3 py-2 position-absolute bottom-0 start-0 m-3 d-flex align-items-center gap-2">
+                        <i class="fas fa-solar-panel text-emerald fs-5"></i>
                         <div>
-                            <span class="text-muted small text-uppercase tracking-wider">Pourquoi nous choisir</span>
-                            <h4 class="fw-bold mb-0 text-white">Fonctionnalités clés</h4>
-                        </div>
-                        <span class="badge bg-emerald-subtle text-emerald px-3 py-2 rounded-pill font-monospace">+4 modules</span>
-                    </div>
-                    <div class="row g-3">
-                        <div class="col-6">
-                            <div class="feature-card p-3 rounded-3 d-flex align-items-center gap-3">
-                                <div class="icon-circle small"><i class="fas fa-seedling text-emerald"></i></div>
-                                <span class="fw-semibold text-white">Cultures</span>
-                            </div>
-                        </div>
-                        <div class="col-6">
-                            <div class="feature-card p-3 rounded-3 d-flex align-items-center gap-3">
-                                <div class="icon-circle small"><i class="fas fa-cow text-emerald"></i></div>
-                                <span class="fw-semibold text-white">Élevage</span>
-                            </div>
-                        </div>
-                        <div class="col-6">
-                            <div class="feature-card p-3 rounded-3 d-flex align-items-center gap-3">
-                                <div class="icon-circle small"><i class="fas fa-feather text-emerald"></i></div>
-                                <span class="fw-semibold text-white">Aviculture</span>
-                            </div>
-                        </div>
-                        <div class="col-6">
-                            <div class="feature-card p-3 rounded-3 d-flex align-items-center gap-3">
-                                <div class="icon-circle small"><i class="fas fa-egg text-emerald"></i></div>
-                                <span class="fw-semibold text-white">Couveuses</span>
-                            </div>
+                            <div class="small fw-bold text-white">Irrigation & Énergie Solaire</div>
+                            <div class="text-dim extra-small">Contrôle des parcelles à distance</div>
                         </div>
                     </div>
                 </div>
@@ -72,14 +48,14 @@
     </div>
 </section>
 
-<!-- Compteurs Statistiques -->
+<!-- Compteurs Statistiques en Temps Réel -->
 <section class="container py-4">
     <div class="row g-3 fade-in-up">
         <div class="col-xl-3 col-md-6">
             <div class="mini-stat">
                 <div>
-                    <div class="mini-label">Cultures</div>
-                    <div class="mini-value">{{ crops }}</div>
+                    <div class="mini-label">Cultures enregistrées</div>
+                    <div class="mini-value text-emerald">{{ crops }}</div>
                 </div>
                 <div class="icon-circle"><i class="fas fa-wheat-awn"></i></div>
             </div>
@@ -87,8 +63,8 @@
         <div class="col-xl-3 col-md-6">
             <div class="mini-stat">
                 <div>
-                    <div class="mini-label">Animaux</div>
-                    <div class="mini-value">{{ animals }}</div>
+                    <div class="mini-label">Têtes de bétail</div>
+                    <div class="mini-value text-teal">{{ animals }}</div>
                 </div>
                 <div class="icon-circle"><i class="fas fa-cow"></i></div>
             </div>
@@ -96,8 +72,8 @@
         <div class="col-xl-3 col-md-6">
             <div class="mini-stat">
                 <div>
-                    <div class="mini-label">Parcelles</div>
-                    <div class="mini-value">{{ plots }}</div>
+                    <div class="mini-label">Parcelles suivies</div>
+                    <div class="mini-value text-info">{{ plots }}</div>
                 </div>
                 <div class="icon-circle"><i class="fas fa-map"></i></div>
             </div>
@@ -105,8 +81,8 @@
         <div class="col-xl-3 col-md-6">
             <div class="mini-stat">
                 <div>
-                    <div class="mini-label">Incubations</div>
-                    <div class="mini-value">{{ incubators }}</div>
+                    <div class="mini-label">Lots en incubation</div>
+                    <div class="mini-value text-warning">{{ incubators }}</div>
                 </div>
                 <div class="icon-circle"><i class="fas fa-egg"></i></div>
             </div>
@@ -114,12 +90,101 @@
     </div>
 </section>
 
-<!-- Modules de Gestion -->
+<!-- Section Présentation des Pôles avec Photos Locales Authentiques -->
+<section class="container py-5">
+    <div class="text-center max-w-700 mx-auto mb-5 fade-in-up">
+        <span class="badge bg-emerald-subtle text-emerald px-3 py-2 rounded-pill font-monospace mb-2">Pôles d'expertise</span>
+        <h2 class="display-6 fw-bold text-white">Une couverture complète de vos activités</h2>
+        <p class="text-muted">Des outils sur-mesure pour chaque branche de votre exploitation agropastorale.</p>
+    </div>
+
+    <!-- Pôle 1 : Élevage Sahélien -->
+    <div class="row align-items-center g-5 mb-5 fade-in-up">
+        <div class="col-lg-6 order-lg-2">
+            <div class="glass-card p-2 rounded-4 overflow-hidden shadow-lg">
+                <img src="{% static 'images/elevage_mali.jpg' %}" alt="Élevage de zébus et moutons au Sahel" class="img-fluid rounded-3 w-100" style="object-fit: cover; max-height: 350px;">
+            </div>
+        </div>
+        <div class="col-lg-6 order-lg-1">
+            <div class="d-inline-flex align-items-center gap-2 px-3 py-1 rounded-pill bg-emerald-subtle text-emerald small fw-bold mb-3">
+                <i class="fas fa-shield-dog"></i> Santé & Reproduction
+            </div>
+            <h3 class="fw-bold text-white mb-3">Pôle Élevage & Gestion du Cheptel</h3>
+            <p class="text-muted mb-4">
+                Identifiez chaque tête (Zébu Peul, Goudali, Mouton Balibali, Chèvre du Sahel), suivez les courbes de poids, programmez les vaccins (BCG, Pasteurellose, Péripneumonie) et maîtrisez l'alimentation du troupeau.
+            </p>
+            <div class="row g-3">
+                <div class="col-6">
+                    <div class="d-flex align-items-center gap-2 text-white small">
+                        <i class="fas fa-check text-emerald"></i> Fiches d'animaux individuelles
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="d-flex align-items-center gap-2 text-white small">
+                        <i class="fas fa-check text-emerald"></i> Alertes vétérinaires
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="d-flex align-items-center gap-2 text-white small">
+                        <i class="fas fa-check text-emerald"></i> Gestion des naissances
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="d-flex align-items-center gap-2 text-white small">
+                        <i class="fas fa-check text-emerald"></i> Suivi des pâturages
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pôle 2 : Aviculture & Couvaison -->
+    <div class="row align-items-center g-5 pt-3 fade-in-up">
+        <div class="col-lg-6">
+            <div class="glass-card p-2 rounded-4 overflow-hidden shadow-lg">
+                <img src="{% static 'images/aviculture_mali.jpg' %}" alt="Ferme avicole et couveuses automatiques" class="img-fluid rounded-3 w-100" style="object-fit: cover; max-height: 350px;">
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="d-inline-flex align-items-center gap-2 px-3 py-1 rounded-pill bg-emerald-subtle text-emerald small fw-bold mb-3">
+                <i class="fas fa-egg"></i> Productivité Avicole
+            </div>
+            <h3 class="fw-bold text-white mb-3">Pôle Aviculture & Couveuses Automatiques</h3>
+            <p class="text-muted mb-4">
+                Surveillez vos bandes de poules pondeuses, poulets de chair Cobb500 et pintades locales. Calculez les taux de ponte journaliers, la consommation d'aliments et suivez les cycles d'incubation jour après jour.
+            </p>
+            <div class="row g-3">
+                <div class="col-6">
+                    <div class="d-flex align-items-center gap-2 text-white small">
+                        <i class="fas fa-check text-emerald"></i> Décompte des pontes quotidiennes
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="d-flex align-items-center gap-2 text-white small">
+                        <i class="fas fa-check text-emerald"></i> Alertes d'éclosion imminente
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="d-flex align-items-center gap-2 text-white small">
+                        <i class="fas fa-check text-emerald"></i> Suivi mortalité & alimentation
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="d-flex align-items-center gap-2 text-white small">
+                        <i class="fas fa-check text-emerald"></i> Vaccins (Gumboro, Newcastle)
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Grille des 6 Modules Métiers -->
 <section class="container py-5">
     <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-4 fade-in-up">
         <div>
-            <h2 class="fw-bold text-white mb-1"><i class="fas fa-cubes text-emerald me-2"></i>Nos modules complets</h2>
-            <p class="text-muted mb-0">Une plateforme tout-en-un pour tous vos besoins agropastoraux</p>
+            <h2 class="fw-bold text-white mb-1"><i class="fas fa-cubes text-emerald me-2"></i>Fonctionnalités Clés</h2>
+            <p class="text-muted mb-0">Tous les outils indispensables pour gérer votre domaine au quotidien</p>
         </div>
     </div>
     <div class="row g-4">
@@ -128,8 +193,8 @@
                 <div class="card-icon-wrapper mb-3">
                     <i class="fas fa-seedling text-emerald fs-4"></i>
                 </div>
-                <h4 class="fw-bold text-white mb-2">Agriculture</h4>
-                <p class="text-muted mb-0">Planifiez les saisons, gérez les parcelles, suivez les cultures et calculez les rendements de récoltes avec clarté.</p>
+                <h4 class="fw-bold text-white mb-2">Agriculture & Maraîchage</h4>
+                <p class="text-muted mb-0">Planifiez les campagnes d'hivernage et de contre-saison (Maïs, Riz, Tomate, Oignon, Gombo). Suivez les dates de récolte et calculez vos rendements.</p>
             </div>
         </div>
         <div class="col-lg-4 col-md-6 fade-in-up delay-2">
@@ -137,8 +202,8 @@
                 <div class="card-icon-wrapper mb-3">
                     <i class="fas fa-cow text-teal fs-4"></i>
                 </div>
-                <h4 class="fw-bold text-white mb-2">Élevage & Cheptel</h4>
-                <p class="text-muted mb-0">Supervisez vos troupeaux, les fiches médicales, vaccinations et poids des bêtes dans un espace structuré.</p>
+                <h4 class="fw-bold text-white mb-2">Élevage & Santé Animale</h4>
+                <p class="text-muted mb-0">Fiches individuelles avec matricule, race, sexe, statut sanitaire et historique des vaccinations et déparasitages.</p>
             </div>
         </div>
         <div class="col-lg-4 col-md-6 fade-in-up delay-3">
@@ -146,8 +211,8 @@
                 <div class="card-icon-wrapper mb-3">
                     <i class="fas fa-feather text-info fs-4"></i>
                 </div>
-                <h4 class="fw-bold text-white mb-2">Aviculture</h4>
-                <p class="text-muted mb-0">Gérez vos lots de volailles, la consommation d'aliments et suivez la production d'œufs au quotidien.</p>
+                <h4 class="fw-bold text-white mb-2">Aviculture & Ponte</h4>
+                <p class="text-muted mb-0">Gestion précise des effectifs (entrées, sorties, pertes), enregistrement de la ponte et suivi de l'alimentation des volailles.</p>
             </div>
         </div>
         <div class="col-lg-4 col-md-6 fade-in-up delay-1">
@@ -156,7 +221,7 @@
                     <i class="fas fa-egg text-warning fs-4"></i>
                 </div>
                 <h4 class="fw-bold text-white mb-2">Couveuses & Éclosions</h4>
-                <p class="text-muted mb-0">Suivez vos incubations en temps réel, dates d'éclosion prévues et alertes de contrôle de température.</p>
+                <p class="text-muted mb-0">Gestion du mirage et compte à rebours avant éclosion avec alertes pour humidifier et préparer les poussinières.</p>
             </div>
         </div>
         <div class="col-lg-4 col-md-6 fade-in-up delay-2">
@@ -165,7 +230,7 @@
                     <i class="fas fa-map-location-dot text-danger fs-4"></i>
                 </div>
                 <h4 class="fw-bold text-white mb-2">Parcelles & Terrains</h4>
-                <p class="text-muted mb-0">Organisez vos espaces agricoles, cartographiez les types de sols et attribuez-les aux cultures pour un suivi optimal.</p>
+                <p class="text-muted mb-0">Cartographie des superficies en hectares, type de sol (argileux, sablo-limoneux) et rotation des cultures.</p>
             </div>
         </div>
         <div class="col-lg-4 col-md-6 fade-in-up delay-3">
@@ -173,24 +238,29 @@
                 <div class="card-icon-wrapper mb-3">
                     <i class="fas fa-robot text-emerald fs-4"></i>
                 </div>
-                <h4 class="fw-bold text-white mb-2">Assistant IA Intelligent</h4>
-                <p class="text-muted mb-0">Bénéficiez d'un assistant virtuel interactif disponible 24h/24 pour vous guider et répondre à vos questions agricoles.</p>
+                <h4 class="fw-bold text-white mb-2">Assistant IA AgroSedam</h4>
+                <p class="text-muted mb-0">Posez vos questions agronomiques en direct : traitements naturels, périodes de semis idéales et posologies vétérinaires.</p>
             </div>
         </div>
     </div>
 </section>
 
-<!-- Call to Action Banner (Design Sombre & Émeraude Haute Définition) -->
+<!-- Call to Action Banner -->
 <section class="container py-5">
     <div class="cta-banner p-5 text-center text-white rounded-4 fade-in-up position-relative overflow-hidden">
         <div class="cta-content position-relative z-2">
-            <h2 class="display-6 fw-bold mb-3">Prêt à moderniser votre exploitation ?</h2>
-            <p class="lead text-emerald-light mb-4 mx-auto" style="max-width: 650px;">
-                Rejoignez AgroSedam aujourd'hui et profitez d'une gestion agropastorale simplifiée, moderne et intelligente.
+            <h2 class="display-6 fw-bold mb-3">Faites passer votre ferme au niveau supérieur</h2>
+            <p class="lead text-emerald-light mb-4 mx-auto" style="max-width: 680px;">
+                Rejoignez AgroSedam dès aujourd'hui et commencez à digitaliser vos parcelles, troupeaux et récoltes.
             </p>
-            <a class="btn btn-light btn-lg px-5 py-3 text-dark fw-bold shadow-lg rounded-pill" href="{% url 'signup' %}">
-                <i class="fas fa-arrow-right me-2 text-emerald"></i> Commencer gratuitement
-            </a>
+            <div class="d-flex justify-content-center gap-3 flex-wrap">
+                <a class="btn btn-light btn-lg px-5 py-3 text-dark fw-bold shadow-lg rounded-pill" href="{% url 'signup' %}">
+                    <i class="fas fa-rocket me-2 text-emerald"></i> Commencer gratuitement
+                </a>
+                <a class="btn btn-outline-light btn-lg px-4 py-3 rounded-pill" href="{% url 'login' %}">
+                    <i class="fas fa-right-to-bracket me-2"></i> Se connecter
+                </a>
+            </div>
         </div>
     </div>
 </section>
