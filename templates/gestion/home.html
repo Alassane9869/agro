@@ -5,11 +5,11 @@
 
 <!-- Hero Section avec Visuel Pro Authentique -->
 <section class="hero-section">
-    <div class="container hero-content py-4">
-        <div class="row align-items-center g-5">
+    <div class="container hero-content py-3 py-lg-4">
+        <div class="row align-items-center g-4 g-lg-5">
             <div class="col-lg-7">
                 <span class="hero-pill fade-in-up">
-                    <i class="fas fa-location-dot text-emerald me-2"></i>Adapté aux réalités agropastorales du Mali & du Sahel
+                    <i class="fas fa-location-dot text-emerald me-2"></i>Adapté au Mali & au Sahel
                 </span>
                 <h1 class="hero-title my-3 fade-in-up delay-1">
                     Modernisez votre exploitation avec <span class="text-emerald">AgroSedam</span>.
@@ -17,18 +17,18 @@
                 <p class="hero-lead fade-in-up delay-2">
                     La première solution tout-en-un conçue pour les producteurs agricoles, éleveurs et aviculteurs sahéliens. Gérez vos cultures, cheptels, couveuses et récoltes en toute simplicité.
                 </p>
-                <div class="d-flex gap-3 flex-wrap mt-4 fade-in-up delay-3">
-                    <a class="btn btn-emerald btn-lg px-4 shadow-lg" href="{% url 'signup' %}">
+                <div class="d-flex gap-2 gap-md-3 flex-wrap mt-4 fade-in-up delay-3">
+                    <a class="btn btn-emerald btn-lg px-4 shadow-lg flex-grow-1 flex-md-grow-0" href="{% url 'signup' %}">
                         <i class="fas fa-user-plus me-1"></i> Créer un compte
                     </a>
-                    <a class="btn btn-outline-emerald btn-lg px-4" href="{% url 'dashboard' %}">
-                        <i class="fas fa-chart-line me-1"></i> Accéder au tableau de bord
+                    <a class="btn btn-outline-emerald btn-lg px-4 flex-grow-1 flex-md-grow-0" href="{% url 'dashboard' %}">
+                        <i class="fas fa-chart-line me-1"></i> Tableau de bord
                     </a>
                 </div>
                 <div class="hero-badges fade-in-up delay-4">
-                    <span><i class="fas fa-check-circle text-emerald"></i> Suivi des campagnes & hivernage</span>
+                    <span><i class="fas fa-check-circle text-emerald"></i> Campagnes & hivernage</span>
                     <span><i class="fas fa-check-circle text-emerald"></i> Santé animale & vaccins</span>
-                    <span><i class="fas fa-check-circle text-emerald"></i> Couvaison & ponte en temps réel</span>
+                    <span><i class="fas fa-check-circle text-emerald"></i> Couvaison & ponte</span>
                 </div>
             </div>
             
@@ -48,40 +48,40 @@
     </div>
 </section>
 
-<!-- Compteurs Statistiques en Temps Réel -->
-<section class="container py-4">
-    <div class="row g-3 fade-in-up">
-        <div class="col-xl-3 col-md-6">
+<!-- Compteurs Statistiques en Temps Réel (Grille 2x2 compacte sur mobile) -->
+<section class="container py-3 py-lg-4">
+    <div class="row g-2 g-md-3 fade-in-up">
+        <div class="col-6 col-lg-3">
             <div class="mini-stat">
                 <div>
-                    <div class="mini-label">Cultures enregistrées</div>
+                    <div class="mini-label">Cultures</div>
                     <div class="mini-value text-emerald">{{ crops }}</div>
                 </div>
                 <div class="icon-circle"><i class="fas fa-wheat-awn"></i></div>
             </div>
         </div>
-        <div class="col-xl-3 col-md-6">
+        <div class="col-6 col-lg-3">
             <div class="mini-stat">
                 <div>
-                    <div class="mini-label">Têtes de bétail</div>
+                    <div class="mini-label">Animaux</div>
                     <div class="mini-value text-teal">{{ animals }}</div>
                 </div>
                 <div class="icon-circle"><i class="fas fa-cow"></i></div>
             </div>
         </div>
-        <div class="col-xl-3 col-md-6">
+        <div class="col-6 col-lg-3">
             <div class="mini-stat">
                 <div>
-                    <div class="mini-label">Parcelles suivies</div>
+                    <div class="mini-label">Parcelles</div>
                     <div class="mini-value text-info">{{ plots }}</div>
                 </div>
                 <div class="icon-circle"><i class="fas fa-map"></i></div>
             </div>
         </div>
-        <div class="col-xl-3 col-md-6">
+        <div class="col-6 col-lg-3">
             <div class="mini-stat">
                 <div>
-                    <div class="mini-label">Lots en incubation</div>
+                    <div class="mini-label">Incubations</div>
                     <div class="mini-value text-warning">{{ incubators }}</div>
                 </div>
                 <div class="icon-circle"><i class="fas fa-egg"></i></div>
@@ -91,15 +91,15 @@
 </section>
 
 <!-- Section Présentation des Pôles avec Photos Locales Authentiques -->
-<section class="container py-5">
-    <div class="text-center max-w-700 mx-auto mb-5 fade-in-up">
+<section class="container py-4 py-lg-5">
+    <div class="text-center max-w-700 mx-auto mb-4 mb-lg-5 fade-in-up">
         <span class="badge bg-emerald-subtle text-emerald px-3 py-2 rounded-pill font-monospace mb-2">Pôles d'expertise</span>
         <h2 class="display-6 fw-bold text-current">Une couverture complète de vos activités</h2>
         <p class="text-muted">Des outils sur-mesure pour chaque branche de votre exploitation agropastorale.</p>
     </div>
 
     <!-- Pôle 1 : Élevage Sahélien -->
-    <div class="row align-items-center g-5 mb-5 fade-in-up">
+    <div class="row align-items-center g-4 g-lg-5 mb-5 fade-in-up">
         <div class="col-lg-6 order-lg-2">
             <div class="glass-card p-2 rounded-4 overflow-hidden shadow-lg">
                 <img src="{% static 'images/elevage_mali.jpg' %}" alt="Élevage de zébus et moutons au Sahel" class="img-fluid rounded-3 w-100" style="object-fit: cover; max-height: 350px;">
@@ -139,7 +139,7 @@
     </div>
 
     <!-- Pôle 2 : Aviculture & Couvaison -->
-    <div class="row align-items-center g-5 pt-3 fade-in-up">
+    <div class="row align-items-center g-4 g-lg-5 pt-3 fade-in-up">
         <div class="col-lg-6">
             <div class="glass-card p-2 rounded-4 overflow-hidden shadow-lg">
                 <img src="{% static 'images/aviculture_mali.jpg' %}" alt="Ferme avicole et couveuses automatiques" class="img-fluid rounded-3 w-100" style="object-fit: cover; max-height: 350px;">
@@ -180,14 +180,14 @@
 </section>
 
 <!-- Grille des 6 Modules Métiers -->
-<section class="container py-5">
+<section class="container py-4 py-lg-5">
     <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-4 fade-in-up">
         <div>
             <h2 class="fw-bold text-current mb-1"><i class="fas fa-cubes text-emerald me-2"></i>Fonctionnalités Clés</h2>
             <p class="text-muted mb-0">Tous les outils indispensables pour gérer votre domaine au quotidien</p>
         </div>
     </div>
-    <div class="row g-4">
+    <div class="row g-3 g-lg-4">
         <div class="col-lg-4 col-md-6 fade-in-up delay-1">
             <div class="data-card glass-card h-100 p-4">
                 <div class="card-icon-wrapper mb-3">
@@ -246,15 +246,15 @@
 </section>
 
 <!-- Call to Action Banner -->
-<section class="container py-5">
-    <div class="cta-banner p-5 text-center text-white rounded-4 fade-in-up position-relative overflow-hidden">
+<section class="container py-4 py-lg-5">
+    <div class="cta-banner p-4 p-lg-5 text-center text-white rounded-4 fade-in-up position-relative overflow-hidden">
         <div class="cta-content position-relative z-2">
             <h2 class="display-6 fw-bold text-white mb-3">Faites passer votre ferme au niveau supérieur</h2>
             <p class="lead text-emerald-light mb-4 mx-auto" style="max-width: 680px;">
                 Rejoignez AgroSedam dès aujourd'hui et commencez à digitaliser vos parcelles, troupeaux et récoltes.
             </p>
             <div class="d-flex justify-content-center gap-3 flex-wrap">
-                <a class="btn btn-light btn-lg px-5 py-3 text-dark fw-bold shadow-lg rounded-pill" href="{% url 'signup' %}">
+                <a class="btn btn-light btn-lg px-4 px-md-5 py-3 text-dark fw-bold shadow-lg rounded-pill" href="{% url 'signup' %}">
                     <i class="fas fa-rocket me-2 text-emerald"></i> Commencer gratuitement
                 </a>
                 <a class="btn btn-outline-light btn-lg px-4 py-3 rounded-pill" href="{% url 'login' %}">
