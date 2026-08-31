@@ -5,6 +5,12 @@
 
 set -e
 
+# Activation automatique de l'environnement virtuel Python 3.11 cPanel
+if [ -f "/home/$USER/virtualenv/repositories/Agrosedam/3.11/bin/activate" ]; then
+    echo "🐍 Activation de l'environnement virtuel Python 3.11..."
+    source "/home/$USER/virtualenv/repositories/Agrosedam/3.11/bin/activate"
+fi
+
 echo "🚀 [1/5] Installation / Mise à jour des dépendances..."
 pip install -r requirements.txt
 
