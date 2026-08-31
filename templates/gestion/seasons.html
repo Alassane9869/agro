@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Saisons | AgroSedam{% endblock %}
+{% block content %}
+<div class="container py-5 page-transition">
+    <div class="section-header d-flex justify-content-between align-items-center flex-wrap gap-3 fade-in-up green">
+        <div>
+            <h2 class="mb-1"><i class="fas fa-sun me-2"></i>Saisons agricoles</h2>
+            <p>Structurez vos campagnes agricoles par saison.</p>
+        </div>
+        <a class="btn btn-light" href="{% url 'season_create' %}"><i class="fas fa-plus me-2"></i>Ajouter une saison</a>
+    </div>
+
+    <div class="row g-4 fade-in-up delay-1">
+        {% for season in seasons %}
+        <div class="col-md-6 col-lg-4">
+            <div class="data-card h-100">
+                <div class="card-body p-4">
+                    <div class="d-flex justify-content-between align-items-start mb-3">
+                        <div class="card-icon green"><i class="fas fa-sun"></i></div>
+                        <span class="status-badge info"><i class="fas fa-calendar me-1"></i>Saison</span>
+                    </div>
+                    <h5 class="fw-bold mb-1">{{ season.name }}</h5>
+                    <p class="text-muted small mb-3">{{ season.description|default:"Campagne agricole" }}</p>
+                    <div class="d-flex flex-column gap-2 mb-3">
+                        <div class="d-flex align-items-center gap-2">
+                            <i class="fas fa-play-circle text-success"></i>
+                            <span class="small"><strong>Début :</strong> {{ season.start_date }}</span>
+                        </div>
+                        <div class="d-flex align-items-center gap-2">
+                            <i class="fas fa-stop-circle text-danger"></i>
+                            <span class="small"><strong>Fin :</strong> {{ season.end_date }}</span>
+                        </div>
+                    </div>
+                    <div class="pt-3 border-top">
+                        <span class="badge bg-success-subtle text-success fw-semibold">Active</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12">
+            <div class="empty-state fade-in-up">
+                <i class="fas fa-sun text-green"></i>
+                <h4>Aucune saison enregistrée</h4>
+                <p>Créez votre première saison pour organiser vos campagnes.</p>
+                <a class="btn btn-success btn-lg" href="{% url 'season_create' %}"><i class="fas fa-plus me-2"></i>Ajouter une saison</a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

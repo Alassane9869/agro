@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}AgroSedam AI | Assistant{% endblock %}
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
+                <div class="card-body p-0">
+                    <div class="assistant-shell">
+                        <div class="assistant-header">
+                            <div class="d-flex align-items-center gap-3">
+                                <div class="assistant-avatar">AI</div>
+                                <div>
+                                    <h4 class="mb-0 fw-bold">AgroSedam AI</h4>
+                                    <p class="mb-0 text-muted small">Votre assistant agricole intelligent</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="assistant-messages" id="assistant-messages"></div>
+                        <div class="assistant-suggestions">
+                            <button class="btn btn-sm btn-outline-success" data-suggestion="Comment ajouter une culture ?">Ajouter une culture</button>
+                            <button class="btn btn-sm btn-outline-success" data-suggestion="Comment ajouter un animal ?">Ajouter un animal</button>
+                            <button class="btn btn-sm btn-outline-success" data-suggestion="Comment consulter le tableau de bord ?">Tableau de bord</button>
+                        </div>
+                        <form class="assistant-input-row" id="assistant-form">
+                            <input type="text" id="assistant-input" class="form-control" placeholder="Écrivez votre question..." autocomplete="off">
+                            <button class="btn btn-success" type="submit">Envoyer</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

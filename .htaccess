@@ -1,0 +1,14 @@
+# Configuration pour o2switch avec Passenger
+PassengerEnabled on
+PassengerAppRoot /home/USERNAME/agrosedam
+PassengerPython /home/USERNAME/agrosedam/venv/bin/python
+
+# Redirection vers le WSGI
+RewriteEngine On
+RewriteRule ^(static/.*)$ - [L]
+RewriteRule ^(.*)$ passenger_wsgi.py [QSA,L]
+
+# Sécurité
+<Files "passenger_wsgi.py">
+    Require all denied
+</Files>

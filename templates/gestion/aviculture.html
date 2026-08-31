@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Aviculture | AgroSedam{% endblock %}
+{% block content %}
+<div class="container py-5 page-transition">
+    <div class="section-header d-flex justify-content-between align-items-center flex-wrap gap-3 fade-in-up pink">
+        <div>
+            <h2 class="mb-1"><i class="fas fa-feather me-2"></i>Gestion de l'aviculture</h2>
+            <p>Suivi des volailles, œufs, alimentation et croissance.</p>
+        </div>
+        <a class="btn btn-light" href="{% url 'poultry_create' %}"><i class="fas fa-plus me-2"></i>Ajouter</a>
+    </div>
+
+    <div class="row g-4 fade-in-up delay-1">
+        {% for item in poultry %}
+        <div class="col-md-6 col-lg-4">
+            <div class="data-card h-100">
+                <div class="card-body p-4">
+                    <div class="d-flex justify-content-between align-items-start mb-3">
+                        <div class="card-icon pink"><i class="fas fa-dove"></i></div>
+                        <span class="status-badge info"><i class="fas fa-info-circle me-1"></i>Actif</span>
+                    </div>
+                    <h5 class="fw-bold mb-1">{{ item.species }}</h5>
+                    <p class="text-muted small mb-3">Production avicole en cours</p>
+                    <div class="d-flex flex-column gap-2 mb-3">
+                        <div class="d-flex align-items-center gap-2">
+                            <i class="fas fa-sign-in-alt text-success"></i>
+                            <span class="small"><strong>Entrées :</strong> {{ item.entries }}</span>
+                        </div>
+                        <div class="d-flex align-items-center gap-2">
+                            <i class="fas fa-sign-out-alt text-danger"></i>
+                            <span class="small"><strong>Sorties :</strong> {{ item.exits }}</span>
+                        </div>
+                        <div class="d-flex align-items-center gap-2">
+                            <i class="fas fa-skull-crossbones text-muted"></i>
+                            <span class="small"><strong>Décès :</strong> {{ item.deaths }}</span>
+                        </div>
+                        <div class="d-flex align-items-center gap-2">
+                            <i class="fas fa-egg text-warning"></i>
+                            <span class="small"><strong>Production d'œufs :</strong> {{ item.egg_production }}</span>
+                        </div>
+                        <div class="d-flex align-items-center gap-2">
+                            <i class="fas fa-syringe text-info"></i>
+                            <span class="small"><strong>Vaccination :</strong> {{ item.vaccination }}</span>
+                        </div>
+                    </div>
+                    <div class="pt-3 border-top">
+                        <span class="status-badge secondary">Suivi</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12">
+            <div class="empty-state fade-in-up">
+                <i class="fas fa-dove text-pink"></i>
+                <h4>Aucune donnée avicole enregistrée</h4>
+                <p>Commencez par ajouter votre premier lot de volailles.</p>
+                <a class="btn btn-success btn-lg" href="{% url 'poultry_create' %}"><i class="fas fa-plus me-2"></i>Ajouter des volailles</a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

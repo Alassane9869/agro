@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Élevage | AgroSedam{% endblock %}
+{% block content %}
+<div class="container py-5 page-transition">
+    <div class="section-header d-flex justify-content-between align-items-center flex-wrap gap-3 fade-in-up orange">
+        <div>
+            <h2 class="mb-1"><i class="fas fa-cow me-2"></i>Gestion de l'élevage</h2>
+            <p>Bovins, ovins, caprins, porcins, équins et lapins.</p>
+        </div>
+        <a class="btn btn-light" href="{% url 'animal_create' %}"><i class="fas fa-plus me-2"></i>Ajouter un animal</a>
+    </div>
+
+    <div class="row g-4 fade-in-up delay-1">
+        {% for animal in animals %}
+        <div class="col-md-6 col-lg-4">
+            <div class="data-card h-100">
+                <div class="card-body p-4">
+                    <div class="d-flex justify-content-between align-items-start mb-3">
+                        <div class="card-icon orange"><i class="fas fa-cow"></i></div>
+                        <span class="status-badge success"><i class="fas fa-check-circle me-1"></i>{{ animal.health_status }}</span>
+                    </div>
+                    <h5 class="fw-bold mb-1">{{ animal.name }}</h5>
+                    <p class="text-muted small mb-3">N° {{ animal.number }} • {{ animal.species }}</p>
+                    <div class="d-flex flex-column gap-2 mb-3">
+                        <div class="d-flex align-items-center gap-2">
+                            <i class="fas fa-tag text-primary"></i>
+                            <span class="small"><strong>Race :</strong> {{ animal.breed }}</span>
+                        </div>
+                        <div class="d-flex align-items-center gap-2">
+                            <i class="fas fa-venus-mars text-purple"></i>
+                            <span class="small"><strong>Sexe :</strong> {{ animal.sex }}</span>
+                        </div>
+                        <div class="d-flex align-items-center gap-2">
+                            <i class="fas fa-weight-hanging text-info"></i>
+                            <span class="small"><strong>Poids :</strong> {{ animal.weight }} kg</span>
+                        </div>
+                    </div>
+                    <div class="pt-3 border-top d-flex justify-content-between align-items-center">
+                        <span class="badge bg-success-subtle text-success fw-semibold">{{ animal.health_status }}</span>
+                        <div class="btn-group">
+                            <a class="btn btn-sm btn-outline-success" href="{% url 'animal_update' animal.pk %}"><i class="fas fa-edit"></i></a>
+                            <a class="btn btn-sm btn-outline-danger" href="{% url 'animal_delete' animal.pk %}"><i class="fas fa-trash"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12">
+            <div class="empty-state fade-in-up">
+                <i class="fas fa-cow text-orange"></i>
+                <h4>Aucun animal enregistré</h4>
+                <p>Commencez par ajouter votre premier animal pour suivre votre élevage.</p>
+                <a class="btn btn-success btn-lg" href="{% url 'animal_create' %}"><i class="fas fa-plus me-2"></i>Ajouter un animal</a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

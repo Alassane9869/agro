@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Cultures | AgroSedam{% endblock %}
+{% block content %}
+<div class="container py-5 page-transition">
+    <div class="section-header d-flex justify-content-between align-items-center flex-wrap gap-3 fade-in-up green">
+        <div>
+            <h2 class="mb-1"><i class="fas fa-seedling me-2"></i>Gestion des cultures</h2>
+            <p>Ajoutez, modifiez ou consultez vos cultures en un clin d'œil.</p>
+        </div>
+        <a class="btn btn-light" href="{% url 'crop_create' %}"><i class="fas fa-plus me-2"></i>Ajouter une culture</a>
+    </div>
+
+    <div class="row g-4 fade-in-up delay-1">
+        {% for crop in crops %}
+        <div class="col-md-6 col-lg-4">
+            <div class="data-card h-100">
+                <div class="card-body p-4">
+                    <div class="d-flex justify-content-between align-items-start mb-3">
+                        <div class="card-icon orange"><i class="fas fa-seedling"></i></div>
+                        <span class="status-badge success"><i class="fas fa-check-circle me-1"></i>{{ crop.status }}</span>
+                    </div>
+                    <h5 class="fw-bold mb-1">{{ crop.name }}</h5>
+                    <p class="text-muted small mb-3">{{ crop.crop_type }} • {{ crop.area }} ha</p>
+                    <div class="d-flex flex-column gap-2 mb-3">
+                        <div class="d-flex align-items-center gap-2">
+                            <i class="fas fa-calendar-plus text-success"></i>
+                            <span class="small"><strong>Plantation :</strong> {{ crop.planting_date }}</span>
+                        </div>
+                        <div class="d-flex align-items-center gap-2">
+                            <i class="fas fa-calendar-check text-orange"></i>
+                            <span class="small"><strong>Récolte :</strong> {{ crop.expected_harvest_date }}</span>
+                        </div>
+                    </div>
+                    <div class="pt-3 border-top d-flex justify-content-between align-items-center">
+                        <span class="badge bg-success-subtle text-success fw-semibold">{{ crop.status }}</span>
+                        <div class="btn-group">
+                            <a class="btn btn-sm btn-outline-success" href="{% url 'crop_update' crop.pk %}"><i class="fas fa-edit"></i></a>
+                            <a class="btn btn-sm btn-outline-danger" href="{% url 'crop_delete' crop.pk %}"><i class="fas fa-trash"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12">
+            <div class="empty-state fade-in-up">
+                <i class="fas fa-seedling text-success"></i>
+                <h4>Aucune culture enregistrée</h4>
+                <p>Commencez par ajouter votre première culture pour planifier votre saison.</p>
+                <a class="btn btn-success btn-lg" href="{% url 'crop_create' %}"><i class="fas fa-plus me-2"></i>Ajouter une culture</a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

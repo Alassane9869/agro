@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Créer un compte | AgroSedam{% endblock %}
+{% block content %}
+<div class="container py-5 page-transition">
+    <div class="row justify-content-center">
+        <div class="col-lg-6">
+            <div class="section-header fade-in-up text-center">
+                <h2 class="mb-0"><i class="fas fa-user-plus me-2"></i>Créer un compte</h2>
+                <p class="mb-0">Rejoignez AgroSedam dès maintenant</p>
+            </div>
+            <div class="form-card fade-in-up delay-1">
+                <form method="post">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button class="btn btn-success w-100 mt-3" type="submit"><i class="fas fa-user-plus me-2"></i>Créer mon compte</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Recherche | AgroSedam{% endblock %}
+{% block content %}
+<div class="container py-5 page-transition">
+    <div class="section-header d-flex justify-content-between align-items-center flex-wrap gap-3 fade-in-up teal">
+        <div>
+            <h2 class="mb-1"><i class="fas fa-search me-2"></i>Résultats de recherche</h2>
+            <p>Trouvez rapidement ce que vous cherchez.</p>
+        </div>
+    </div>
+
+    {% if query %}
+    <p class="text-muted mb-4 fade-in-up delay-1"><strong>Recherche :</strong> "{{ query }}"</p>
+    {% endif %}
+
+    <div class="row g-4 fade-in-up delay-2">
+        {% for item in results %}
+        {% with obj=item.obj %}
+        <div class="col-md-6 col-xl-4">
+            <div class="data-card h-100">
+                <div class="card-body p-4">
+                    <div class="d-flex align-items-center gap-2 mb-2">
+                        <span class="status-badge info">{{ item.type }}</span>
+                        {% if item.type == 'Culture' %}
+                            <span class="status-badge success">{{ obj.status }}</span>
+                        {% elif item.type == 'Animal' %}
+                            <span class="status-badge secondary">{{ obj.species }}</span>
+                        {% elif item.type == 'Incubation' %}
+                            <span class="status-badge warning">{{ obj.status }}</span>
+                        {% endif %}
+                    </div>
+                    <h5 class="fw-bold mb-1">{{ obj }}</h5>
+                    <p class="text-muted small mb-0">
+                        {% if item.type == 'Culture' %}
+                            {{ obj.crop_type }} • {{ obj.area }} ha
+                        {% elif item.type == 'Animal' %}
+                            {{ obj.breed }} • {{ obj.health_status }}
+                        {% elif item.type == 'Parcelle' %}
+                            {{ obj.location }} • {{ obj.soil_type }}
+                        {% elif item.type == 'Saison' %}
+                            du {{ obj.start_date }} au {{ obj.end_date }}
+                        {% elif item.type == 'Volaille' %}
+                            {{ obj.feed|default:'Alimentation non renseignée' }} • {{ obj.egg_production|default:'Production non renseignée' }}
+                        {% elif item.type == 'Incubation' %}
+                            {{ obj.eggs_count }} œufs • du {{ obj.incubation_date }}
+                        {% elif item.type == 'Récolte' %}
+                            {{ obj.quantity }} • le {{ obj.harvest_date }}
+                        {% elif item.type == 'Notification' %}
+                            {{ obj.notification_type|title }}
+                        {% endif %}
+                    </p>
+                </div>
+            </div>
+        </div>
+        {% endwith %}
+        {% empty %}
+        <div class="col-12">
+            <div class="empty-state fade-in-up">
+                <i class="fas fa-search text-teal"></i>
+                <h4>Aucun résultat trouvé</h4>
+                <p>Essayez avec des termes différents ou parcourez les sections du menu.</p>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

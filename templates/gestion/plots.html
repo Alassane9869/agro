@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Parcelles | AgroSedam{% endblock %}
+{% block content %}
+<div class="container py-5 page-transition">
+    <div class="section-header d-flex justify-content-between align-items-center flex-wrap gap-3 fade-in-up purple">
+        <div>
+            <h2 class="mb-1"><i class="fas fa-map-marked-alt me-2"></i>Gestion des parcelles</h2>
+            <p>Suivez les parcelles, surfaces et types de sols.</p>
+        </div>
+        <a class="btn btn-light" href="{% url 'plot_create' %}"><i class="fas fa-plus me-2"></i>Ajouter une parcelle</a>
+    </div>
+
+    <div class="row g-4 fade-in-up delay-1">
+        {% for plot in plots %}
+        <div class="col-md-6 col-lg-4">
+            <div class="data-card h-100">
+                <div class="card-body p-4">
+                    <div class="d-flex justify-content-between align-items-start mb-3">
+                        <div class="card-icon purple"><i class="fas fa-map"></i></div>
+                        <span class="status-badge success"><i class="fas fa-check-circle me-1"></i>Disponible</span>
+                    </div>
+                    <h5 class="fw-bold mb-1">{{ plot.name }}</h5>
+                    <p class="text-muted small mb-3">{{ plot.location }}</p>
+                    <div class="d-flex flex-column gap-2 mb-3">
+                        <div class="d-flex align-items-center gap-2">
+                            <i class="fas fa-expand-arrows-alt text-success"></i>
+                            <span class="small"><strong>Surface :</strong> {{ plot.area }} ha</span>
+                        </div>
+                        <div class="d-flex align-items-center gap-2">
+                            <i class="fas fa-mountain text-orange"></i>
+                            <span class="small"><strong>Type de sol :</strong> {{ plot.soil_type }}</span>
+                        </div>
+                    </div>
+                    <div class="pt-3 border-top d-flex justify-content-between align-items-center">
+                        <span class="badge bg-success-subtle text-success fw-semibold">{{ plot.area }} ha</span>
+                        <div class="btn-group">
+                            <a class="btn btn-sm btn-outline-success" href="{% url 'plot_update' plot.pk %}"><i class="fas fa-edit"></i></a>
+                            <a class="btn btn-sm btn-outline-danger" href="{% url 'plot_delete' plot.pk %}"><i class="fas fa-trash"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12">
+            <div class="empty-state fade-in-up">
+                <i class="fas fa-map-marked-alt text-purple"></i>
+                <h4>Aucune parcelle enregistrée</h4>
+                <p>Commencez par ajouter votre première parcelle pour organiser votre exploitation.</p>
+                <a class="btn btn-success btn-lg" href="{% url 'plot_create' %}"><i class="fas fa-plus me-2"></i>Ajouter une parcelle</a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
