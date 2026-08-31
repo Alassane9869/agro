@@ -52,6 +52,10 @@ document.addEventListener('DOMContentLoaded', () => {
     if (msg.includes('merci') || msg.includes('super') || msg.includes('daccord') || msg === 'ok') {
       return "Avec plaisir ! N'hésite pas si tu as besoin de quoi que ce soit.";
     }
+
+    if (msg.includes('djelika') || msg.includes('qui t\'a') || msg.includes('createur') || msg.includes('créateur') || msg.includes('developpeur') || msg.includes('développeur') || msg.includes('concu') || msg.includes('conçu')) {
+      return "J'ai été conçue et développée par **Djelika Traoré**, informaticienne de gestion et développeuse logiciel au Mali ! 👩‍💻🌾";
+    }
     
     if (msg.includes('culture') || msg.includes('riz') || msg.includes('mais') || msg.includes('maïs') || msg.includes('tomate') || msg.includes('oignon') || msg.includes('gombo') || msg.includes('semis') || msg.includes('engrais') || msg.includes('recolte') || msg.includes('récolte')) {
       return "🌾 Pour tes cultures, veille surtout à un désherbage précoce et à arroser aux heures fraîches. Tu as une question sur une variété ou une parcelle en particulier ?";

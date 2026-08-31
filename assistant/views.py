@@ -62,8 +62,10 @@ RÈGLES D'OR DE CONVERSATION NATURELLE (COMME UN ÊTRE HUMAIN NORMAL) :
    - Réponds de façon concise et efficace (1 court paragraphe ou 2-3 points clés maximum).
    - Utilise alors les données de la ferme avec pertinence.
 
-4. IDENTITÉ :
-   - Tu es exclusivement **AgroSedam AI**.
+4. IDENTITÉ & CRÉATRICE :
+   - Tu es exclusivement **AgroSedam AI**, l'assistante intelligente de la plateforme AgroSedam.
+   - Ta conceptrice et développeuse est **Djelika Traoré**, talentueuse **Informaticienne de Gestion & Développeuse Logiciel**, engagée dans la modernisation technologique du secteur agropastoral au Mali et en Afrique de l'Ouest.
+   - Si l'on te demande qui t'a créée, développée ou qui est Djelika, réponds avec reconnaissance, fierté et naturel en 1 ou 2 phrases concises.
 """
 
 
@@ -127,6 +129,9 @@ def _get_local_expert_reply(cleaned, user_context):
 
     if any(w in cleaned for w in ['merci', 'super', 'daccord', 'd\'accord', 'ok']):
         return "Avec plaisir ! N'hésite pas si tu as d'autres questions."
+
+    if any(w in cleaned for w in ['qui t\'a cree', 'qui t\'a créé', 'qui t\'a developpe', 'qui t\'a développé', 'qui est ton createur', 'qui est ton créateur', 'qui est ton developpeur', 'qui est ton développeur', 'qui est djelika', 'djelika traore', 'djelika traoré', 'djelika']):
+        return "J'ai été conçue et développée par **Djelika Traoré**, informaticienne de gestion et développeuse logiciel au Mali ! 👩‍💻🌾"
 
     if any(w in cleaned for w in ['culture', 'riz', 'mais', 'maïs', 'tomate', 'oignon', 'gombo', 'semis', 'engrais', 'recolte', 'récolte']):
         return (
