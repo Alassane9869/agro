@@ -203,28 +203,42 @@
     </div>
 </div>
 
-<!-- Modal PWA Spécifique iOS / iPhone -->
+<!-- Modal Guide d'installation Apple (iPhone, iPad & MacBook) -->
 <div class="modal fade" id="iosPwaModal" tabindex="-1" aria-labelledby="iosPwaModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content glass-card p-3">
+        <div class="modal-content glass-card border-0 p-2">
             <div class="modal-header border-0 pb-0">
                 <h5 class="modal-title fw-bold text-current" id="iosPwaModalLabel">
-                    <i class="fab fa-apple me-2 text-emerald"></i>Installer sur iPhone & iPad
+                    <i class="fab fa-apple me-2 text-emerald"></i>Installer sur Apple (Mac & iOS)
                 </h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>
             </div>
-            <div class="modal-body text-center py-4">
-                <img src="{% static 'images/icon-192.png' %}" alt="Logo AgroSedam" width="72" height="72" class="rounded-4 mb-3 shadow-lg">
-                <h6 class="fw-bold text-current mb-2">Ajouter AgroSedam à votre écran d'accueil</h6>
-                <p class="text-muted small mb-4">Pour profiter de l'application en plein écran comme une application native :</p>
-                <div class="text-start data-info-box small">
+            <div class="modal-body text-center py-3">
+                <img src="{% static 'images/icon-192.png' %}" alt="Logo AgroSedam" width="68" height="68" class="rounded-4 mb-3 shadow-lg">
+                <h6 class="fw-bold text-current mb-2">Installez AgroSedam comme application native</h6>
+                <p class="text-muted small mb-3">Accédez à votre exploitation hors-ligne et en plein écran :</p>
+                
+                <div class="text-start data-info-box small mb-3">
+                    <div class="fw-bold text-emerald mb-2"><i class="fas fa-mobile-screen me-1"></i> Sur iPhone & iPad (Safari) :</div>
                     <div class="mb-2 d-flex align-items-center gap-2">
-                        <span class="badge bg-emerald text-white rounded-circle p-2">1</span>
-                        <span>Appuyez sur l'icône <strong>Partager</strong> <i class="fas fa-arrow-up-from-bracket text-emerald mx-1"></i> en bas de Safari.</span>
+                        <span class="badge bg-emerald text-white rounded-circle p-1 px-2">1</span>
+                        <span>Touchez l'icône <strong>Partager</strong> <i class="fas fa-arrow-up-from-bracket text-emerald mx-1"></i> en bas de Safari.</span>
                     </div>
                     <div class="d-flex align-items-center gap-2">
-                        <span class="badge bg-emerald text-white rounded-circle p-2">2</span>
-                        <span>Faites défiler et sélectionnez <strong>Sur l'écran d'accueil</strong> <i class="fas fa-square-plus text-emerald mx-1"></i>.</span>
+                        <span class="badge bg-emerald text-white rounded-circle p-1 px-2">2</span>
+                        <span>Faites défiler et touchez <strong>Sur l'écran d'accueil</strong> <i class="fas fa-square-plus text-emerald mx-1"></i>.</span>
+                    </div>
+                </div>
+
+                <div class="text-start data-info-box small">
+                    <div class="fw-bold text-teal mb-2"><i class="fas fa-laptop me-1"></i> Sur MacBook / Mac (Safari ou Chrome) :</div>
+                    <div class="mb-2 d-flex align-items-center gap-2">
+                        <span class="badge bg-teal text-white rounded-circle p-1 px-2">A</span>
+                        <span><strong>Safari Mac</strong> : Menu <strong>Fichier</strong> &gt; <strong>« Ajouter au Dock »</strong> <i class="fas fa-download text-teal mx-1"></i>.</span>
+                    </div>
+                    <div class="d-flex align-items-center gap-2">
+                        <span class="badge bg-teal text-white rounded-circle p-1 px-2">B</span>
+                        <span><strong>Chrome Mac</strong> : Cliquez sur l'icône <strong>Installer 💻</strong> dans la barre d'adresse.</span>
                     </div>
                 </div>
             </div>

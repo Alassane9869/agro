@@ -66,7 +66,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const pwaCloseBanner = document.getElementById('pwa-close-banner');
 
   const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
-  const isIos = /iphone|ipad|ipod/i.test(window.navigator.userAgent.toLowerCase());
+  const isApple = /iphone|ipad|ipod|macintosh/i.test(window.navigator.userAgent.toLowerCase()) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
 
   // Enregistrement du Service Worker
   if ('serviceWorker' in navigator) {
@@ -97,8 +97,8 @@ document.addEventListener('DOMContentLoaded', () => {
     showInstallPrompts();
   });
 
-  // Pour iOS / Safari, afficher le bouton PWA qui ouvre le guide modal
-  if (isIos && !isStandalone) {
+  // Pour l'écosystème Apple (iPhone, iPad, MacBook Safari), afficher le bouton PWA
+  if (isApple && !isStandalone) {
     showInstallPrompts();
   }
 
@@ -114,8 +114,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         deferredPrompt = null;
       });
-    } else if (isIos) {
-      // Ouvrir le modal spécifique Apple
+    } else {
+      // Guide d'installation Apple universel (iPhone, iPad, MacBook Safari)
       const iosModalEl = document.getElementById('iosPwaModal');
       if (iosModalEl && typeof bootstrap !== 'undefined') {
         const modal = new bootstrap.Modal(iosModalEl);

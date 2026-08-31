@@ -181,18 +181,29 @@ def assistant_chat(request):
 
 
 @csrf_exempt
-@require_POST
 def assistant_api(request):
-    try:
-        payload = json.loads(request.body.decode('utf-8') or '{}')
-    except Exception:
-        payload = {}
+    message = ''
+    history = []
 
-    message = (payload.get('message') or '').strip()
+    if request.method == 'POST':
+        try:
+            payload = json.loads(request.body.decode('utf-8') or '{}')
+        except Exception:
+            payload = {}
+        message = (payload.get('message') or request.POST.get('message') or '').strip()
+        history = payload.get('history') or []
+    else:
+        message = (request.GET.get('message') or '').strip()
+        raw_history = request.GET.get('history', '')
+        if raw_history:
+            try:
+                history = json.loads(raw_history)
+            except Exception:
+                history = []
+
     if not message:
         return JsonResponse({'error': 'Message vide.'}, status=400)
 
-    history = payload.get('history') or []
     if isinstance(history, list):
         history = history[-SESSION_HISTORY_LIMIT:]
     else:

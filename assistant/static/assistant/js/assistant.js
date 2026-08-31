@@ -234,14 +234,22 @@ document.addEventListener('DOMContentLoaded', () => {
     addTypingIndicator();
 
     try {
-      const response = await fetch('/assistant/api/', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-CSRFToken': document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || ''
-        },
-        body: JSON.stringify({ message, history: state.history })
+      const getUrl = `/assistant/api/?message=${encodeURIComponent(message)}&history=${encodeURIComponent(JSON.stringify(state.history.slice(-4)))}`;
+      let response = await fetch(getUrl, {
+        method: 'GET',
+        headers: { 'Accept': 'application/json' }
       });
+
+      if (!response.ok) {
+        response = await fetch('/assistant/api/', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || ''
+          },
+          body: JSON.stringify({ message, history: state.history })
+        });
+      }
 
       if (!response.ok) {
         throw new Error(`HTTP_${response.status}`);
@@ -257,7 +265,6 @@ document.addEventListener('DOMContentLoaded', () => {
     } catch (error) {
       removeTypingIndicator();
       console.info('Mode autonome AgroSedam activé:', error.message);
-      // Réponse immédiate et intelligente même en cas de pare-feu WAF ou coupure
       const fallbackReply = getLocalExpertReply(message);
       const currentTime = new Date().toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
       addMessage(fallbackReply, 'assistant', currentTime);
