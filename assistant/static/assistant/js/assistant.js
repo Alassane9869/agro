@@ -9,20 +9,110 @@ document.addEventListener('DOMContentLoaded', () => {
   const input = document.getElementById('assistant-input');
   const suggestions = document.querySelectorAll('[data-suggestion]');
   const clearBtn = document.getElementById('assistant-clear');
-  const minimizeBtn = document.getElementById('assistant-minimize');
   const closeBtn = document.getElementById('assistant-close');
+  const voiceBtn = document.getElementById('assistant-voice');
+
   const typingIndicator = document.createElement('div');
   typingIndicator.className = 'assistant-bubble assistant assistant-typing';
-  typingIndicator.innerHTML = 'L’assistante écrit...';
+  typingIndicator.innerHTML = '<i class="fas fa-spinner fa-spin me-2 text-emerald"></i>AgroSedam AI réfléchit...';
 
   const state = {
-    history: []
+    history: [],
+    isListening: false,
+    recognition: null,
+    speakingUtterance: null
   };
+
+  // Initialisation de la Reconnaissance Vocale (Web Speech API)
+  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (SpeechRecognition) {
+    state.recognition = new SpeechRecognition();
+    state.recognition.lang = 'fr-FR';
+    state.recognition.interimResults = false;
+    state.recognition.maxAlternatives = 1;
+
+    state.recognition.onresult = (event) => {
+      const speechResult = event.results[0][0].transcript;
+      if (input) {
+        input.value = speechResult;
+        form.requestSubmit();
+      }
+    };
+
+    state.recognition.onspeechend = () => {
+      stopVoiceListening();
+    };
+
+    state.recognition.onerror = (event) => {
+      console.warn('Erreur vocale:', event.error);
+      stopVoiceListening();
+    };
+
+    state.recognition.onend = () => {
+      stopVoiceListening();
+    };
+  }
+
+  function startVoiceListening() {
+    if (!state.recognition) {
+      alert('La reconnaissance vocale n’est pas supportée sur ce navigateur.');
+      return;
+    }
+    try {
+      state.recognition.start();
+      state.isListening = true;
+      if (voiceBtn) {
+        voiceBtn.classList.add('listening');
+        voiceBtn.innerHTML = '<i class="fas fa-stop"></i>';
+        voiceBtn.setAttribute('title', 'Arrêter l’écoute');
+      }
+      if (input) input.setAttribute('placeholder', '🎙️ Je vous écoute, parlez...');
+    } catch (err) {
+      console.warn('Recognition start error:', err);
+    }
+  }
+
+  function stopVoiceListening() {
+    if (state.recognition && state.isListening) {
+      try { state.recognition.stop(); } catch(e) {}
+    }
+    state.isListening = false;
+    if (voiceBtn) {
+      voiceBtn.classList.remove('listening');
+      voiceBtn.innerHTML = '<i class="fas fa-microphone"></i>';
+      voiceBtn.setAttribute('title', 'Parler à l’assistant');
+    }
+    if (input) input.setAttribute('placeholder', 'Posez une question...');
+  }
+
+  function speakText(text) {
+    if (!('speechSynthesis' in window)) return;
+    window.speechSynthesis.cancel(); // Stoppe toute lecture en cours
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = 'fr-FR';
+    utterance.rate = 1.0;
+    utterance.pitch = 1.0;
+    window.speechSynthesis.speak(utterance);
+  }
 
   function addMessage(text, role, timestamp = new Date().toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' })) {
     const bubble = document.createElement('div');
     bubble.className = `assistant-bubble ${role}`;
-    bubble.innerHTML = `<div>${text}</div><div class="assistant-meta">${timestamp}</div>`;
+    
+    let speakButtonHtml = '';
+    if (role === 'assistant' && 'speechSynthesis' in window) {
+      speakButtonHtml = `<button type="button" class="assistant-speak-btn mt-2" title="Écouter à voix haute"><i class="fas fa-volume-high me-1"></i> Écouter</button>`;
+    }
+
+    bubble.innerHTML = `<div>${text}</div>${speakButtonHtml}<div class="assistant-meta">${timestamp}</div>`;
+    
+    if (role === 'assistant') {
+      const speakBtn = bubble.querySelector('.assistant-speak-btn');
+      if (speakBtn) {
+        speakBtn.addEventListener('click', () => speakText(text));
+      }
+    }
+
     messagesBox.appendChild(bubble);
     messagesBox.scrollTop = messagesBox.scrollHeight;
   }
@@ -45,40 +135,52 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function openChat() {
     panel.classList.add('open');
-    input.focus();
+    toggle?.classList.add('active');
+    setTimeout(() => input?.focus(), 250);
   }
 
   function closeChat() {
     panel.classList.remove('open');
+    toggle?.classList.remove('active');
+    stopVoiceListening();
+    if ('speechSynthesis' in window) window.speechSynthesis.cancel();
   }
 
-  toggle.addEventListener('click', () => {
+  toggle?.addEventListener('click', (e) => {
+    e.preventDefault();
     panel.classList.contains('open') ? closeChat() : openChat();
   });
 
-  minimizeBtn.addEventListener('click', () => {
-    panel.classList.remove('open');
+  closeBtn?.addEventListener('click', (e) => {
+    e.preventDefault();
+    closeChat();
   });
 
-  closeBtn.addEventListener('click', () => {
-    panel.classList.remove('open');
-  });
-
-  clearBtn.addEventListener('click', () => {
+  clearBtn?.addEventListener('click', (e) => {
+    e.preventDefault();
     messagesBox.innerHTML = '';
     state.history = [];
-    addMessage('Conversation effacée. Je suis prêt à recommencer.', 'assistant');
+    addMessage('Conversation effacée. Je suis prêt pour vos nouvelles questions agronomiques.', 'assistant');
   });
+
+  if (voiceBtn) {
+    voiceBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      state.isListening ? stopVoiceListening() : startVoiceListening();
+    });
+  }
 
   suggestions.forEach((btn) => {
     btn.addEventListener('click', () => {
-      input.value = btn.dataset.suggestion;
-      input.focus();
-      form.requestSubmit();
+      if (input) {
+        input.value = btn.dataset.suggestion;
+        input.focus();
+        form.requestSubmit();
+      }
     });
   });
 
-  form.addEventListener('submit', async (event) => {
+  form?.addEventListener('submit', async (event) => {
     event.preventDefault();
     const message = input.value.trim();
     if (!message) return;
@@ -93,7 +195,7 @@ document.addEventListener('DOMContentLoaded', () => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'X-CSRFToken': document.querySelector('meta[name="csrf-token"]').getAttribute('content') || ''
+          'X-CSRFToken': document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || ''
         },
         body: JSON.stringify({ message, history: state.history })
       });
@@ -101,14 +203,15 @@ document.addEventListener('DOMContentLoaded', () => {
       const data = await response.json();
       removeTypingIndicator();
       if (response.ok) {
-        addMessage(data.reply, 'assistant', data.timestamp || new Date().toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' }));
-        pushHistory(data.reply, 'assistant');
+        const replyText = data.reply || 'Je n’ai pas pu traiter votre demande.';
+        addMessage(replyText, 'assistant', data.timestamp || new Date().toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' }));
+        pushHistory(replyText, 'assistant');
       } else {
-        addMessage(data.error || 'Impossible de contacter l’assistant.', 'assistant');
+        addMessage(data.error || 'Erreur lors de la communication avec l’assistant.', 'assistant');
       }
     } catch (error) {
       removeTypingIndicator();
-      addMessage('Le service est momentanément indisponible. Réessayez plus tard.', 'assistant');
+      addMessage('Le service AgroSedam AI est momentanément inaccessible. Vérifiez votre connexion.', 'assistant');
     }
   });
 });
