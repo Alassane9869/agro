@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-  // === GESTION DU THÈME JOUR / NUIT (LIGHT / DARK MODE) ===
+  // === 1. GESTION DU THÈME JOUR / NUIT (LIGHT / DARK MODE) ===
   const themeToggleBtns = document.querySelectorAll('.btn-theme-toggle');
   const themeMetaColor = document.getElementById('theme-meta-color');
   
@@ -13,12 +13,10 @@ document.addEventListener('DOMContentLoaded', () => {
     document.documentElement.setAttribute('data-theme', theme);
     localStorage.setItem('agrosedam_theme', theme);
     
-    // Mettre à jour la méta-couleur du navigateur (iOS Safari / Android Chrome)
     if (themeMetaColor) {
       themeMetaColor.setAttribute('content', theme === 'light' ? '#f8fafc' : '#090e17');
     }
 
-    // Mettre à jour les icônes (Soleil en mode sombre, Lune en mode clair)
     themeToggleBtns.forEach(btn => {
       const icon = btn.querySelector('.theme-icon');
       if (icon) {
@@ -34,7 +32,6 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
 
-    // Mettre à jour les couleurs du graphique Chart.js s'il existe
     if (window.agrosedamActivityChart) {
       const isLight = theme === 'light';
       const textColor = isLight ? '#475569' : '#94a3b8';
@@ -48,11 +45,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   };
 
-  // Initialisation du thème
   const currentTheme = getPreferredTheme();
   updateThemeUI(currentTheme);
 
-  // Événement clic sur le bouton de bascule
   themeToggleBtns.forEach(btn => {
     btn.addEventListener('click', (e) => {
       e.preventDefault();
@@ -62,7 +57,85 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // === NAVBAR & ANIMATIONS ===
+  // === 2. GESTION PWA AUTOMATIQUE & INSTALLATION RAPIDE ===
+  let deferredPrompt = null;
+  const pwaBanner = document.getElementById('pwa-banner');
+  const desktopPwaBtn = document.getElementById('desktop-pwa-btn');
+  const mobilePwaBtn = document.getElementById('mobile-pwa-btn');
+  const pwaInstallTrigger = document.getElementById('pwa-install-trigger');
+  const pwaCloseBanner = document.getElementById('pwa-close-banner');
+
+  const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+  const isIos = /iphone|ipad|ipod/i.test(window.navigator.userAgent.toLowerCase());
+
+  // Enregistrement du Service Worker
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('/service-worker.js')
+        .then((reg) => console.log('PWA Service Worker actif:', reg.scope))
+        .catch((err) => console.log('Service Worker non supporté:', err));
+    });
+  }
+
+  const showInstallPrompts = () => {
+    if (isStandalone) return; // Déjà installée
+
+    const bannerDismissed = localStorage.getItem('agrosedam_pwa_dismissed');
+    if (pwaBanner && !bannerDismissed) {
+      setTimeout(() => {
+        pwaBanner.style.display = 'block';
+      }, 1500);
+    }
+    if (desktopPwaBtn) desktopPwaBtn.classList.remove('d-none');
+    if (mobilePwaBtn) mobilePwaBtn.classList.remove('d-none');
+  };
+
+  // Événement avant installation natif (Chrome, Android, Edge, PC/Mac)
+  window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredPrompt = e;
+    showInstallPrompts();
+  });
+
+  // Pour iOS / Safari, afficher le bouton PWA qui ouvre le guide modal
+  if (isIos && !isStandalone) {
+    showInstallPrompts();
+  }
+
+  const triggerPwaInstall = () => {
+    if (deferredPrompt) {
+      deferredPrompt.prompt();
+      deferredPrompt.userChoice.then((choiceResult) => {
+        if (choiceResult.outcome === 'accepted') {
+          console.log('AgroSedam installé !');
+          if (pwaBanner) pwaBanner.style.display = 'none';
+          if (desktopPwaBtn) desktopPwaBtn.classList.add('d-none');
+          if (mobilePwaBtn) mobilePwaBtn.classList.add('d-none');
+        }
+        deferredPrompt = null;
+      });
+    } else if (isIos) {
+      // Ouvrir le modal spécifique Apple
+      const iosModalEl = document.getElementById('iosPwaModal');
+      if (iosModalEl && typeof bootstrap !== 'undefined') {
+        const modal = new bootstrap.Modal(iosModalEl);
+        modal.show();
+      }
+    }
+  };
+
+  if (pwaInstallTrigger) pwaInstallTrigger.addEventListener('click', triggerPwaInstall);
+  if (desktopPwaBtn) desktopPwaBtn.addEventListener('click', triggerPwaInstall);
+  if (mobilePwaBtn) mobilePwaBtn.addEventListener('click', triggerPwaInstall);
+
+  if (pwaCloseBanner) {
+    pwaCloseBanner.addEventListener('click', () => {
+      if (pwaBanner) pwaBanner.style.display = 'none';
+      localStorage.setItem('agrosedam_pwa_dismissed', 'true');
+    });
+  }
+
+  // === 3. NAVBAR & ANIMATIONS SCROLL ===
   const navbar = document.querySelector('.navbar-glass');
   const revealItems = document.querySelectorAll('.reveal');
   const counters = document.querySelectorAll('.counter-value');
@@ -82,7 +155,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   };
 
-  // Compteurs animés
   counters.forEach((counter) => {
     const target = Number(counter.dataset.target || 0);
     let current = 0;
@@ -101,7 +173,7 @@ document.addEventListener('DOMContentLoaded', () => {
   handleScroll();
   window.addEventListener('scroll', handleScroll, { passive: true });
 
-  // === GRAPHIQUE DASHBOARD CHART.JS ===
+  // === 4. GRAPHIQUE DASHBOARD CHART.JS ===
   const chartCanvas = document.getElementById('activity-chart') || document.getElementById('operationsChart');
   if (chartCanvas && typeof Chart !== 'undefined') {
     const ctx = chartCanvas.getContext('2d');

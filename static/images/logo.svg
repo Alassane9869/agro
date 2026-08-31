@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 100" width="100%" height="100%">
+  <defs>
+    <linearGradient id="agroGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#10b981" />
+      <stop offset="100%" stop-color="#0d9488" />
+    </linearGradient>
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fbbf24" />
+      <stop offset="100%" stop-color="#f59e0b" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Icone Emblème Badge -->
+  <g transform="translate(10, 10)">
+    <circle cx="40" cy="40" r="38" fill="#090e17" stroke="url(#agroGrad)" stroke-width="3" />
+    <!-- Feuilles stylisées -->
+    <path d="M 40 60 C 25 45 25 28 40 18 C 40 38 40 50 40 60 Z" fill="#ffffff" />
+    <path d="M 40 60 C 55 45 55 28 40 18 C 40 38 40 50 40 60 Z" fill="url(#agroGrad)" />
+    <!-- Soleil doré au sommet -->
+    <circle cx="40" cy="14" r="5" fill="url(#goldGrad)" />
+    <!-- Sillon de terre -->
+    <path d="M 24 64 Q 40 70 56 64" fill="none" stroke="url(#goldGrad)" stroke-width="3" stroke-linecap="round" />
+  </g>
+  
+  <!-- Typographie AgroSedam -->
+  <text x="105" y="58" font-family="'Plus Jakarta Sans', system-ui, -apple-system, sans-serif" font-size="36" font-weight="800" fill="#ffffff" letter-spacing="-0.5">
+    Agro<tspan fill="#10b981">Sedam</tspan>
+  </text>
+  <text x="108" y="78" font-family="'Plus Jakarta Sans', system-ui, -apple-system, sans-serif" font-size="12" font-weight="600" fill="#94a3b8" letter-spacing="1.5" text-transform="uppercase">
+    Gestion Agropastorale
+  </text>
+</svg>

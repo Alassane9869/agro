@@ -1,5 +1,5 @@
 /* ==============================================================================
-   AGROSEDAM - FEUILLE DE STYLE MODERNE, ULTRA-RESPONSIVE, MULTI-THÈME & APPLE iOS (v4.0)
+   AGROSEDAM - FEUILLE DE STYLE MODERNE, ULTRA-RESPONSIVE, MULTI-THÈME & PWA (v4.2)
    ============================================================================== */
 
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
@@ -87,7 +87,7 @@
 }
 
 /* ==========================================
-   3. BASE & OPTIMISATIONS APPLE iOS
+   3. BASE & OPTIMISATIONS APPLE iOS & PWA
    ========================================== */
 * {
     margin: 0;
@@ -121,6 +121,7 @@ body {
 .text-current { color: var(--text-current) !important; }
 .text-muted { color: var(--text-muted) !important; }
 .text-dim { color: var(--text-dim) !important; }
+.extra-small { font-size: 0.75rem !important; }
 .text-emerald { color: var(--emerald) !important; }
 .text-emerald-light { color: var(--emerald-light) !important; }
 .text-teal { color: var(--teal) !important; }
@@ -197,8 +198,8 @@ body {
     background: var(--primary-light);
 }
 
-/* Boutons Bascule Thème Jour / Nuit */
-.btn-theme-toggle {
+/* Boutons Bascule Thème Jour / Nuit & PWA */
+.btn-theme-toggle, .btn-pwa-install {
     width: 40px;
     height: 40px;
     border-radius: 50%;
@@ -213,8 +214,8 @@ body {
     box-shadow: var(--shadow-subtle);
 }
 
-.btn-theme-toggle:hover {
-    transform: rotate(20deg) scale(1.08);
+.btn-theme-toggle:hover, .btn-pwa-install:hover {
+    transform: scale(1.08);
     border-color: var(--primary);
     color: var(--primary);
 }
@@ -230,6 +231,26 @@ body {
     align-items: center;
     justify-content: center;
     text-decoration: none;
+}
+
+/* Bannière PWA Intelligente Flottante */
+.pwa-install-banner {
+    position: fixed;
+    bottom: max(20px, env(safe-area-inset-bottom, 20px));
+    left: 20px;
+    right: 20px;
+    max-width: 480px;
+    margin: 0 auto;
+    z-index: 1070;
+    border: 1px solid var(--border-highlight);
+    border-radius: 20px;
+    box-shadow: var(--shadow-card), var(--shadow-glow);
+    animation: slideUpPwa 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes slideUpPwa {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 /* Avatars Utilisateurs */
@@ -298,7 +319,7 @@ body {
     font-weight: 600;
     border-radius: 9999px;
     padding: 0.65rem 1.5rem;
-    min-height: 44px; /* Conforme Apple Human Interface Guidelines */
+    min-height: 44px;
     transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
     display: inline-flex;
     align-items: center;
@@ -551,7 +572,7 @@ body {
     border: 1px solid rgba(59, 130, 246, 0.35);
 }
 
-/* Formulaires & Champs (16px pour éviter le zoom iOS Safari) */
+/* Formulaires & Champs */
 .form-control, .form-select,
 .generic-styled-form input,
 .generic-styled-form select,
@@ -561,7 +582,7 @@ body {
     color: var(--text-current) !important;
     border-radius: 14px;
     padding: 0.8rem 1.1rem;
-    font-size: 16px !important; /* Prévient le zoom intempestif sur iPhone */
+    font-size: 16px !important;
     transition: all 0.2s ease;
     min-height: 46px;
 }

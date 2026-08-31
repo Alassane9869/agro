@@ -7,10 +7,16 @@
     <meta name="description" content="AgroSedam — Plateforme Moderne de Gestion Agropastorale & Élevage.">
     <title>{% block title %}AgroSedam | Gestion Agropastorale{% endblock %}</title>
     
+    <!-- PWA & Favicons -->
+    <link rel="manifest" href="/manifest.json">
+    <link rel="icon" type="image/png" href="{% static 'images/favicon.png' %}">
+    <link rel="apple-touch-icon" href="{% static 'images/apple-touch-icon.png' %}">
+    
     <!-- Support Optimisé Apple iOS / Safari / PWA -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="AgroSedam">
+    <meta name="mobile-web-app-capable" content="yes">
     <meta name="format-detection" content="telephone=no">
     <meta name="theme-color" content="#090e17" id="theme-meta-color">
     
@@ -22,12 +28,12 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     
     <!-- Styles de l'application -->
-    <link rel="stylesheet" href="{% static 'css/style.css' %}?v=4.0">
-    <link rel="stylesheet" href="{% static 'assistant/css/assistant.css' %}?v=4.0">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}?v=4.2">
+    <link rel="stylesheet" href="{% static 'assistant/css/assistant.css' %}?v=4.2">
     
     <meta name="csrf-token" content="{{ csrf_token }}">
     
-    <!-- Script de détection instantanée du thème avant affichage pour éviter tout scintillement -->
+    <!-- Script de détection instantanée du thème -->
     <script>
         (function() {
             var savedTheme = localStorage.getItem('agrosedam_theme');
@@ -51,10 +57,13 @@
             <span class="brand-text">Agro<span class="text-emerald">Sedam</span></span>
         </a>
         
-        <!-- Actions Rapides Mobile (Thème + Menu) -->
+        <!-- Actions Rapides Mobile (PWA Install + Thème + Cloche) -->
         <div class="d-flex align-items-center gap-2 d-lg-none ms-auto me-2">
             <button class="btn-theme-toggle btn-icon-round" type="button" aria-label="Basculer Mode Jour/Nuit" title="Changer le thème">
                 <i class="fas fa-sun theme-icon"></i>
+            </button>
+            <button class="btn-pwa-install btn-icon-round d-none" id="mobile-pwa-btn" type="button" title="Installer l'application">
+                <i class="fas fa-download text-emerald"></i>
             </button>
             {% if user.is_authenticated %}
             <a class="nav-icon-link" href="{% url 'notifications' %}" title="Notifications">
@@ -89,7 +98,14 @@
             </form>
             
             <ul class="navbar-nav align-items-lg-center gap-2 mt-3 mt-lg-0">
-                <!-- Bouton Sélecteur de Thème Desktop (Jour / Nuit) -->
+                <!-- Bouton PWA Install Desktop -->
+                <li class="nav-item d-none d-lg-block">
+                    <button class="btn btn-outline-emerald btn-sm rounded-pill btn-pwa-install d-none" id="desktop-pwa-btn" type="button">
+                        <i class="fas fa-download me-1"></i> Installer l'App
+                    </button>
+                </li>
+
+                <!-- Bouton Sélecteur de Thème Desktop -->
                 <li class="nav-item d-none d-lg-block">
                     <button class="btn-theme-toggle btn-icon-round" type="button" aria-label="Basculer Mode Jour/Nuit" title="Changer le thème">
                         <i class="fas fa-sun theme-icon"></i>
@@ -140,15 +156,66 @@
     {% block content %}{% endblock %}
 </main>
 
+<!-- Bannière PWA Intelligente Flottante (Automatique si non installée) -->
+<div class="pwa-install-banner glass-card" id="pwa-banner" style="display: none;">
+    <div class="d-flex align-items-center gap-3 p-3">
+        <div class="pwa-banner-icon">
+            <img src="{% static 'images/icon-192.png' %}" alt="AgroSedam App" class="rounded-3" width="48" height="48">
+        </div>
+        <div class="flex-grow-1">
+            <div class="fw-bold text-current small">Installer AgroSedam</div>
+            <div class="text-muted extra-small" id="pwa-desc">Accédez à votre ferme instantanément même hors-ligne.</div>
+        </div>
+        <div class="d-flex gap-2 align-items-center">
+            <button class="btn btn-emerald btn-sm px-3 rounded-pill" id="pwa-install-trigger">
+                <i class="fas fa-download me-1"></i> Installer
+            </button>
+            <button class="btn-close btn-sm ms-1" id="pwa-close-banner" aria-label="Fermer"></button>
+        </div>
+    </div>
+</div>
+
+<!-- Modal PWA Spécifique iOS / iPhone -->
+<div class="modal fade" id="iosPwaModal" tabindex="-1" aria-labelledby="iosPwaModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content glass-card p-3">
+            <div class="modal-header border-0 pb-0">
+                <h5 class="modal-title fw-bold text-current" id="iosPwaModalLabel">
+                    <i class="fab fa-apple me-2 text-emerald"></i>Installer sur iPhone & iPad
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>
+            </div>
+            <div class="modal-body text-center py-4">
+                <img src="{% static 'images/icon-192.png' %}" alt="Logo AgroSedam" width="72" height="72" class="rounded-4 mb-3 shadow-lg">
+                <h6 class="fw-bold text-current mb-2">Ajouter AgroSedam à votre écran d'accueil</h6>
+                <p class="text-muted small mb-4">Pour profiter de l'application en plein écran comme une application native :</p>
+                <div class="text-start bg-body-tertiary p-3 rounded-3 small">
+                    <div class="mb-2 d-flex align-items-center gap-2">
+                        <span class="badge bg-emerald text-white rounded-circle p-2">1</span>
+                        <span>Appuyez sur l'icône <strong>Partager</strong> <i class="fas fa-arrow-up-from-bracket text-emerald mx-1"></i> en bas de Safari.</span>
+                    </div>
+                    <div class="d-flex align-items-center gap-2">
+                        <span class="badge bg-emerald text-white rounded-circle p-2">2</span>
+                        <span>Faites défiler et sélectionnez <strong>Sur l'écran d'accueil</strong> <i class="fas fa-square-plus text-emerald mx-1"></i>.</span>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer border-0 pt-0">
+                <button type="button" class="btn btn-emerald w-100 rounded-pill" data-bs-dismiss="modal">J'ai compris</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <!-- Footer Moderne -->
 <footer class="footer-glass mt-5 py-4 border-top">
     <div class="container">
         <div class="row align-items-center g-3">
             <div class="col-md-6 text-center text-md-start">
-                <p class="mb-0 text-muted small">&copy; 2026 <strong>AgroSedam</strong> — Tous droits réservés. Plateforme agropastorale intelligente & responsive.</p>
+                <p class="mb-0 text-muted small">&copy; 2026 <strong>AgroSedam</strong> — Tous droits réservés. PWA Agropastorale intelligente & responsive.</p>
             </div>
             <div class="col-md-6 text-center text-md-end">
-                <span class="badge bg-emerald-subtle text-emerald px-3 py-2 rounded-pill"><i class="fas fa-shield-halved me-1"></i> Système en ligne</span>
+                <span class="badge bg-emerald-subtle text-emerald px-3 py-2 rounded-pill"><i class="fas fa-shield-halved me-1"></i> PWA Prête & En ligne</span>
             </div>
         </div>
     </div>
@@ -164,7 +231,7 @@
             <div class="d-flex align-items-center gap-3">
                 <div class="assistant-avatar">AI</div>
                 <div>
-                    <h6 class="mb-0 fw-bold">AgroSedam AI</h6>
+                    <h6 class="mb-0 fw-bold text-white">AgroSedam AI</h6>
                     <small class="d-block text-emerald-light">Assistant agronomique 24h/24</small>
                 </div>
             </div>
@@ -194,7 +261,7 @@
 <!-- Scripts JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
-<script src="{% static 'js/app.js' %}?v=4.0"></script>
-<script src="{% static 'assistant/js/assistant.js' %}?v=4.0"></script>
+<script src="{% static 'js/app.js' %}?v=4.2"></script>
+<script src="{% static 'assistant/js/assistant.js' %}?v=4.2"></script>
 </body>
 </html>
