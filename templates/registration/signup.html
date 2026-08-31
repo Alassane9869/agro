@@ -4,17 +4,31 @@
 {% block content %}
 <div class="container py-5 page-transition">
     <div class="row justify-content-center">
-        <div class="col-lg-6">
-            <div class="section-header fade-in-up text-center">
-                <h2 class="mb-0"><i class="fas fa-user-plus me-2"></i>Créer un compte</h2>
-                <p class="mb-0">Rejoignez AgroSedam dès maintenant</p>
-            </div>
-            <div class="form-card fade-in-up delay-1">
-                <form method="post">
+        <div class="col-md-8 col-lg-6">
+            <div class="auth-card glass-card p-4 p-md-5 fade-in-up">
+                <!-- En-tête Inscription -->
+                <div class="text-center mb-4">
+                    <div class="auth-icon-circle mx-auto mb-3">
+                        <i class="fas fa-user-plus text-emerald fs-3"></i>
+                    </div>
+                    <h2 class="fw-bold text-white mb-1">Créer un compte</h2>
+                    <p class="text-muted small">Rejoignez la communauté agropastorale AgroSedam</p>
+                </div>
+
+                <!-- Formulaire -->
+                <form method="post" class="auth-form generic-styled-form">
                     {% csrf_token %}
                     {{ form.as_p }}
-                    <button class="btn btn-success w-100 mt-3" type="submit"><i class="fas fa-user-plus me-2"></i>Créer mon compte</button>
+                    
+                    <button class="btn btn-emerald btn-lg w-100 py-3 mt-3 shadow-lg" type="submit">
+                        <i class="fas fa-check-circle me-2"></i> Valider mon inscription
+                    </button>
                 </form>
+
+                <div class="mt-4 text-center">
+                    <span class="text-muted small">Vous avez déjà un compte ?</span>
+                    <a href="{% url 'login' %}" class="text-emerald fw-bold small ms-1 text-decoration-none">Se connecter</a>
+                </div>
             </div>
         </div>
     </div>

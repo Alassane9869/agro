@@ -4,19 +4,68 @@
 {% block content %}
 <div class="container py-5 page-transition">
     <div class="row justify-content-center">
-        <div class="col-lg-5">
-            <div class="section-header fade-in-up text-center">
-                <h2 class="mb-0"><i class="fas fa-sign-in-alt me-2"></i>Connexion</h2>
-                <p class="mb-0">Accédez à votre tableau de bord</p>
-            </div>
-            <div class="form-card fade-in-up delay-1">
-                <form method="post">
+        <div class="col-md-8 col-lg-5">
+            <div class="auth-card glass-card p-4 p-md-5 fade-in-up">
+                <!-- En-tête Connexion -->
+                <div class="text-center mb-4">
+                    <div class="auth-icon-circle mx-auto mb-3">
+                        <i class="fas fa-right-to-bracket text-emerald fs-3"></i>
+                    </div>
+                    <h2 class="fw-bold text-white mb-1">Espace Connexion</h2>
+                    <p class="text-muted small">Accédez à votre tableau de bord d'exploitation</p>
+                </div>
+
+                <!-- Formulaire -->
+                <form method="post" class="auth-form">
                     {% csrf_token %}
-                    {{ form.as_p }}
-                    <button class="btn btn-success w-100 mt-3" type="submit"><i class="fas fa-sign-in-alt me-2"></i>Se connecter</button>
+                    
+                    {% if form.non_field_errors %}
+                    <div class="alert alert-danger py-2 px-3 small rounded-3 mb-3">
+                        {% for error in form.non_field_errors %}
+                        <div><i class="fas fa-triangle-exclamation me-1"></i> {{ error }}</div>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+
+                    <div class="mb-3">
+                        <label for="id_username" class="form-label text-muted small fw-semibold">
+                            <i class="fas fa-user me-1 text-emerald"></i> Nom d'utilisateur
+                        </label>
+                        <input type="text" name="username" autofocus autocapitalize="none" autocomplete="username" maxlength="150" required id="id_username" class="form-control" placeholder="Entrez votre nom d'utilisateur">
+                        {% if form.username.errors %}
+                        <div class="text-danger small mt-1">{{ form.username.errors.0 }}</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="mb-4">
+                        <div class="d-flex justify-content-between align-items-center mb-1">
+                            <label for="id_password" class="form-label text-muted small fw-semibold mb-0">
+                                <i class="fas fa-lock me-1 text-emerald"></i> Mot de passe
+                            </label>
+                            <a href="{% url 'password_reset' %}" class="text-emerald-light small text-decoration-none">Oublié ?</a>
+                        </div>
+                        <input type="password" name="password" autocomplete="current-password" required id="id_password" class="form-control" placeholder="Entrez votre mot de passe">
+                        {% if form.password.errors %}
+                        <div class="text-danger small mt-1">{{ form.password.errors.0 }}</div>
+                        {% endif %}
+                    </div>
+
+                    <button class="btn btn-emerald btn-lg w-100 py-3 shadow-lg" type="submit">
+                        <i class="fas fa-arrow-right-to-bracket me-2"></i> Se connecter
+                    </button>
                 </form>
-                <div class="mt-3 text-center">
-                    <a href="{% url 'password_reset' %}" class="text-muted">Mot de passe oublié ?</a>
+
+                <!-- Identifiants de Démo Rapides -->
+                <div class="demo-box mt-4 p-3 rounded-3 text-center border border-secondary border-opacity-10 bg-dark bg-opacity-50">
+                    <div class="extra-small text-muted mb-1"><i class="fas fa-info-circle text-emerald me-1"></i> Compte de démonstration :</div>
+                    <div class="small text-white">
+                        Identifiant : <code class="text-emerald-light">demo</code> &nbsp;|&nbsp; Mot de passe : <code class="text-emerald-light">demo1234</code>
+                    </div>
+                </div>
+
+                <div class="mt-4 text-center">
+                    <span class="text-muted small">Vous n'avez pas encore de compte ?</span>
+                    <a href="{% url 'signup' %}" class="text-emerald fw-bold small ms-1 text-decoration-none">Créer un compte</a>
                 </div>
             </div>
         </div>
